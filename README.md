@@ -1,2 +1,2 @@
-# xmas
+# Xmas
 Crossbarred-Memristor Architecture Search
