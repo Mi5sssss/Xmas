@@ -14,7 +14,8 @@ from tqdm import tqdm
 
 from ofa.utils import cross_entropy_with_label_smoothing, cross_entropy_loss_with_soft_target, write_log, init_models
 from ofa.utils import DistributedMetric, list_mean, get_net_info, accuracy, AverageMeter, mix_labels, mix_images
-from ofa.utils import MyRandomResizedCrop
+# from ofa.utils import MyRandomResizedCrop
+from ofa.utils.my_dataloader.my_random_resize_crop import MyRandomResizedCrop
 
 __all__ = ['DistributedRunManager']
 

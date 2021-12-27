@@ -10,7 +10,8 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 from ofa.utils import AverageMeter, cross_entropy_loss_with_soft_target
-from ofa.utils import DistributedMetric, list_mean, subset_mean, val2list, MyRandomResizedCrop
+from ofa.utils import DistributedMetric, list_mean, subset_mean, val2list
+from ofa.utils.my_dataloader.my_random_resize_crop import MyRandomResizedCrop
 from ofa.imagenet_classification.run_manager import DistributedRunManager
 
 __all__ = [

@@ -17,7 +17,7 @@ __all__ = ['ImagenetDataProvider']
 
 
 class ImagenetDataProvider(DataProvider):
-	DEFAULT_PATH = '/dataset/imagenet'
+	DEFAULT_PATH = '/home/rick/nas_rram/datasets/imagenet'
 
 	def __init__(self, save_path=None, train_batch_size=256, test_batch_size=512, valid_size=None, n_worker=32,
 	             resize_scale=0.08, distort_color=None, image_size=224,
@@ -117,7 +117,7 @@ class ImagenetDataProvider(DataProvider):
 		if self._save_path is None:
 			self._save_path = self.DEFAULT_PATH
 			if not os.path.exists(self._save_path):
-				self._save_path = os.path.expanduser('~/dataset/imagenet')
+				self._save_path = os.path.expanduser('/home/rick/nas_rram/datasets/imagenet')
 		return self._save_path
 
 	@property

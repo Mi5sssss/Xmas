@@ -69,7 +69,9 @@ class MyRandomResizedCrop(transforms.RandomResizedCrop):
 		MyRandomResizedCrop.ACTIVE_SIZE = random.choices(candidate_sizes, weights=relative_probs)[0]
 
 	def __repr__(self):
-		interpolate_str = _pil_interpolation_to_str[self.interpolation]
+		# print(self.interpolation)
+		# interpolate_str = _pil_interpolation_to_str[self.interpolation]
+		interpolate_str = _pil_interpolation_to_str[Image.BILINEAR]
 		format_string = self.__class__.__name__ + '(size={0}'.format(MyRandomResizedCrop.IMAGE_SIZE_LIST)
 		if MyRandomResizedCrop.CONTINUOUS:
 			format_string += '@continuous'

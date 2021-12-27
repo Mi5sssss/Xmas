@@ -15,7 +15,8 @@ from ofa.imagenet_classification.elastic_nn.networks import OFAMobileNetV3
 from ofa.imagenet_classification.run_manager import DistributedImageNetRunConfig
 from ofa.imagenet_classification.networks import MobileNetV3Large
 from ofa.imagenet_classification.run_manager.distributed_run_manager import DistributedRunManager
-from ofa.utils import download_url, MyRandomResizedCrop
+from ofa.utils import download_url
+from ofa.utils.my_dataloader.my_random_resize_crop import MyRandomResizedCrop
 from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import load_models
 
 parser = argparse.ArgumentParser()
@@ -125,10 +126,15 @@ if __name__ == '__main__':
 
     args.teacher_path = download_url(
         'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-        model_dir='.torch/ofa_checkpoints/%d' % hvd.rank()
+        model_dir='./torch/ofa_checkpoints/%d' % hvd.rank()
     )
+    # args.teacher_path = download_url(
+    #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
+    #     model_dir='/home/rick/nas_rram/ofa_checkpoints/%d' % hvd.rank()
+    # )
 
     num_gpus = hvd.size()
+    print('gpu # is',num_gpus)
 
     torch.manual_seed(args.manual_seed)
     torch.cuda.manual_seed_all(args.manual_seed)
@@ -164,13 +170,13 @@ if __name__ == '__main__':
     if args.dy_conv_scaling_mode == -1:
         args.dy_conv_scaling_mode = None
     DynamicSeparableConv2d.KERNEL_TRANSFORM_MODE = args.dy_conv_scaling_mode
-
+    
     # build net from args
     args.width_mult_list = [float(width_mult) for width_mult in args.width_mult_list.split(',')]
     args.ks_list = [int(ks) for ks in args.ks_list.split(',')]
     args.expand_list = [int(e) for e in args.expand_list.split(',')]
     args.depth_list = [int(d) for d in args.depth_list.split(',')]
-
+    
     args.width_mult_list = args.width_mult_list[0] if len(args.width_mult_list) == 1 else args.width_mult_list
     net = OFAMobileNetV3(
         n_classes=run_config.data_provider.n_classes, bn_param=(args.bn_momentum, args.bn_eps),
