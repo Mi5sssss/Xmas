@@ -121,8 +121,15 @@ if __name__ == '__main__':
 
     # Initialize Horovod
     hvd.init()
+    
     # Pin GPU to be used to process local rank (one GPU per process)
     torch.cuda.set_device(hvd.local_rank())
+    
+    # if torch.cuda.device_count()>1:
+    #     model = torch.nn.DataParallel(model)
+    # device_id = (0,1)
+    # torch.cuda.set_device(torch.device(0))
+    
     # print('hvd.local_rank()', hvd.local_rank())
 
     args.teacher_path = download_url(
@@ -184,6 +191,9 @@ if __name__ == '__main__':
         dropout_rate=args.dropout, base_stage_width=args.base_stage_width, width_mult=args.width_mult_list,
         ks_list=args.ks_list, expand_ratio_list=args.expand_list, depth_list=args.depth_list
     )
+    # rick: add dataparallel
+    # torch.nn.DataParallel(net)
+    
     # teacher model
     if args.kd_ratio > 0:
         args.teacher_model = MobileNetV3Large(
@@ -191,6 +201,8 @@ if __name__ == '__main__':
             dropout_rate=0, width_mult=1.0, ks=7, expand_ratio=6, depth_param=4,
         )
         args.teacher_model.cuda()
+
+
 
     """ Distributed RunManager """
     # Horovod: (optional) compression algorithm.
@@ -201,7 +213,8 @@ if __name__ == '__main__':
     distributed_run_manager.save_config()
     # hvd broadcast
     distributed_run_manager.broadcast()
-
+    
+    
     # load teacher net weights
     if args.kd_ratio > 0:
         load_models(distributed_run_manager, args.teacher_model, model_path=args.teacher_path)
@@ -213,6 +226,7 @@ if __name__ == '__main__':
                           'ks_list': sorted({min(args.ks_list), max(args.ks_list)}),
                           'expand_ratio_list': sorted({min(args.expand_list), max(args.expand_list)}),
                           'depth_list': sorted({min(net.depth_list), max(net.depth_list)})}
+    
     if args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if distributed_run_manager.start_epoch == 0:
