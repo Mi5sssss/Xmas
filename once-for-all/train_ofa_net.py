@@ -123,10 +123,11 @@ if __name__ == '__main__':
     hvd.init()
     # Pin GPU to be used to process local rank (one GPU per process)
     torch.cuda.set_device(hvd.local_rank())
+    # print('hvd.local_rank()', hvd.local_rank())
 
     args.teacher_path = download_url(
         'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-        model_dir='./torch/ofa_checkpoints/%d' % hvd.rank()
+        model_dir='.torch/ofa_checkpoints/%d' % hvd.rank() # mind the . dot
     )
     # args.teacher_path = download_url(
     #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
