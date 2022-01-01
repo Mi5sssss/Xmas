@@ -17,7 +17,7 @@ parser.add_argument(
     '--path',
     help='The path of imagenet',
     type=str,
-    default='/dataset/imagenet')
+    default='/home/rick/nas_rram/datasets/imagenet')
 parser.add_argument(
     '-g',
     '--gpu',

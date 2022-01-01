@@ -28,7 +28,7 @@ parser.add_argument('--resume', action='store_true')
 
 args = parser.parse_args()
 if args.task == 'kernel':
-    args.path = 'exp/normal2kernel'
+    args.path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel'
     args.dynamic_batch_size = 1
     args.n_epochs = 120
     args.base_lr = 3e-2
@@ -38,7 +38,7 @@ if args.task == 'kernel':
     args.expand_list = '6'
     args.depth_list = '4'
 elif args.task == 'depth':
-    args.path = 'exp/kernel2kernel_depth/phase%d' % args.phase
+    args.path = '/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/phase%d' % args.phase
     args.dynamic_batch_size = 2
     if args.phase == 1:
         args.n_epochs = 25
@@ -57,7 +57,7 @@ elif args.task == 'depth':
         args.expand_list = '6'
         args.depth_list = '2,3,4'
 elif args.task == 'expand':
-    args.path = 'exp/kernel_depth2kernel_depth_width/phase%d' % args.phase
+    args.path = '/home/rick/nas_rram/ofa_data/exp/kernel_depth2kernel_depth_width/phase%d' % args.phase
     args.dynamic_batch_size = 4
     if args.phase == 1:
         args.n_epochs = 25
@@ -134,7 +134,8 @@ if __name__ == '__main__':
 
     args.teacher_path = download_url(
         'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-        model_dir='.torch/ofa_checkpoints/%d' % hvd.rank() # mind the . dot
+        model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % hvd.rank() # mind the '.' dot, please run the file under the /once-for-all.
+
     )
     # args.teacher_path = download_url(
     #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
@@ -232,7 +233,7 @@ if __name__ == '__main__':
         if distributed_run_manager.start_epoch == 0:
             args.ofa_checkpoint_path = download_url(
                 'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-                model_dir='.torch/ofa_checkpoints/%d' % hvd.rank()
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % hvd.rank()
             )
             load_models(distributed_run_manager, distributed_run_manager.net, args.ofa_checkpoint_path)
             distributed_run_manager.write_log(
@@ -246,12 +247,12 @@ if __name__ == '__main__':
         if args.phase == 1:
             args.ofa_checkpoint_path = download_url(
                 'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K357',
-                model_dir='.torch/ofa_checkpoints/%d' % hvd.rank()
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % hvd.rank()
             )
         else:
             args.ofa_checkpoint_path = download_url(
                 'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D34_E6_K357',
-                model_dir='.torch/ofa_checkpoints/%d' % hvd.rank()
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % hvd.rank()
             )
         train_elastic_depth(train, distributed_run_manager, args, validate_func_dict)
     elif args.task == 'expand':
@@ -259,12 +260,12 @@ if __name__ == '__main__':
         if args.phase == 1:
             args.ofa_checkpoint_path = download_url(
                 'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D234_E6_K357',
-                model_dir='.torch/ofa_checkpoints/%d' % hvd.rank()
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % hvd.rank()
             )
         else:
             args.ofa_checkpoint_path = download_url(
                 'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D234_E46_K357',
-                model_dir='.torch/ofa_checkpoints/%d' % hvd.rank()
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % hvd.rank()
             )
         train_elastic_expand(train, distributed_run_manager, args, validate_func_dict)
     else:

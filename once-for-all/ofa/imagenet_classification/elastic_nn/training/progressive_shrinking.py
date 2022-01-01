@@ -16,7 +16,7 @@ from ofa.imagenet_classification.run_manager import DistributedRunManager
 
 __all__ = [
 	'validate', 'train_one_epoch', 'train', 'load_models',
-	'train_elastic_depth', 'train_elastic_expand', 'train_elastic_width_mult',
+	'train_elastic_depth', 'train_elastic_expand', 'train_elastic_width_mult','validate_cifar10',
 ]
 
 
@@ -75,6 +75,27 @@ def validate(run_manager, epoch=0, is_test=False, image_size_list=None,
 		valid_log += '%s (%.3f), ' % (name, top1)
 
 	return list_mean(losses_of_subnets), list_mean(top1_of_subnets), list_mean(top5_of_subnets), valid_log
+
+def validate_cifar10(run_manager, epoch=0, is_test=False, image_size_list=None,
+                 ks_list=None, expand_ratio_list=None, depth_list=None, width_mult_list=None, additional_setting=None):
+    dynamic_net = run_manager.net
+    if isinstance(dynamic_net, nn.DataParallel):
+        dynamic_net = dynamic_net.module
+
+    dynamic_net.eval()
+
+    valid_log = ''
+    run_manager.write_log('-' * 30 + ' Validate %s ' %
+                          'teachernet' + '-' * 30, 'train', should_print=False)
+    run_manager.write_log(dynamic_net.module_str,
+                          'train', should_print=False)
+
+    run_manager.reset_running_statistics(dynamic_net)
+    loss, (top1, top5) = run_manager.validate(epoch=epoch,
+                                              is_test=is_test, run_str='teachernet', net=dynamic_net)
+    valid_log += '%s (%.3f), ' % ('teachernet', top1)
+
+    return list_mean([loss]), list_mean([top1]), list_mean([top5]), valid_log
 
 
 def train_one_epoch(run_manager, args, epoch, warmup_epochs=0, warmup_lr=0):
@@ -169,6 +190,78 @@ def train_one_epoch(run_manager, args, epoch, warmup_epochs=0, warmup_lr=0):
 			end = time.time()
 	return losses.avg.item(), run_manager.get_metric_vals(metric_dict)
 
+def train_one_epoch_cifar10(run_manager, args, epoch, warmup_epochs=0, warmup_lr=0):
+    dynamic_net = run_manager.network
+    distributed = isinstance(run_manager, DistributedRunManager)
+
+    # switch to train mode
+    dynamic_net.train()
+    if distributed:
+        run_manager.run_config.train_loader.sampler.set_epoch(epoch)
+    MyRandomResizedCrop.EPOCH = epoch
+
+    nBatch = len(run_manager.run_config.train_loader)
+
+    data_time = AverageMeter()
+    losses = DistributedMetric('train_loss') if distributed else AverageMeter()
+    metric_dict = run_manager.get_metric_dict()
+
+    with tqdm(total=nBatch,
+              desc='Train Epoch #{}'.format(epoch + 1),
+              disable=distributed and not run_manager.is_root) as t:
+        end = time.time()
+        for i, (images, labels) in enumerate(run_manager.run_config.train_loader):
+            MyRandomResizedCrop.BATCH = i
+            data_time.update(time.time() - end)
+            if epoch < warmup_epochs:
+                new_lr = run_manager.run_config.warmup_adjust_learning_rate(
+                    run_manager.optimizer, warmup_epochs * nBatch, nBatch, epoch, i, warmup_lr,
+                )
+            else:
+                new_lr = run_manager.run_config.adjust_learning_rate(
+                    run_manager.optimizer, epoch - warmup_epochs, i, nBatch
+                )
+
+            images, labels = images.cuda(), labels.cuda()
+            target = labels
+
+            # clean gradients
+            dynamic_net.zero_grad()
+
+            loss_of_subnets = []
+            # compute output
+            subnet_str = ''
+            for _ in range(args.dynamic_batch_size):
+                # set random seed before sampling
+                subnet_seed = int('%d%.3d%.3d' % (epoch * nBatch + i, _, 0))
+                random.seed(subnet_seed)
+
+                output = run_manager.net(images)
+                loss = run_manager.train_criterion(output, labels)
+                loss_type = 'ce'
+
+                # measure accuracy and record loss
+                loss_of_subnets.append(loss)
+                run_manager.update_metric(metric_dict, output, target)
+
+                loss.backward()
+            run_manager.optimizer.step()
+
+            losses.update(list_mean(loss_of_subnets), images.size(0))
+
+            t.set_postfix({
+                'loss': losses.avg.item(),
+                **run_manager.get_metric_vals(metric_dict, return_dict=True),
+                'R': images.size(2),
+                'lr': new_lr,
+                'loss_type': loss_type,
+                'seed': str(subnet_seed),
+                'str': subnet_str,
+                'data_time': data_time.avg,
+            })
+            t.update(1)
+            end = time.time()
+    return losses.avg.item(), run_manager.get_metric_vals(metric_dict)
 
 def train(run_manager, args, validate_func=None):
 	distributed = isinstance(run_manager, DistributedRunManager)
@@ -199,6 +292,36 @@ def train(run_manager, args, validate_func=None):
 					'state_dict': run_manager.network.state_dict(),
 				}, is_best=is_best)
 
+def train_cifar10(run_manager, args, validate_func=None):
+    distributed = isinstance(run_manager, DistributedRunManager)
+    if validate_func is None:
+        validate_func = validate
+
+    for epoch in range(run_manager.start_epoch, run_manager.run_config.n_epochs + args.warmup_epochs):
+        train_loss, (train_top1, train_top5) = train_one_epoch_cifar10(
+            run_manager, args, epoch, args.warmup_epochs, args.warmup_lr)
+
+        if (epoch + 1) % args.validation_frequency == 0:
+            val_loss, val_acc, val_acc5, _val_log = validate_func(
+                run_manager, epoch=epoch, is_test=False)
+            # best_acc
+            is_best = val_acc > run_manager.best_acc
+            run_manager.best_acc = max(run_manager.best_acc, val_acc)
+            if not distributed or run_manager.is_root:
+                val_log = 'Valid [{0}/{1}] loss={2:.3f}, top-1={3:.3f} ({4:.3f})'. \
+                    format(epoch + 1 - args.warmup_epochs, run_manager.run_config.n_epochs, val_loss, val_acc,
+                           run_manager.best_acc)
+                val_log += ', Train top-1 {top1:.3f}, Train loss {loss:.3f}\t'.format(
+                    top1=train_top1, loss=train_loss)
+                val_log += _val_log
+                run_manager.write_log(val_log, 'valid', should_print=False)
+
+                run_manager.save_model({
+                    'epoch': epoch,
+                    'best_acc': run_manager.best_acc,
+                    'optimizer': run_manager.optimizer.state_dict(),
+                    'state_dict': run_manager.network.state_dict(),
+                }, is_best=is_best)
 
 def load_models(run_manager, dynamic_net, model_path=None):
 	# specify init path
