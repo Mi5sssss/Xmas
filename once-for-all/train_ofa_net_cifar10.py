@@ -23,8 +23,8 @@ from ofa.utils import download_url
 # imagenet tranformer + cifar dataset = top1 83%
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='max', choices=[
-    'kernel', 'depth', 'expand',
+parser.add_argument('--task', type=str, default='depth', choices=[
+    'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
 parser.add_argument('--resume', action='store_true')
@@ -83,7 +83,7 @@ elif args.task == 'expand':
         args.ks_list = '3,5'
         args.expand_list = '2,4'
         args.depth_list = '2,3'
-elif args.task == "max":
+elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp/teachernet'
     args.dynamic_batch_size = 1
     args.n_epochs = 10
@@ -97,7 +97,7 @@ else:
     raise NotImplementedError
 args.manual_seed = 0
 
-args.lr_schedule_type = 'sgdr'
+args.lr_schedule_type = 'cosine'
 
 args.base_batch_size = 128
 args.valid_size = 10000
@@ -130,15 +130,23 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 1.0
+args.kd_ratio = 1
 args.kd_type = 'ce'
 
 
 
 if __name__ == '__main__':
     os.makedirs(args.path, exist_ok=True)
+    
+    # args.teacher_path = download_url(
+    #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
+    #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/' 
+    # )
+    
+    if args.kd_ratio > 0:
+        args.teacher_path = args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
 
-    num_gpus = 2
+    num_gpus = 0
 
     torch.manual_seed(args.manual_seed)
     torch.cuda.manual_seed_all(args.manual_seed)
@@ -167,8 +175,7 @@ if __name__ == '__main__':
     args.train_batch_size = args.base_batch_size
     args.test_batch_size = args.base_batch_size * 4
 
-    run_config = Cifar10RunConfig(
-        **args.__dict__, num_replicas=num_gpus, rank=0)
+    run_config = Cifar10RunConfig(**args.__dict__, num_replicas=num_gpus, rank=0)
 
     # print run config information
 
@@ -189,6 +196,12 @@ if __name__ == '__main__':
 
     args.width_mult_list = args.width_mult_list[0] if len(
         args.width_mult_list) == 1 else args.width_mult_list
+    
+    net = OFAMobileNetV3(
+        n_classes=run_config.data_provider.n_classes,  bn_param=(
+            args.bn_momentum, args.bn_eps),
+        dropout_rate=args.dropout, ks_list=args.ks_list, expand_ratio_list=args.expand_list, depth_list=args.expand_list
+    )
 
     # teacher model
     args.teacher_model = MobileNetV3Large(
@@ -202,6 +215,11 @@ if __name__ == '__main__':
     run_manager = RunManager(args.path, args.teacher_model, run_config)
 
     run_manager.save_config()
+    
+    # load teacher net weights
+    if args.kd_ratio > 0:
+        load_models(run_manager, args.teacher_model,
+                    model_path=args.teacher_path)
 
     # training
     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import (
@@ -210,49 +228,51 @@ if __name__ == '__main__':
     validate_func_dict = {'image_size_list': {32} if isinstance(args.image_size, int) else sorted({24, 32}),
                           'ks_list': sorted({min(args.ks_list), max(args.ks_list)}),
                           'expand_ratio_list': sorted({min(args.expand_list), max(args.expand_list)}),
+                          'depth_list': sorted({min(net.depth_list), max(net.depth_list)}),
                           }
-
-    train_cifar10(run_manager, args,
-            lambda _run_manager, epoch, is_test: validate_cifar10(_run_manager, epoch, is_test, **validate_func_dict))
+    # train teacher net
+    
+    if args.task =='teacher':
+        train_cifar10(run_manager, args, lambda _run_manager, epoch, is_test: validate_cifar10(_run_manager, epoch, is_test, **validate_func_dict))
     
     
-    # if args.task == 'kernel':
-    #     validate_func_dict['ks_list'] = sorted(args.ks_list)
-    #     if run_manager.start_epoch == 0:
-    #         args.ofa_checkpoint_path = download_url(
-    #             'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-    #             model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-    #         )
-    #         # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
-    #         run_manager.write_log(
-    #             '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
-    #     else:
-    #         assert args.resume
+    elif args.task == 'kernel':
+        validate_func_dict['ks_list'] = sorted(args.ks_list)
+        if run_manager.start_epoch == 0:
+            args.ofa_checkpoint_path = download_url(
+                'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
+            )
+            # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
+            run_manager.write_log(
+                '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
+        else:
+            assert args.resume
 
-    #     train(run_manager, args,
-    #           lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict))
-    # elif args.task == 'depth':
-    #     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
-    #         train_elastic_depth
-    #     if args.phase == 1:
-    #         args.ofa_checkpoint_path = download_url(
-    #             'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K357',
-    #             model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-    #         )
-    #     else:
-    #         args.ofa_checkpoint_path = download_url(
-    #             'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D34_E6_K357',
-    #             model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-    #         )
-    #     train_elastic_depth(train, run_manager, args, validate_func_dict)
-    # elif args.task == 'expand':
-    #     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
-    #         train_elastic_expand
-    #     if args.phase == 1:
-    #         args.ofa_checkpoint_path = "/home/pdluser/project/once-for-all/exp/teachernet/checkpoint/model_best.pth.tar"
-    #     else:
-    #         args.ofa_checkpoint_path = "/home/pdluser/project/once-for-all/exp/teachernet/checkpoint/model_best.pth.tar"
-    #     train_elastic_expand(train, run_manager, args, validate_func_dict)
-    # else:
-    #     raise NotImplementedError    
+        train(run_manager, args,
+              lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict))
+    elif args.task == 'depth':
+        from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
+            train_elastic_depth
+        if args.phase == 1:
+            args.ofa_checkpoint_path = download_url(
+                'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K357',
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
+            )
+        else:
+            args.ofa_checkpoint_path = download_url(
+                'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D34_E6_K357',
+                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
+            )
+        train_elastic_depth(train, run_manager, args, validate_func_dict)
+    elif args.task == 'expand':
+        from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
+            train_elastic_expand
+        if args.phase == 1:
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+        else:
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+        train_elastic_expand(train, run_manager, args, validate_func_dict)
+    else:
+        raise NotImplementedError    
     
