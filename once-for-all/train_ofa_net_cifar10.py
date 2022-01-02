@@ -25,7 +25,7 @@ from ofa.utils import download_url
 # imagenet tranformer + cifar dataset = top1 83%
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='expand', choices=[
+parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
@@ -257,10 +257,11 @@ if __name__ == '__main__':
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if run_manager.start_epoch == 0:
-            args.ofa_checkpoint_path = download_url(
-                'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-            )
+            # args.ofa_checkpoint_path = download_url(
+            #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
+            #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
+            # )
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
             # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
             run_manager.write_log(
                 '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
@@ -273,15 +274,17 @@ if __name__ == '__main__':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_depth
         if args.phase == 1:
-            args.ofa_checkpoint_path = download_url(
-                'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K357',
-                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-            )
+            # args.ofa_checkpoint_path = download_url(
+            #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K357',
+            #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
+            # )
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = download_url(
-                'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D34_E6_K357',
-                model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-            )
+            # args.ofa_checkpoint_path = download_url(
+            #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D34_E6_K357',
+            #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
+            # )
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
         train_elastic_depth(train, run_manager, args, validate_func_dict)
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
