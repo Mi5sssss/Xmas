@@ -23,7 +23,7 @@ from ofa.utils import download_url
 # imagenet tranformer + cifar dataset = top1 83%
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='depth', choices=[
+parser.add_argument('--task', type=str, default='kernel', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
