@@ -124,6 +124,7 @@ if __name__ == '__main__':
     
     # Pin GPU to be used to process local rank (one GPU per process)
     torch.cuda.set_device(hvd.local_rank())
+    print(hvd.rank())
     
     # if torch.cuda.device_count()>1:
     #     model = torch.nn.DataParallel(model)

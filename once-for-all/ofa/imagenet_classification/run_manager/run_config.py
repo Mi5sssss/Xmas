@@ -198,7 +198,7 @@ class Cifar10RunConfig(RunConfig):
 class DistributedCifar10RunConfig(Cifar10RunConfig):
     
 	def __init__(self, n_epochs=150, init_lr=0.05, lr_schedule_type='cosine', lr_schedule_param=None,
-	             dataset='imagenet', train_batch_size=64, test_batch_size=64, valid_size=None,
+	             dataset='cifar10', train_batch_size=64, test_batch_size=64, valid_size=None,
 	             opt_type='sgd', opt_param=None, weight_decay=4e-5, label_smoothing=0.1, no_decay_keys=None,
 	             mixup_alpha=None, model_init='he_fout', validation_frequency=1, print_frequency=10,
 	             n_worker=8, resize_scale=0.08, distort_color='tf', image_size=32,
@@ -217,6 +217,7 @@ class DistributedCifar10RunConfig(Cifar10RunConfig):
 	@property
 	def data_provider(self):
 		if self.__dict__.get('_data_provider', None) is None:
+			# print(self.dataset)
 			if self.dataset == Cifar10DataProvider.name():
 				DataProviderClass = Cifar10DataProvider
 			else:

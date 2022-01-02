@@ -5,6 +5,7 @@ import random
 
 import numpy as np
 import torch
+import horovod.torch as hvd
 
 from ofa.imagenet_classification.elastic_nn.modules.dynamic_op import \
     DynamicSeparableConv2d
@@ -14,16 +15,17 @@ from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking impor
     load_models
 from ofa.imagenet_classification.networks import MobileNetV3Large
 from ofa.imagenet_classification.run_manager import \
-    DistributedImageNetRunConfig,DistributedCifar10RunConfig, ImagenetRunConfig, Cifar10RunConfig
+    DistributedRunManager, DistributedImageNetRunConfig,DistributedCifar10RunConfig, ImagenetRunConfig, Cifar10RunConfig
 from ofa.imagenet_classification.run_manager.run_manager import (
     RunManager)
 from ofa.utils.my_dataloader.my_random_resize_crop import MyRandomResizedCrop
 from ofa.utils import download_url
 
+
 # imagenet tranformer + cifar dataset = top1 83%
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='kernel', choices=[
+parser.add_argument('--task', type=str, default='expand', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
@@ -130,7 +132,7 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 1
+args.kd_ratio = 0
 args.kd_type = 'ce'
 
 
@@ -143,10 +145,16 @@ if __name__ == '__main__':
     #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/' 
     # )
     
+    # Initialize Horovod
+    hvd.init()
+    
+    # Pin GPU to be used to process local rank (one GPU per process)
+    torch.cuda.set_device(hvd.local_rank())
+    
     if args.kd_ratio > 0:
         args.teacher_path = args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
 
-    num_gpus = 0
+    num_gpus = 2
 
     torch.manual_seed(args.manual_seed)
     torch.cuda.manual_seed_all(args.manual_seed)
@@ -175,8 +183,10 @@ if __name__ == '__main__':
     args.train_batch_size = args.base_batch_size
     args.test_batch_size = args.base_batch_size * 4
 
-    run_config = Cifar10RunConfig(**args.__dict__, num_replicas=num_gpus, rank=0)
-
+    # run_config = Cifar10RunConfig(**args.__dict__, num_replicas=num_gpus, rank=0)
+    run_config = DistributedCifar10RunConfig(**args.__dict__, num_replicas=num_gpus, rank=hvd.rank())
+    
+        
     # print run config information
 
     print('Run config:')
@@ -198,8 +208,7 @@ if __name__ == '__main__':
         args.width_mult_list) == 1 else args.width_mult_list
     
     net = OFAMobileNetV3(
-        n_classes=run_config.data_provider.n_classes,  bn_param=(
-            args.bn_momentum, args.bn_eps),
+        n_classes=run_config.data_provider.n_classes,  bn_param=(args.bn_momentum, args.bn_eps),
         dropout_rate=args.dropout, ks_list=args.ks_list, expand_ratio_list=args.expand_list, depth_list=args.expand_list
     )
 
@@ -211,10 +220,20 @@ if __name__ == '__main__':
     )
     args.teacher_model.cuda()
 
-    """ RunManager """
-    run_manager = RunManager(args.path, args.teacher_model, run_config)
+    # """ RunManager """
+    # run_manager = RunManager(args.path, args.teacher_model, run_config)
 
+    # run_manager.save_config()
+    
+    """ Distributed RunManager """
+    # Horovod: (optional) compression algorithm.
+    compression = hvd.Compression.fp16 if args.fp16_allreduce else hvd.Compression.none
+    run_manager = DistributedRunManager(
+        args.path, net, run_config, compression, backward_steps=args.dynamic_batch_size, is_root=(hvd.rank() == 0)
+    )
     run_manager.save_config()
+    # hvd broadcast
+    run_manager.broadcast()
     
     # load teacher net weights
     if args.kd_ratio > 0:
@@ -234,8 +253,7 @@ if __name__ == '__main__':
     
     if args.task =='teacher':
         train_cifar10(run_manager, args, lambda _run_manager, epoch, is_test: validate_cifar10(_run_manager, epoch, is_test, **validate_func_dict))
-    
-    
+        
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if run_manager.start_epoch == 0:
