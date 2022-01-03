@@ -133,18 +133,13 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 1.0
+args.kd_ratio = 0
 args.kd_type = 'ce'
 
 
 
 if __name__ == '__main__':
     os.makedirs(args.path, exist_ok=True)
-    
-    # args.teacher_path = download_url(
-    #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-    #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/' 
-    # )
     
     # Initialize Horovod
     hvd.init()
@@ -155,7 +150,7 @@ if __name__ == '__main__':
     if args.kd_ratio > 0:
         args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
 
-    num_gpus = 2
+    num_gpus = hvd.size()
 
     torch.manual_seed(args.manual_seed)
     torch.cuda.manual_seed_all(args.manual_seed)
@@ -184,12 +179,9 @@ if __name__ == '__main__':
     args.train_batch_size = args.base_batch_size
     args.test_batch_size = args.base_batch_size * 4
 
-    # run_config = Cifar10RunConfig(**args.__dict__, num_replicas=num_gpus, rank=0)
     run_config = DistributedCifar10RunConfig(**args.__dict__, num_replicas=num_gpus, rank=hvd.rank())
     
-        
     # print run config information
-
     print('Run config:')
     for k, v in run_config.config.items():
         print('\t%s: %s' % (k, v))
@@ -204,7 +196,6 @@ if __name__ == '__main__':
     args.ks_list = [int(ks) for ks in args.ks_list.split(',')]
     args.expand_list = [int(e) for e in args.expand_list.split(',')]
     args.depth_list = [int(d) for d in args.depth_list.split(',')]
-
     args.width_mult_list = args.width_mult_list[0] if len(
         args.width_mult_list) == 1 else args.width_mult_list
     
@@ -221,7 +212,6 @@ if __name__ == '__main__':
     )
     args.teacher_model.cuda()
 
-    # # please activate this when training teacher
     # """ RunManager """
     # run_manager = RunManager(args.path, args.teacher_model, run_config)
     # run_manager.save_config()
@@ -262,10 +252,6 @@ if __name__ == '__main__':
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if run_manager.start_epoch == 0:
-            # args.ofa_checkpoint_path = download_url(
-            #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K7',
-            #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-            # )
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
             # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
             run_manager.write_log(
@@ -279,26 +265,18 @@ if __name__ == '__main__':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_depth
         if args.phase == 1:
-            # args.ofa_checkpoint_path = download_url(
-            #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D4_E6_K357',
-            #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-            # )
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar"
         else:
-            # args.ofa_checkpoint_path = download_url(
-            #     'https://hanlab.mit.edu/files/OnceForAll/ofa_checkpoints/ofa_D34_E6_K357',
-            #     model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_checkpoints/%d' % 0
-            # )
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar"
         train_elastic_depth(train, run_manager, args, validate_func_dict)
     
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_expand
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         train_elastic_expand(train, run_manager, args, validate_func_dict)
     
     else:
