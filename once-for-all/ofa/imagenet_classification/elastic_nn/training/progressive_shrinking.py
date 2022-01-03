@@ -235,7 +235,7 @@ def train_one_epoch_cifar10(run_manager, args, epoch, warmup_epochs=0, warmup_lr
 				# set random seed before sampling
 				subnet_seed = int('%d%.3d%.3d' % (epoch * nBatch + i, _, 0))
 				random.seed(subnet_seed)
-				print('subnet_seed',_)
+				# print('subnet_seed',_)
 				
 				subnet_settings = dynamic_net.sample_active_subnet()
 				subnet_str += '%d: ' % _ + ','.join(['%s_%s' % (

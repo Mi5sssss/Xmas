@@ -149,8 +149,8 @@ if __name__ == '__main__':
     # Initialize Horovod
     hvd.init()
     
-    # Pin GPU to be used to process local rank (one GPU per process)
-    torch.cuda.set_device(hvd.local_rank())
+    # # Pin GPU to be used to process local rank (one GPU per process)
+    # torch.cuda.set_device(hvd.local_rank())
     
     if args.kd_ratio > 0:
         args.teacher_path = args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
