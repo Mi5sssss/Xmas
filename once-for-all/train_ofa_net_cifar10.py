@@ -22,8 +22,6 @@ from ofa.utils.my_dataloader.my_random_resize_crop import MyRandomResizedCrop
 from ofa.utils import download_url
 
 
-# imagenet tranformer + cifar dataset = top1 83%
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
@@ -107,7 +105,7 @@ args.valid_size = 10000
 args.opt_type = 'sgd'
 args.momentum = 0.9
 args.no_nesterov = False
-args.weight_decay = 3e-4 #3e-5 
+args.weight_decay = 3e-4 #3e-5
 args.label_smoothing = 0.1
 args.no_decay_keys = 'bn#bias'
 args.fp16_allreduce = False
