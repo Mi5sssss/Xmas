@@ -237,10 +237,10 @@ def train_one_epoch_cifar10(run_manager, args, epoch, warmup_epochs=0, warmup_lr
 				random.seed(subnet_seed)
 				# print('subnet_seed',_)
 				
-				subnet_settings = dynamic_net.sample_active_subnet()
-				subnet_str += '%d: ' % _ + ','.join(['%s_%s' % (
-					key, '%.1f' % subset_mean(val, 0) if isinstance(val, list) else val
-				) for key, val in subnet_settings.items()]) + ' || '
+				# subnet_settings = dynamic_net.sample_active_subnet()
+				# subnet_str += '%d: ' % _ + ','.join(['%s_%s' % (
+				# 	key, '%.1f' % subset_mean(val, 0) if isinstance(val, list) else val
+				# ) for key, val in subnet_settings.items()]) + ' || '
 	
 				output = run_manager.net(images)
 				loss = run_manager.train_criterion(output, labels)

@@ -89,7 +89,7 @@ elif args.task == 'expand':
 elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp/teachernet'
     args.dynamic_batch_size = 1
-    args.n_epochs = 10
+    args.n_epochs = 100
     args.base_lr = 0.025
     args.warmup_epochs = 5
     args.warmup_lr = -1
@@ -217,29 +217,33 @@ if __name__ == '__main__':
     args.teacher_model = MobileNetV3Large(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, ks=7, expand_ratio=6, depth_param=4,
+        dropout_rate=0, width_mult=1.0, ks=3, expand_ratio=6, depth_param=4,
     )
     args.teacher_model.cuda()
 
+    # # please activate this when training teacher
     # """ RunManager """
     # run_manager = RunManager(args.path, args.teacher_model, run_config)
-
     # run_manager.save_config()
     
     """ Distributed RunManager """
     # Horovod: (optional) compression algorithm.
     compression = hvd.Compression.fp16 if args.fp16_allreduce else hvd.Compression.none
+    
+    # identify the net of task
+    if args.task =='teacher': run_manager_net = args.teacher_model
+    else: run_manager_net = net
+        
     run_manager = DistributedRunManager(
-        args.path, net, run_config, compression, backward_steps=args.dynamic_batch_size, is_root=(hvd.rank() == 0)
-    )
+        args.path, run_manager_net, run_config, compression, backward_steps=args.dynamic_batch_size, is_root=(hvd.rank() == 0)
+    )        
     run_manager.save_config()
     # hvd broadcast
     run_manager.broadcast()
     
     # load teacher net weights
     if args.kd_ratio > 0:
-        load_models(run_manager, args.teacher_model,
-                    model_path=args.teacher_path)
+        load_models(run_manager, args.teacher_model, model_path=args.teacher_path)
 
     # training
     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import (
