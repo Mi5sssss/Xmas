@@ -20,7 +20,7 @@ from ofa.utils.my_dataloader.my_random_resize_crop import MyRandomResizedCrop
 from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import load_models
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='depth', choices=[
+parser.add_argument('--task', type=str, default='kernel', choices=[
     'kernel', 'depth', 'expand',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])

@@ -23,7 +23,7 @@ from ofa.utils import download_url
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='teacher', choices=[
+parser.add_argument('--task', type=str, default='expand', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
@@ -42,7 +42,7 @@ if args.task == 'kernel':
     args.base_lr = 3e-2
     args.warmup_epochs = 5
     args.warmup_lr = -1
-    args.ks_list = '3,5'  # 3,5 for cifar10
+    args.ks_list = '3'  # 3 for cifar10
     args.expand_list = '6'
     args.depth_list = '4'
 elif args.task == 'depth':
@@ -53,7 +53,7 @@ elif args.task == 'depth':
         args.base_lr = 2.5e-3
         args.warmup_epochs = 0
         args.warmup_lr = -1
-        args.ks_list = '3,5'
+        args.ks_list = '3'
         args.expand_list = '2,4'
         args.depth_list = '2,3'
     else:
@@ -61,7 +61,7 @@ elif args.task == 'depth':
         args.base_lr = 7.5e-3
         args.warmup_epochs = 5
         args.warmup_lr = -1
-        args.ks_list = '3,5'
+        args.ks_list = '3'
         args.expand_list = '2,4'
         args.depth_list = '2,3'
 elif args.task == 'expand':
@@ -72,7 +72,7 @@ elif args.task == 'expand':
         args.base_lr = 2.5e-3
         args.warmup_epochs = 0
         args.warmup_lr = -1
-        args.ks_list = '3,5'
+        args.ks_list = '3'
         args.expand_list = '2,4'
         args.depth_list = '2,3'
     else:
@@ -80,7 +80,7 @@ elif args.task == 'expand':
         args.base_lr = 7.5e-3
         args.warmup_epochs = 5
         args.warmup_lr = -1
-        args.ks_list = '3,5'
+        args.ks_list = '3'
         args.expand_list = '2,4'
         args.depth_list = '2,3'
 elif args.task == "teacher":
@@ -90,7 +90,7 @@ elif args.task == "teacher":
     args.base_lr = 0.025
     args.warmup_epochs = 5
     args.warmup_lr = -1
-    args.ks_list = '5'
+    args.ks_list = '3'
     args.expand_list = '4'
     args.depth_list = '3'
 else:
