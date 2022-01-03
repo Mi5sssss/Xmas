@@ -23,18 +23,21 @@ from ofa.utils import download_url
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='expand', choices=[
+parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
 parser.add_argument('--resume', action='store_true')
 
 args = parser.parse_args()
-'''Task
+
+'''
+Task
 task = Kernel : kernel size search
 task = Depth  : model depth search
 task = expand : kernel depth -> kernel depth width 
 '''
+
 if args.task == 'kernel':
     args.path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel'
     args.dynamic_batch_size = 1
