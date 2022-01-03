@@ -41,13 +41,13 @@ task = expand : kernel depth -> kernel depth width
 if args.task == 'kernel':
     args.path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel'
     args.dynamic_batch_size = 1
-    args.n_epochs = 120
+    args.n_epochs = 10 # 120 original epochs
     args.base_lr = 3e-2
     args.warmup_epochs = 5
     args.warmup_lr = -1
     args.ks_list = '3'  # 3 for cifar10
-    args.expand_list = '6'
-    args.depth_list = '4'
+    args.expand_list = '4'
+    args.depth_list = '3'
 elif args.task == 'depth':
     args.path = '/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/phase1%d' % args.phase
     args.dynamic_batch_size = 2
@@ -89,9 +89,9 @@ elif args.task == 'expand':
 elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp/teachernet'
     args.dynamic_batch_size = 1
-    args.n_epochs = 100
+    args.n_epochs = 5
     args.base_lr = 0.025
-    args.warmup_epochs = 5
+    args.warmup_epochs = 1
     args.warmup_lr = -1
     args.ks_list = '3'
     args.expand_list = '4'
@@ -133,7 +133,7 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 0
+args.kd_ratio = 1.0
 args.kd_type = 'ce'
 
 
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # torch.cuda.set_device(hvd.local_rank())
     
     if args.kd_ratio > 0:
-        args.teacher_path = args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+        args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
 
     num_gpus = 2
 
@@ -217,7 +217,7 @@ if __name__ == '__main__':
     args.teacher_model = MobileNetV3Large(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, ks=3, expand_ratio=6, depth_param=4,
+        dropout_rate=0, width_mult=1.0, ks=3, expand_ratio=4, depth_param=3,
     )
     args.teacher_model.cuda()
 
@@ -254,8 +254,8 @@ if __name__ == '__main__':
                           'expand_ratio_list': sorted({min(args.expand_list), max(args.expand_list)}),
                           'depth_list': sorted({min(net.depth_list), max(net.depth_list)}),
                           }
-    # train teacher net
     
+    # train teacher net
     if args.task =='teacher':
         train_cifar10(run_manager, args, lambda _run_manager, epoch, is_test: validate_cifar10(_run_manager, epoch, is_test, **validate_func_dict))
         
@@ -272,9 +272,9 @@ if __name__ == '__main__':
                 '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
         else:
             assert args.resume
-
         train(run_manager, args,
               lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict))
+    
     elif args.task == 'depth':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_depth
@@ -291,6 +291,7 @@ if __name__ == '__main__':
             # )
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
         train_elastic_depth(train, run_manager, args, validate_func_dict)
+    
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_expand
@@ -299,6 +300,7 @@ if __name__ == '__main__':
         else:
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
         train_elastic_expand(train, run_manager, args, validate_func_dict)
+    
     else:
         raise NotImplementedError    
     
