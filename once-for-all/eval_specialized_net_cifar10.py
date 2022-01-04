@@ -133,7 +133,11 @@ else:
     device_list = [int(_) for _ in args.gpu.split(',')]
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
-net, image_size = ofa_specialized(net_id=args.net, pretrained=False)
+# net, image_size = ofa_specialized(net_id=args.net, pretrained=False)
+
+net = torch.load('/home/rick/nas_rram/neurosim_log/default/ADCprecision=5/batch_size=64/cellBit=4/dataset=cifar10/decreasing_lr=140,180/detect=0/grad_scale=8/inference=0/lr=0.01/mode=WAGE/model=VGG8/onoffratio=10/seed=117/subArray=128/t=0/target=0/v=0/vari=0/wl_activate=8/wl_error=8/wl_grad=8/wl_weight=8/latest.pth')
+image_size=32
+
 args.batch_size = args.batch_size * max(len(device_list), 1)
 
 data_loader = torch.utils.data.DataLoader(
