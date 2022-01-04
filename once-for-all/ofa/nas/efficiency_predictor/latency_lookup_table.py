@@ -16,7 +16,7 @@ def count_conv_flop(out_size, in_channels, out_channels, kernel_size, groups):
 
 class LatencyTable(object):
 
-	def __init__(self, local_dir='~/.ofa/latency_tools/',
+	def __init__(self, local_dir='/home/rick/nas_rram/ofa_data/.ofa/latency_tools',
 	             url='https://hanlab.mit.edu/files/proxylessNAS/LatencyTools/mobile_trim.yaml'):
 		if url.startswith('http'):
 			fname = download_url(url, local_dir, overwrite=True)

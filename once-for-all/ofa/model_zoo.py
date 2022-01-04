@@ -18,17 +18,17 @@ __all__ = [
 def ofa_specialized(net_id, pretrained=True):
 	url_base = 'https://hanlab.mit.edu/files/OnceForAll/ofa_specialized/'
 	net_config = json.load(open(
-		download_url(url_base + net_id + '/net.config', model_dir='.torch/ofa_specialized/%s/' % net_id)
+		download_url(url_base + net_id + '/net.config', model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_specialized/%s/' % net_id)
 	))
 	net = get_net_by_name(net_config['name']).build_from_config(net_config)
 
 	image_size = json.load(open(
-		download_url(url_base + net_id + '/run.config', model_dir='.torch/ofa_specialized/%s/' % net_id)
+		download_url(url_base + net_id + '/run.config', model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_specialized/%s/' % net_id)
 	))['image_size']
 
 	if pretrained:
 		init = torch.load(
-			download_url(url_base + net_id + '/init', model_dir='.torch/ofa_specialized/%s/' % net_id),
+			download_url(url_base + net_id + '/init', model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_specialized/%s/' % net_id),
 			map_location='cpu'
 		)['state_dict']
 		net.load_state_dict(init)
@@ -59,7 +59,7 @@ def ofa_net(net_id, pretrained=True):
 	if pretrained:
 		url_base = 'https://hanlab.mit.edu/files/OnceForAll/ofa_nets/'
 		init = torch.load(
-			download_url(url_base + net_id, model_dir='.torch/ofa_nets'),
+			download_url(url_base + net_id, model_dir='/home/rick/nas_rram/ofa_data/.torch/ofa_nets'),
 			map_location='cpu')['state_dict']
 		net.load_state_dict(init)
 	return net

@@ -67,7 +67,7 @@ subnet = ofa_network.get_active_subnet(preserve_weight=True)
 
 """ Test sampled subnet 
 """
-run_manager = RunManager('.tmp/eval_subnet', subnet, run_config, init=False)
+run_manager = RunManager('/home/rick/nas_rram/ofa_data/tmp/eval_subnet', subnet, run_config, init=False)
 # assign image size: 128, 132, ..., 224
 run_config.data_provider.assign_active_img_size(224)
 run_manager.reset_running_statistics(net=subnet)

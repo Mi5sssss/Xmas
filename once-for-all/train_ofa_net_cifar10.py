@@ -41,7 +41,7 @@ task = expand : kernel depth -> kernel depth width
 if args.task == 'kernel':
     args.path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel'
     args.dynamic_batch_size = 1
-    args.n_epochs = 10 # 120 original epochs
+    args.n_epochs = 120 # 120 original epochs
     args.base_lr = 3e-2
     args.warmup_epochs = 5
     args.warmup_lr = -1
@@ -57,7 +57,7 @@ elif args.task == 'depth':
         args.warmup_epochs = 0
         args.warmup_lr = -1
         args.ks_list = '3'
-        args.expand_list = '2,4'
+        args.expand_list = '4'
         args.depth_list = '2,3'
     else:
         args.n_epochs = 120
@@ -65,7 +65,7 @@ elif args.task == 'depth':
         args.warmup_epochs = 5
         args.warmup_lr = -1
         args.ks_list = '3'
-        args.expand_list = '2,4'
+        args.expand_list = '4'
         args.depth_list = '2,3'
 elif args.task == 'expand':
     args.path = '/home/rick/nas_rram/ofa_data/exp/kernel_depth2kernel_depth_width/phase%d' % args.phase
@@ -76,7 +76,7 @@ elif args.task == 'expand':
         args.warmup_epochs = 0
         args.warmup_lr = -1
         args.ks_list = '3'
-        args.expand_list = '2,4'
+        args.expand_list = '3,4'
         args.depth_list = '2,3'
     else:
         args.n_epochs = 120
@@ -84,12 +84,12 @@ elif args.task == 'expand':
         args.warmup_epochs = 5
         args.warmup_lr = -1
         args.ks_list = '3'
-        args.expand_list = '2,4'
+        args.expand_list = '2,3,4'
         args.depth_list = '2,3'
 elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp/teachernet'
     args.dynamic_batch_size = 1
-    args.n_epochs = 5
+    args.n_epochs = 200
     args.base_lr = 0.025
     args.warmup_epochs = 1
     args.warmup_lr = -1
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     hvd.init()
     
     # # Pin GPU to be used to process local rank (one GPU per process)
-    # torch.cuda.set_device(hvd.local_rank())
+    torch.cuda.set_device(hvd.local_rank())
     
     if args.kd_ratio > 0:
         args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
