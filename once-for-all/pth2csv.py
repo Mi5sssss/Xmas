@@ -6,10 +6,11 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('-p','--path', type=str, default='/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar')
 parser.add_argument('-t','--target',type=str,default='/home/rick/nas_rram/ofa_data/layer_record')
-args = parser.parse_args()
+
 
         
-def pth2csv(pth_path = args.path,target_path = args.target):
+def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar',
+            target_path = '/home/rick/nas_rram/ofa_data/layer_record'):
     '''This is function help to change pth to csv.
 
     Args:
@@ -51,6 +52,7 @@ def pth2csv(pth_path = args.path,target_path = args.target):
             
             
 if __name__ == '__main__':
+    args = parser.parse_args()
     pth2csv(args.path,args.target)
     
     
