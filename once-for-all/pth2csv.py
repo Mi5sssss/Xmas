@@ -45,6 +45,9 @@ def pth2csv(pth_path = args.path,target_path = args.target):
                 os.mkdir(target_path+folder_name)
             np.savetxt(target_path+folder_name+'/'+i+'.csv',
                        data_reshaped,delimiter=',',fmt='%.5f')
+    
+    print('Transform done.')      
+        
             
             
 if __name__ == '__main__':
