@@ -10,7 +10,7 @@ import horovod.torch as hvd
 from ofa.imagenet_classification.elastic_nn.modules.dynamic_op import \
     DynamicSeparableConv2d
 from ofa.imagenet_classification.elastic_nn.networks import (OFAMobileNetV3,
-                                                             OFAResNets)
+                                                             OFAResNets, OFAResNets18)
 from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
     load_models
 from ofa.imagenet_classification.networks import MobileNetV3Large, ResNets, ResNet50, ResNet50D, ResNet18
@@ -89,8 +89,8 @@ elif args.task == 'expand':
 elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet'
     args.dynamic_batch_size = 1
-    args.n_epochs = 200
-    args.base_lr = 0.025
+    args.n_epochs = 5
+    args.base_lr = 0.025 # 7.5e-3
     args.warmup_epochs = 1
     args.warmup_lr = -1
     args.ks_list = '3'
@@ -117,7 +117,7 @@ args.model_init = 'he_fout'
 args.validation_frequency = 1
 args.print_frequency = 10
 
-args.n_worker = 0 # 8
+args.n_worker = 8 # 8
 args.resize_scale = 0.08
 args.distort_color = 'tf'
 args.image_size = '32'
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     args.width_mult_list = args.width_mult_list[0] if len(
         args.width_mult_list) == 1 else args.width_mult_list
     
-    net = OFAResNets(
+    net = OFAResNets18(
         n_classes=run_config.data_provider.n_classes,  bn_param=(args.bn_momentum, args.bn_eps),
         dropout_rate=args.dropout, expand_ratio_list=args.expand_list, depth_list=args.depth_list
     )

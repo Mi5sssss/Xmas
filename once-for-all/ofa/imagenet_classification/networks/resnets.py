@@ -9,9 +9,10 @@ __all__ = ['ResNets', 'ResNet50', 'ResNet50D', 'ResNet18']
 
 class ResNets(MyNetwork):
 
-	BASE_DEPTH_LIST = [2, 2, 4, 2]
+	# BASE_DEPTH_LIST = [2, 2, 4, 2]
 	# STAGE_WIDTH_LIST = [256, 512, 1024, 2048]
-	STAGE_WIDTH_LIST = [8, 16, 32, 64]
+	BASE_DEPTH_LIST = [2, 2, 2, 2]
+	STAGE_WIDTH_LIST = [64, 128, 256, 512]
 
 	def __init__(self, input_stem, blocks, classifier):
 		super(ResNets, self).__init__()
@@ -102,7 +103,7 @@ class ResNets(MyNetwork):
 class ResNet50(ResNets):
 
 	def __init__(self, n_classes=1000, width_mult=1.0, bn_param=(0.1, 1e-5), dropout_rate=0,
-	             expand_ratio=None, depth_param=None):
+				 expand_ratio=None, depth_param=None):
 
 		expand_ratio = 0.25 if expand_ratio is None else expand_ratio
 
@@ -146,7 +147,7 @@ class ResNet50(ResNets):
 class ResNet50D(ResNets):
 
 	def __init__(self, n_classes=1000, width_mult=1.0, bn_param=(0.1, 1e-5), dropout_rate=0,
-	             expand_ratio=None, depth_param=None):
+				 expand_ratio=None, depth_param=None):
 
 		expand_ratio = 0.25 if expand_ratio is None else expand_ratio
 
@@ -195,7 +196,7 @@ class ResNet50D(ResNets):
 class ResNet18(ResNets):
 
 	def __init__(self, n_classes=1000, width_mult=1.0, bn_param=(0.1, 1e-5), dropout_rate=0,
-	             expand_ratio=None, depth_param=None):
+				 expand_ratio=None, depth_param=None):
 
 		expand_ratio = 0.25 if expand_ratio is None else expand_ratio
 
@@ -209,11 +210,11 @@ class ResNet18(ResNets):
 			for i, depth in enumerate(ResNets.BASE_DEPTH_LIST):
 				depth_list[i] = depth + depth_param
 
-		stride_list = [1, 1, 1, 1]
+		stride_list = [1, 2, 1, 1]
 
 		# build input stem
 		input_stem = [ConvLayer(
-			3, input_channel, kernel_size=3, stride=1, use_bn=True, act_func='relu', ops_order='weight_bn_act',
+			3, input_channel, kernel_size=7, stride=2, use_bn=True, act_func='relu', ops_order='weight_bn_act',
 		)]
 
 		# blocks
