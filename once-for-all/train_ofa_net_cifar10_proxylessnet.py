@@ -203,7 +203,7 @@ if __name__ == '__main__':
     
     net = OFAProxylessNASNets(
         n_classes=run_config.data_provider.n_classes,  bn_param=(args.bn_momentum, args.bn_eps),
-        dropout_rate=args.dropout, expand_ratio_list=args.expand_list, depth_list=args.expand_list
+        dropout_rate=args.dropout, expand_ratio_list=args.expand_list, depth_list=args.depth_list
     )
 
     # teacher model
