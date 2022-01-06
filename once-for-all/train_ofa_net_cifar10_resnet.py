@@ -13,7 +13,7 @@ from ofa.imagenet_classification.elastic_nn.networks import (OFAMobileNetV3,
                                                              OFAResNets)
 from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
     load_models
-from ofa.imagenet_classification.networks import MobileNetV3Large, ResNets, ResNet50
+from ofa.imagenet_classification.networks import MobileNetV3Large, ResNets, ResNet50, ResNet50D
 from ofa.imagenet_classification.run_manager import \
     DistributedRunManager, DistributedImageNetRunConfig,DistributedCifar10RunConfig, ImagenetRunConfig, Cifar10RunConfig
 from ofa.imagenet_classification.run_manager.run_manager import (
@@ -23,7 +23,7 @@ from ofa.utils import download_url
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='depth', choices=[
+parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
@@ -39,7 +39,7 @@ task = expand : kernel depth -> kernel depth width
 '''
 
 if args.task == 'kernel':
-    args.path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel'
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel'
     args.dynamic_batch_size = 1
     args.n_epochs = 120 # 120 original epochs
     args.base_lr = 3e-2
@@ -49,7 +49,7 @@ if args.task == 'kernel':
     args.expand_list = '4'
     args.depth_list = '3'
 elif args.task == 'depth':
-    args.path = '/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/phase1%d' % args.phase
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase1%d' % args.phase
     args.dynamic_batch_size = 2
     if args.phase == 1:
         args.n_epochs = 25
@@ -68,7 +68,7 @@ elif args.task == 'depth':
         args.expand_list = '4'
         args.depth_list = '2,3'
 elif args.task == 'expand':
-    args.path = '/home/rick/nas_rram/ofa_data/exp/kernel_depth2kernel_depth_width/phase%d' % args.phase
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/kernel_depth2kernel_depth_width/phase%d' % args.phase
     args.dynamic_batch_size = 4
     if args.phase == 1:
         args.n_epochs = 25
@@ -87,7 +87,7 @@ elif args.task == 'expand':
         args.expand_list = '2,3,4'
         args.depth_list = '2,3'
 elif args.task == "teacher":
-    args.path = '/home/rick/nas_rram/ofa_data/exp/teachernet'
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet'
     args.dynamic_batch_size = 1
     args.n_epochs = 200
     args.base_lr = 0.025
@@ -117,7 +117,7 @@ args.model_init = 'he_fout'
 args.validation_frequency = 1
 args.print_frequency = 10
 
-args.n_worker = 8
+args.n_worker = 0
 args.resize_scale = 0.08
 args.distort_color = 'tf'
 args.image_size = '32'
@@ -133,7 +133,7 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 1.0
+args.kd_ratio = 0
 args.kd_type = 'ce'
 
 
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     torch.cuda.set_device(hvd.local_rank())
     
     if args.kd_ratio > 0:
-        args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+        args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar"
 
     num_gpus = hvd.size()
 
@@ -199,16 +199,16 @@ if __name__ == '__main__':
     args.width_mult_list = args.width_mult_list[0] if len(
         args.width_mult_list) == 1 else args.width_mult_list
     
-    net = OFAMobileNetV3(
+    net = OFAResNets(
         n_classes=run_config.data_provider.n_classes,  bn_param=(args.bn_momentum, args.bn_eps),
-        dropout_rate=args.dropout, ks_list=args.ks_list, expand_ratio_list=args.expand_list, depth_list=args.expand_list
+        dropout_rate=args.dropout, expand_ratio_list=args.expand_list, depth_list=args.expand_list
     )
 
     # teacher model
-    args.teacher_model = MobileNetV3Large(
+    args.teacher_model = ResNet50(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, ks=3, expand_ratio=4, depth_param=3,
+        dropout_rate=0, width_mult=1.0, expand_ratio=4, depth_param=3,
     )
     args.teacher_model.cuda()
 
@@ -252,7 +252,7 @@ if __name__ == '__main__':
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if run_manager.start_epoch == 0:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar"
             # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
             run_manager.write_log(
                 '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
@@ -265,18 +265,18 @@ if __name__ == '__main__':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_depth
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar"
         train_elastic_depth(train, run_manager, args, validate_func_dict)
     
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_expand
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         train_elastic_expand(train, run_manager, args, validate_func_dict)
     
     else:
