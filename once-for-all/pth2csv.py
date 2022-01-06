@@ -153,11 +153,11 @@ def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/res
 if __name__ == '__main__':
     args = parser.parse_args()
     # pth2csv(args.path,args.target)
-    # pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase11/checkpoint/model_best.pth.tar',
-    #         '/home/rick/nas_rram/ofa_data/layer_record_resnet18/kernel2kernel_depth')
+    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase11/checkpoint/model_best.pth.tar',
+            '/home/rick/nas_rram/ofa_data/layer_record_resnet18/kernel2kernel_depth')
     
-    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar',
-            '/home/rick/nas_rram/ofa_data/layer_record_resnet18/teachernet')
+    # pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar',
+    #         '/home/rick/nas_rram/ofa_data/layer_record_resnet18/teachernet')
     
     # pth2csv_official('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
     #     '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde')
