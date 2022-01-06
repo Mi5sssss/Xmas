@@ -77,6 +77,15 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
                 os.mkdir(target_path+folder_name)
             np.savetxt(target_path+folder_name+'/'+i+'.csv',
                        data_reshaped,delimiter=',',fmt='%.5f')
+            
+        elif 'input_stem.0.conv.weight' in i:
+            folder_name = '/input_stem.0.conv.weight'
+            data_reshaped = state_dict[i].data.reshape(state_dict[i].data.size(0),
+                                                       -1).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
     
     print('Transform done.')  
         
