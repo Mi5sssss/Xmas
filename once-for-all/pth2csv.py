@@ -87,6 +87,65 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
             np.savetxt(target_path+folder_name+'/'+i+'.csv',
                        data_reshaped,delimiter=',',fmt='%.5f')
     
+    
+    print('Transform done.')  
+    
+def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
+            target_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official'):
+    '''This is function help to change pth to csv of pytorch official model.
+
+    Args:
+        pth_path (str): The path of .pth format file.
+        target_path (str): The path where you want to save .csv files.
+
+    Returns:
+        BufferedFileStorage: A buffered writable file descriptor
+    '''
+    ofa_model = torch.load(pth_path)
+    
+    for i in ofa_model:
+        # print(i+':'+str(ofa_model[i].data.size()))
+        
+        if 'downsample.0.weight' in i: 
+            folder_name = '/downsample.0.weight'
+            data_reshaped = ofa_model[i].data.reshape(ofa_model[i].data.size(0),
+                                                       ofa_model[i].data.size(1)).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
+            
+            
+        elif 'conv1.weight' in i:
+            folder_name = '/conv1.weight'
+
+            data_reshaped = ofa_model[i].data.reshape(ofa_model[i].data.size(0),
+                                                       -1).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
+            
+        elif 'conv2.weight' in i:
+            folder_name = '/conv2.weight'
+            data_reshaped = ofa_model[i].data.reshape(ofa_model[i].data.size(0),
+                                                       -1).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
+            
+        if 'fc.weight' in i: 
+            folder_name = '/fc.weight'
+            data_reshaped = ofa_model[i].data.reshape(ofa_model[i].data.size(0),
+                                                       ofa_model[i].data.size(1)).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
+            
+    
+    
     print('Transform done.')  
         
             
@@ -94,11 +153,14 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
 if __name__ == '__main__':
     args = parser.parse_args()
     # pth2csv(args.path,args.target)
-    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase11/checkpoint/checkpoint.pth.tar',
-            '/home/rick/nas_rram/ofa_data/layer_record_resnet18/kernel2kernel_depth')
+    # pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase11/checkpoint/model_best.pth.tar',
+    #         '/home/rick/nas_rram/ofa_data/layer_record_resnet18/kernel2kernel_depth')
     
-    # pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/checkpoint.pth.tar',
-    #         '/home/rick/nas_rram/ofa_data/layer_record_resnet18/teachernet')
+    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar',
+            '/home/rick/nas_rram/ofa_data/layer_record_resnet18/teachernet')
+    
+    # pth2csv_official('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
+    #     '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde')
     
     
     
