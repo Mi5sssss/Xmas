@@ -272,6 +272,7 @@ class OFAResNets18(ResNets):
 	             depth_list=2, expand_ratio_list=0.25, width_mult_list=1.0):
 
 		self.depth_list = val2list(depth_list)
+		# print("here is it", depth_list)
 		self.expand_ratio_list = val2list(expand_ratio_list)
 		self.width_mult_list = val2list(width_mult_list)
 		# sort
@@ -291,8 +292,11 @@ class OFAResNets18(ResNets):
 			stage_width_list[i] = [
 				make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE) for width_mult in self.width_mult_list
 			]
-
+   
+		# the depth in ResNet18 cannot be changed since the network structure is fixed.
 		n_block_list = [base_depth + max(self.depth_list) for base_depth in ResNets.BASE_DEPTH_LIST]
+		# n_block_list = 4
+  
 		stride_list = [1, 2, 2, 2]
 
 		# build input stem
@@ -310,12 +314,14 @@ class OFAResNets18(ResNets):
 		for d, width, s in zip(n_block_list, stage_width_list, stride_list):
 			for i in range(d):
 				stride = s if i == 0 else 1
-				bottleneck_block = DynamicResNetBasicBlock(
+				basic_block = DynamicResNetBasicBlock(
 					input_channel, width, expand_ratio_list=self.expand_ratio_list,
 					kernel_size=3, stride=stride, act_func='relu', downsample_mode='avgpool_conv',
 				)
-				blocks.append(bottleneck_block)
+				blocks.append(basic_block)
 				input_channel = width
+
+			# print('here is it',i)
 		# classifier
 		classifier = DynamicLinearLayer(input_channel, n_classes, dropout_rate=dropout_rate)
 

@@ -89,9 +89,9 @@ elif args.task == 'expand':
 elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet'
     args.dynamic_batch_size = 1
-    args.n_epochs = 5
+    args.n_epochs = 1
     args.base_lr = 0.025 # 7.5e-3
-    args.warmup_epochs = 1
+    args.warmup_epochs = 0
     args.warmup_lr = -1
     args.ks_list = '3'
     args.expand_list = '4'

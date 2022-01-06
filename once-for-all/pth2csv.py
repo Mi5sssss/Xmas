@@ -24,7 +24,7 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
     state_dict = ofa_model['state_dict']
     
     for i in state_dict:
-        # print(i+':'+str(state_dict[i].data.size()))
+        print(i+':'+str(state_dict[i].data.size()))
         
         # for mobilenet
         if 'inverted_bottleneck.conv.conv.weight' in i: 
@@ -94,8 +94,11 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
 if __name__ == '__main__':
     args = parser.parse_args()
     # pth2csv(args.path,args.target)
-    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/checkpoint.pth.tar',
-            '/home/rick/nas_rram/ofa_data/layer_record_resnet18')
+    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase11/checkpoint/checkpoint.pth.tar',
+            '/home/rick/nas_rram/ofa_data/layer_record_resnet18/kernel2kernel_depth')
+    
+    # pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/checkpoint.pth.tar',
+    #         '/home/rick/nas_rram/ofa_data/layer_record_resnet18/teachernet')
     
     
     
