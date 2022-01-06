@@ -204,7 +204,7 @@ class ResNet18(ResNets):
 		stage_width_list = ResNets.STAGE_WIDTH_LIST.copy()
 		for i, width in enumerate(stage_width_list):
 			stage_width_list[i] = make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
-
+  
 		depth_list = [2, 2, 2, 2]
 		if depth_param is not None:
 			for i, depth in enumerate(ResNets.BASE_DEPTH_LIST):
@@ -217,17 +217,19 @@ class ResNet18(ResNets):
 			3, input_channel, kernel_size=7, stride=2, use_bn=True, act_func='relu', ops_order='weight_bn_act',
 		)]
 
+
 		# blocks
 		blocks = []
 		for d, width, s in zip(depth_list, stage_width_list, stride_list):
 			for i in range(d):
 				stride = s if i == 0 else 1
-				bottleneck_block = ResNetBasicBlock(
+				basic_block = ResNetBasicBlock(
 					input_channel, width, kernel_size=3, stride=stride, expand_ratio=expand_ratio,
 					act_func='relu', downsample_mode='conv',
 				)
-				blocks.append(bottleneck_block)
+				blocks.append(basic_block)
 				input_channel = width
+				print(i)
 		# classifier
 		classifier = LinearLayer(input_channel, n_classes, dropout_rate=dropout_rate)
 		

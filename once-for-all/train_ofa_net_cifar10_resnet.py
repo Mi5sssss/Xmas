@@ -23,7 +23,7 @@ from ofa.utils import download_url
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='kernel', choices=[
+parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
@@ -209,7 +209,7 @@ if __name__ == '__main__':
     args.teacher_model = ResNet18(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=3,
+        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=2,
     )
     args.teacher_model.cuda()
 
