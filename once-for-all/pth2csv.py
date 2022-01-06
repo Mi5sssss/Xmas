@@ -24,8 +24,9 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
     state_dict = ofa_model['state_dict']
     
     for i in state_dict:
-    # print(i+':'+str(state_dict[i].data.size()))
-    
+        # print(i+':'+str(state_dict[i].data.size()))
+        
+        # for mobilenet
         if 'inverted_bottleneck.conv.conv.weight' in i: 
             # blocks.1.mobile_inverted_conv.inverted_bottleneck.conv.conv.weight : torch.Size([96, 16, 1, 1])
             folder_name = '/inverted_bottleneck.conv.conv.weight'
@@ -46,14 +47,46 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
                 os.mkdir(target_path+folder_name)
             np.savetxt(target_path+folder_name+'/'+i+'.csv',
                        data_reshaped,delimiter=',',fmt='%.5f')
+            
+        # for resnet
+        elif 'conv1.conv.weight' in i:
+            folder_name = '/conv1.conv.weight'
+            # print(i,':',state_dict[i].data.size())
+            data_reshaped = state_dict[i].data.reshape(state_dict[i].data.size(0),
+                                                       state_dict[i].data.size(1)).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
+            
+        elif 'conv2.conv.weight' in i:
+            folder_name = '/conv2.conv.weight'
+            # blocks.1.conv.depth_conv.conv.conv.weight:torch.Size([64, 1, 3, 3])
+            data_reshaped = state_dict[i].data.reshape(state_dict[i].data.size(0),
+                                                       -1).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
+            
+        elif 'classifier.linear.weight' in i:
+            folder_name = '/classifier.linear.weight'
+            data_reshaped = state_dict[i].data.reshape(state_dict[i].data.size(0),
+                                                       -1).cpu().numpy()
+            if not os.path.exists(target_path+folder_name):
+                os.mkdir(target_path+folder_name)
+            np.savetxt(target_path+folder_name+'/'+i+'.csv',
+                       data_reshaped,delimiter=',',fmt='%.5f')
     
-    print('Transform done.')      
+    print('Transform done.')  
         
             
             
 if __name__ == '__main__':
     args = parser.parse_args()
-    pth2csv(args.path,args.target)
+    # pth2csv(args.path,args.target)
+    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/checkpoint.pth.tar',
+            '/home/rick/nas_rram/ofa_data/layer_record_resnet18')
     
     
     
