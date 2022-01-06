@@ -689,8 +689,8 @@ class DynamicResNetBasicBlock(MyModule):
         feature_dim = self.active_middle_channels
 
         self.conv1.conv.active_out_channel = feature_dim
-        self.conv2.conv.active_out_channel = feature_dim
-        self.conv3.conv.active_out_channel = self.active_out_channel
+        # self.conv2.conv.active_out_channel = feature_dim
+        self.conv2.conv.active_out_channel = self.active_out_channel
         if not isinstance(self.downsample, IdentityLayer):
             self.downsample.conv.active_out_channel = self.active_out_channel
 
@@ -763,9 +763,9 @@ class DynamicResNetBasicBlock(MyModule):
             self.conv2.conv.get_active_filter(self.active_middle_channels, self.active_middle_channels).data)
         copy_bn(sub_layer.conv2.bn, self.conv2.bn.bn)
 
-        sub_layer.conv3.conv.weight.data.copy_(
-            self.conv3.conv.get_active_filter(self.active_out_channel, self.active_middle_channels).data)
-        copy_bn(sub_layer.conv3.bn, self.conv3.bn.bn)
+        # sub_layer.conv3.conv.weight.data.copy_(
+        #     self.conv3.conv.get_active_filter(self.active_out_channel, self.active_middle_channels).data)
+        # copy_bn(sub_layer.conv3.bn, self.conv3.bn.bn)
 
         if not isinstance(self.downsample, IdentityLayer):
             sub_layer.downsample.conv.weight.data.copy_(
@@ -790,32 +790,32 @@ class DynamicResNetBasicBlock(MyModule):
 
     def re_organize_middle_weights(self, expand_ratio_stage=0):
         # conv3 -> conv2
-        importance = torch.sum(torch.abs(self.conv3.conv.conv.weight.data), dim=(0, 2, 3))
-        if isinstance(self.conv2.bn, DynamicGroupNorm):
-            channel_per_group = self.conv2.bn.channel_per_group
-            importance_chunks = torch.split(importance, channel_per_group)
-            for chunk in importance_chunks:
-                chunk.data.fill_(torch.mean(chunk))
-            importance = torch.cat(importance_chunks, dim=0)
-        if expand_ratio_stage > 0:
-            sorted_expand_list = copy.deepcopy(self.expand_ratio_list)
-            sorted_expand_list.sort(reverse=True)
-            target_width_list = [
-                make_divisible(round(max(self.out_channel_list) * expand), MyNetwork.CHANNEL_DIVISIBLE)
-                for expand in sorted_expand_list
-            ]
-            right = len(importance)
-            base = - len(target_width_list) * 1e5
-            for i in range(expand_ratio_stage + 1):
-                left = target_width_list[i]
-                importance[left:right] += base
-                base += 1e5
-                right = left
+        # importance = torch.sum(torch.abs(self.conv3.conv.conv.weight.data), dim=(0, 2, 3))
+        # if isinstance(self.conv2.bn, DynamicGroupNorm):
+        #     channel_per_group = self.conv2.bn.channel_per_group
+        #     importance_chunks = torch.split(importance, channel_per_group)
+        #     for chunk in importance_chunks:
+        #         chunk.data.fill_(torch.mean(chunk))
+        #     importance = torch.cat(importance_chunks, dim=0)
+        # if expand_ratio_stage > 0:
+        #     sorted_expand_list = copy.deepcopy(self.expand_ratio_list)
+        #     sorted_expand_list.sort(reverse=True)
+        #     target_width_list = [
+        #         make_divisible(round(max(self.out_channel_list) * expand), MyNetwork.CHANNEL_DIVISIBLE)
+        #         for expand in sorted_expand_list
+        #     ]
+        #     right = len(importance)
+        #     base = - len(target_width_list) * 1e5
+        #     for i in range(expand_ratio_stage + 1):
+        #         left = target_width_list[i]
+        #         importance[left:right] += base
+        #         base += 1e5
+        #         right = left
 
-        sorted_importance, sorted_idx = torch.sort(importance, dim=0, descending=True)
-        self.conv3.conv.conv.weight.data = torch.index_select(self.conv3.conv.conv.weight.data, 1, sorted_idx)
-        adjust_bn_according_to_idx(self.conv2.bn.bn, sorted_idx)
-        self.conv2.conv.conv.weight.data = torch.index_select(self.conv2.conv.conv.weight.data, 0, sorted_idx)
+        # sorted_importance, sorted_idx = torch.sort(importance, dim=0, descending=True)
+        # self.conv3.conv.conv.weight.data = torch.index_select(self.conv3.conv.conv.weight.data, 1, sorted_idx)
+        # adjust_bn_according_to_idx(self.conv2.bn.bn, sorted_idx)
+        # self.conv2.conv.conv.weight.data = torch.index_select(self.conv2.conv.conv.weight.data, 0, sorted_idx)
 
         # conv2 -> conv1
         importance = torch.sum(torch.abs(self.conv2.conv.conv.weight.data), dim=(0, 2, 3))

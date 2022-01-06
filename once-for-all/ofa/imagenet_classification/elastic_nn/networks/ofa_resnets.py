@@ -1,7 +1,7 @@
 import random
 
 from ofa.imagenet_classification.elastic_nn.modules.dynamic_layers import DynamicConvLayer, DynamicLinearLayer
-from ofa.imagenet_classification.elastic_nn.modules.dynamic_layers import DynamicResNetBottleneckBlock
+from ofa.imagenet_classification.elastic_nn.modules.dynamic_layers import DynamicResNetBottleneckBlock, DynamicResNetBasicBlock
 from ofa.utils.layers import IdentityLayer, ResidualBlock
 from ofa.imagenet_classification.networks import ResNets
 from ofa.utils import make_divisible, val2list, MyNetwork
@@ -310,7 +310,7 @@ class OFAResNets18(ResNets):
 		for d, width, s in zip(n_block_list, stage_width_list, stride_list):
 			for i in range(d):
 				stride = s if i == 0 else 1
-				bottleneck_block = DynamicResNetBottleneckBlock(
+				bottleneck_block = DynamicResNetBasicBlock(
 					input_channel, width, expand_ratio_list=self.expand_ratio_list,
 					kernel_size=3, stride=stride, act_func='relu', downsample_mode='avgpool_conv',
 				)
