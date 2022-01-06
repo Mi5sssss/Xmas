@@ -1,16 +1,17 @@
 import torch.nn as nn
 
 from ofa.utils.layers import set_layer_from_config, ConvLayer, IdentityLayer, LinearLayer
-from ofa.utils.layers import ResNetBottleneckBlock, ResidualBlock
+from ofa.utils.layers import ResNetBottleneckBlock, ResidualBlock, ResNetBasicBlock
 from ofa.utils import make_divisible, MyNetwork, MyGlobalAvgPool2d
 
-__all__ = ['ResNets', 'ResNet50', 'ResNet50D']
+__all__ = ['ResNets', 'ResNet50', 'ResNet50D', 'ResNet18']
 
 
 class ResNets(MyNetwork):
 
 	BASE_DEPTH_LIST = [2, 2, 4, 2]
-	STAGE_WIDTH_LIST = [256, 512, 1024, 2048]
+	# STAGE_WIDTH_LIST = [256, 512, 1024, 2048]
+	STAGE_WIDTH_LIST = [8, 16, 32, 64]
 
 	def __init__(self, input_stem, blocks, classifier):
 		super(ResNets, self).__init__()
@@ -198,21 +199,21 @@ class ResNet18(ResNets):
 
 		expand_ratio = 0.25 if expand_ratio is None else expand_ratio
 
-		input_channel = make_divisible(64 * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
+		input_channel = make_divisible(32 * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
 		stage_width_list = ResNets.STAGE_WIDTH_LIST.copy()
 		for i, width in enumerate(stage_width_list):
 			stage_width_list[i] = make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
 
-		depth_list = [3, 4, 6, 3]
+		depth_list = [2, 2, 2, 2]
 		if depth_param is not None:
 			for i, depth in enumerate(ResNets.BASE_DEPTH_LIST):
 				depth_list[i] = depth + depth_param
 
-		stride_list = [1, 2, 2, 2]
+		stride_list = [1, 1, 1, 1]
 
 		# build input stem
 		input_stem = [ConvLayer(
-			3, input_channel, kernel_size=7, stride=2, use_bn=True, act_func='relu', ops_order='weight_bn_act',
+			3, input_channel, kernel_size=3, stride=1, use_bn=True, act_func='relu', ops_order='weight_bn_act',
 		)]
 
 		# blocks
@@ -220,7 +221,7 @@ class ResNet18(ResNets):
 		for d, width, s in zip(depth_list, stage_width_list, stride_list):
 			for i in range(d):
 				stride = s if i == 0 else 1
-				bottleneck_block = ResNetBottleneckBlock(
+				bottleneck_block = ResNetBasicBlock(
 					input_channel, width, kernel_size=3, stride=stride, expand_ratio=expand_ratio,
 					act_func='relu', downsample_mode='conv',
 				)

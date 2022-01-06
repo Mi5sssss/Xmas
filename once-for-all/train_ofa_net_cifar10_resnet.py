@@ -13,7 +13,7 @@ from ofa.imagenet_classification.elastic_nn.networks import (OFAMobileNetV3,
                                                              OFAResNets)
 from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
     load_models
-from ofa.imagenet_classification.networks import MobileNetV3Large, ResNets, ResNet50, ResNet50D
+from ofa.imagenet_classification.networks import MobileNetV3Large, ResNets, ResNet50, ResNet50D, ResNet18
 from ofa.imagenet_classification.run_manager import \
     DistributedRunManager, DistributedImageNetRunConfig,DistributedCifar10RunConfig, ImagenetRunConfig, Cifar10RunConfig
 from ofa.imagenet_classification.run_manager.run_manager import (
@@ -102,7 +102,7 @@ args.manual_seed = 0
 
 args.lr_schedule_type = 'cosine'
 
-args.base_batch_size = 128
+args.base_batch_size = 16 # 128
 args.valid_size = 10000
 
 args.opt_type = 'sgd'
@@ -117,7 +117,7 @@ args.model_init = 'he_fout'
 args.validation_frequency = 1
 args.print_frequency = 10
 
-args.n_worker = 0
+args.n_worker = 0 # 8
 args.resize_scale = 0.08
 args.distort_color = 'tf'
 args.image_size = '32'
@@ -205,12 +205,12 @@ if __name__ == '__main__':
     )
 
     # teacher model
-    args.teacher_model = ResNet50(
+    args.teacher_model = ResNet18(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, expand_ratio=4, depth_param=3,
+        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=3,
     )
-    args.teacher_model.cuda()
+    # args.teacher_model.cuda()
 
     # """ RunManager """
     # run_manager = RunManager(args.path, args.teacher_model, run_config)

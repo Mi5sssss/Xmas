@@ -23,7 +23,7 @@ from ofa.utils import download_url
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='depth', choices=[
+parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
 parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
