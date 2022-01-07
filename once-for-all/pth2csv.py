@@ -306,7 +306,7 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
                     
         # print(i+':'+str(tem_target_model[i].data.size()))
     print(tem_target_model.keys())
-    torch.save(target_model, target_path+'/target_model.pth',
+    torch.save(tem_target_model, target_path+'/target_model.pth',
                _use_new_zipfile_serialization=False)
         
     
