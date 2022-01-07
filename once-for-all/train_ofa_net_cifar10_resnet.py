@@ -120,7 +120,7 @@ args.print_frequency = 10
 args.n_worker = 8 # 8
 args.resize_scale = 0.08
 args.distort_color = 'tf'
-args.image_size = '32'
+args.image_size = '64'
 args.continuous_size = True
 args.not_sync_distributed_image_size = False
 
@@ -240,7 +240,7 @@ if __name__ == '__main__':
     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import (
         train_cifar10, validate_cifar10, train, validate)
 
-    validate_func_dict = {'image_size_list': {32} if isinstance(args.image_size, int) else sorted({24, 32}),
+    validate_func_dict = {'image_size_list': {64} if isinstance(args.image_size, int) else sorted({24, 32}),
                           'ks_list': sorted({min(args.ks_list), max(args.ks_list)}),
                           'expand_ratio_list': sorted({min(args.expand_list), max(args.expand_list)}),
                           'depth_list': sorted({min(net.depth_list), max(net.depth_list)}),
