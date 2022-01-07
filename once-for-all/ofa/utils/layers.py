@@ -674,16 +674,20 @@ class ResNetBasicBlock(MyModule):
 
 		feature_dim = make_divisible(feature_dim, MyNetwork.CHANNEL_DIVISIBLE)
 		self.mid_channels = feature_dim
-
+		pad = get_same_padding(self.kernel_size)
+		# print(pad)
 		# build modules
 		self.conv1 = nn.Sequential(OrderedDict([
-			('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			# ('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			('conv', nn.Conv2d(self.in_channels, feature_dim, kernel_size, pad, stride, 0, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim)),
 			('act', build_activation(self.act_func, inplace=True)),
 		]))
 
-		pad = get_same_padding(self.kernel_size)
+		# pad = get_same_padding(self.kernel_size)
+  
 		self.conv2 = nn.Sequential(OrderedDict([
+			# ('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
 			('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim))
 		]))
@@ -692,13 +696,13 @@ class ResNetBasicBlock(MyModule):
 			self.downsample = IdentityLayer(in_channels, out_channels)
 		elif self.downsample_mode == 'conv':
 			self.downsample = nn.Sequential(OrderedDict([
-				('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				('conv', nn.Conv2d(in_channels, out_channels, kernel_size, stride, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
-				('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				('conv', nn.Conv2d(in_channels, out_channels, kernel_size, 1, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		else:
@@ -708,10 +712,12 @@ class ResNetBasicBlock(MyModule):
 
 	def forward(self, x):
 		residual = self.downsample(x)
+		print('residual.size()',residual.size())
 
 		x = self.conv1(x)
+		print('self.conv1(x)',x.size())
 		x = self.conv2(x)
-
+		print('self.conv2(x)',x.size())
 		x = x + residual
 		x = self.final_act(x)
 		return x

@@ -211,7 +211,7 @@ if __name__ == '__main__':
             args.bn_momentum, args.bn_eps),
         dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=2,
     )
-    args.teacher_model.cuda()
+    args.teacher_model.float().cuda()
 
     # """ RunManager """
     # run_manager = RunManager(args.path, args.teacher_model, run_config)
@@ -222,7 +222,7 @@ if __name__ == '__main__':
     compression = hvd.Compression.fp16 if args.fp16_allreduce else hvd.Compression.none
     
     # identify the net of task
-    if args.task =='teacher': run_manager_net = args.teacher_model
+    if args.task =='teacher': run_manager_net = args.teacher_model.float()
     else: run_manager_net = net
         
     run_manager = DistributedRunManager(

@@ -654,6 +654,7 @@ class DynamicResNetBasicBlock(MyModule):
 
         self.conv1 = nn.Sequential(OrderedDict([
             ('conv', DynamicConv2d(max(self.in_channel_list), max_middle_channel)),
+            # ('conv', DynamicConv2d(max(self.in_channel_list), max_middle_channel, kernel_size, stride)),
             ('bn', DynamicBatchNorm2d(max_middle_channel)),
             ('act', build_activation(self.act_func, inplace=True)),
         ]))

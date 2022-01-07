@@ -19,7 +19,7 @@ class ResNets(MyNetwork):
 		super(ResNets, self).__init__()
 
 		self.input_stem = nn.ModuleList(input_stem)
-		self.max_pooling = nn.MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+		self.max_pooling = nn.MaxPool2d(kernel_size=7, stride=2, padding=1, dilation=1, ceil_mode=False)
 		self.blocks = nn.ModuleList(blocks)
 		self.global_avg_pool = MyGlobalAvgPool2d(keep_dim=False)
 		self.classifier = classifier

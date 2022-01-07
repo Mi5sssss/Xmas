@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import argparse
 import os
+import collections
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p','--path', type=str, default='/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar')
@@ -18,7 +19,7 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
         target_path (str): The path where you want to save .csv files.
 
     Returns:
-        BufferedFileStorage: A buffered writable file descriptor
+        None
     '''
     ofa_model = torch.load(pth_path)
     state_dict = ofa_model['state_dict']
@@ -99,7 +100,7 @@ def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/res
         target_path (str): The path where you want to save .csv files.
 
     Returns:
-        BufferedFileStorage: A buffered writable file descriptor
+        None
     '''
     ofa_model = torch.load(pth_path)
     
@@ -148,13 +149,48 @@ def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/res
     
     print('Transform done.')  
         
+def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar',
+                  template_path='/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
+                  target_path='/home/rick/nas_rram/ofa_data/modified_model/resnet_18'):
+    '''This is function help to change the keys in ofa trained model to the neurosim input.
+
+    Args:
+        ofa_path (str): The path of .pth format file.
+        template_path (str): The template path of the target.
+        target_path (str): The path where you want to save the neurosim-like .pth files.
+
+    Returns:
+        None
+    '''
+    ofa_model = torch.load(ofa_path)
+    template_model = torch.load(template_path)
+    state_dict = ofa_model['state_dict']
+    
+    # target_model = collections.OrderedDict.fromkeys(template_model.keys()) # start a target dictionary
+    target_model = collections.OrderedDict.fromkeys(()) # start a target dictionary
+    # target_model = dict.fromkeys(()) # start a target dictionary
+    tem = collections.OrderedDict.fromkeys(())
+    
+
+    for i,j in zip(state_dict, template_model):
+        if not 'num_batches_tracked' in i:
+            # print(i+':'+str(state_dict[i]))
+            tem = {j:state_dict[i]}
+            target_model.update(tem)
+            tem.clear()
+    
+    torch.save(target_model, target_path+'/target_model.pth')
             
+        
+    
             
 if __name__ == '__main__':
     args = parser.parse_args()
+    
+    key_transform()
     # pth2csv(args.path,args.target)
-    pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase11/checkpoint/model_best.pth.tar',
-            '/home/rick/nas_rram/ofa_data/layer_record_resnet18/kernel2kernel_depth')
+    # pth2csv('/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar',
+            # '/home/rick/nas_rram/ofa_data/layer_record/teacher')
     
     # pth2csv('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar',
     #         '/home/rick/nas_rram/ofa_data/layer_record_resnet18/teachernet')
