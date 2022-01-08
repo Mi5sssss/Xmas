@@ -329,8 +329,6 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
 
 
 
-
-            
 if __name__ == '__main__':
     args = parser.parse_args()
     
@@ -344,9 +342,3 @@ if __name__ == '__main__':
     
     # pth2csv_official('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
     #     '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde')
-    
-    
-    
-        
-    
-        

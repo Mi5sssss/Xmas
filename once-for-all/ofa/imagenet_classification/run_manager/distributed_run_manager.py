@@ -153,6 +153,9 @@ class DistributedRunManager:
 			if is_best:
 				best_path = os.path.join(self.save_path, 'model_best.pth.tar')
 				torch.save({'state_dict': checkpoint['state_dict']}, best_path, _use_new_zipfile_serialization=False)
+				print('test best')
+				# save intact model
+				torch.save(self.net, os.path.join(self.save_path, 'intact_model_best.pth.tar'),_use_new_zipfile_serialization=False)
 
 	def load_model(self, model_fname=None):
 		if self.is_root:
