@@ -154,4 +154,4 @@ if args.inference:
 logger('Test set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
 	test_loss, correct, len(test_loader.dataset), acc))
 
-call(["/bin/bash", './layer_record_'+str(args.model)+'/trace_command.sh'])
+call(["/bin/bash", '/home/rick/nas_rram/neurosim_log/layer_record_'+str(args.model)+'/trace_command.sh'])
