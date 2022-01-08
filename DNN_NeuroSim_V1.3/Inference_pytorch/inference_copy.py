@@ -108,6 +108,7 @@ import sys
 sys.path.append('/home/rick/nas_rram')
 sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
 modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
+
 # modelCF = torch.load('/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth')
 
 # # Rick: add multi GPUs

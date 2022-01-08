@@ -41,9 +41,11 @@ def QW(x, bits, scale=1.0):
 
 def QE(x, bits):
     max_entry = x.abs().max()
-    assert max_entry != 0, "QE blow"
-    #if max_entry != 0:
-    x /= shift(max_entry)
+    # print('x.abs()', x.abs())
+    # assert max_entry != 0, "QE blow"
+    # rick: changed shift at 2022/1/8 23:19
+    if max_entry != 0:
+        x /= shift(max_entry)
     return Q(C(x, bits), bits)
 
 def QG(x, bits_G, lr):
@@ -214,6 +216,7 @@ class WAGERounding(Function):
         if self.needs_input_grad[0]:
             try:
                 grad_input = QE(grad_output, self.bits_E)
+                # print('grad_output', grad_output)
             except AssertionError as e:
                 print("="*80)
                 print("Error backward:%s"%self.optional)

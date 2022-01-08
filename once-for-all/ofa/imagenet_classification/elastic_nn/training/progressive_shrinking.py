@@ -249,7 +249,7 @@ def train_one_epoch_cifar10(run_manager, args, epoch, warmup_epochs=0, warmup_lr
 				# measure accuracy and record loss
 				loss_of_subnets.append(loss)
 				run_manager.update_metric(metric_dict, output, target)
-
+				# print("loss   ", loss)
 				loss.backward()
 			run_manager.optimizer.step()
 
