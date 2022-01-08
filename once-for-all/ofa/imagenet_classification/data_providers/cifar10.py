@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File   :   cifar10.py
+@Time   :   2022/01/08 11:36:57
+@Author  :   Rick Xie 
+@Version :   1.0
+@Contact :   xier2018@mail.sustech.edu.cn
+@Desc   :   None
+'''
+
 import warnings
 import os
 import math

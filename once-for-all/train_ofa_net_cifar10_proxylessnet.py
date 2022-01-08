@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File   :   train_ofa_net_cifar10_proxylessnet.py
+@Time   :   2022/01/08 11:36:25
+@Author  :   Rick Xie 
+@Version :   1.0
+@Contact :   xier2018@mail.sustech.edu.cn
+@Desc   :   None
+'''
 
 import argparse
 import os
