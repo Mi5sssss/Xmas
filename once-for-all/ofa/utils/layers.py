@@ -683,7 +683,8 @@ class ResNetBasicBlock(MyModule):
 		# build modules
 		self.conv1 = nn.Sequential(OrderedDict([
 			# ('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
-			('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			# ('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			('conv', FConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim)),
 			('act', build_activation(self.act_func, inplace=True)),
 		]))
@@ -691,7 +692,8 @@ class ResNetBasicBlock(MyModule):
 		pad = get_same_padding(self.kernel_size)
 		self.conv2 = nn.Sequential(OrderedDict([
 			# ('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
-			('conv', QConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
+			# ('conv', QConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
+			('conv', FConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim))
 		]))
 
@@ -700,14 +702,16 @@ class ResNetBasicBlock(MyModule):
 		elif self.downsample_mode == 'conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				# ('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
-				('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				# ('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				('conv', FConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
 				# ('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
-				('conv', QConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				# ('conv', QConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				('conv', FConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		else:
