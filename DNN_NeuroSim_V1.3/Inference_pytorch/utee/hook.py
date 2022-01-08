@@ -61,8 +61,9 @@ def stretch_input(input_matrix,window_size = 5,padding=(0,0),stride=(1,1)):
     for i in range( input_shape[2]-window_size + 1 ):
         for j in range( input_shape[3]-window_size + 1 ):
             for b in range(input_shape[0]):
-                output_matrix[b,iter,:] = input_matrix[b, :, i:i+window_size,j: j+window_size].reshape(input_shape[1]*window_size*window_size)
-            iter += 1
+                if (iter < np.size(output_matrix,1)):
+                    output_matrix[b,iter,:] = input_matrix[b, :, i:i+window_size,j: j+window_size].reshape(input_shape[1]*window_size*window_size)
+                iter += 1
 
     return output_matrix
 
@@ -118,7 +119,7 @@ def hardware_evaluation(model,wl_weight,wl_activation,model_name,mode):
     if os.path.exists('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh'):
         os.remove('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh')
     f = open('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh', "w")
-    f.write('/home/rick/nas_rram/neurosim_log/NeuroSIM/main ./NeuroSIM/NetWork_'+str(model_name)+'.csv '+str(wl_weight)+' '+str(wl_activation)+' ')
+    f.write('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/main ./NeuroSIM/NetWork_'+str(model_name)+'.csv '+str(wl_weight)+' '+str(wl_activation)+' ')
     
     for i, layer in enumerate(model.modules()):
         if isinstance(layer, (FConv2d, QConv2d, nn.Conv2d)) or isinstance(layer, (FLinear, QLinear, nn.Linear)):
