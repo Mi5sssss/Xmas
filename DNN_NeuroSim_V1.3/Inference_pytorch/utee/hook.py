@@ -6,15 +6,18 @@ from modules.quantization_cpu_np_infer import QConv2d,QLinear
 from modules.floatrange_cpu_np_infer import FConv2d, FLinear
 import numpy as np
 import torch
+import random
 from utee import wage_quantizer
 from utee import float_quantizer
 
 def Neural_Sim(self, input, output): 
     global model_n, FP
-
-    print("quantize layer ", self.name)
-    input_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/input' + str(self.name) + '.csv'
-    weight_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/weight' + str(self.name) + '.csv'
+    # Rick: in order to make the file name different
+    count1 = random.randint(0,20)
+    count2 = random.randint(0,20)
+    print("quantize layer ", self.name,str(count1),'_',str(count2))
+    input_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/input' + str(self.name)+str(count1)+'_'+str(count2) + '.csv'
+    weight_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/weight' + str(self.name)+str(count1)+'_'+str(count2)+ '.csv'
     f = open('/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/trace_command.sh', "a")
     f.write(weight_file_name+' '+input_file_name+' ')
     if FP:
@@ -29,6 +32,7 @@ def Neural_Sim(self, input, output):
         write_matrix_activation_conv(stretch_input(input[0].cpu().data.numpy(),k,padding,stride),None,self.wl_input,input_file_name)
     else:
         write_matrix_activation_fc(input[0].cpu().data.numpy(),None ,self.wl_input, input_file_name)
+    
 
 def write_matrix_weight(input_matrix,filename):
     cout = input_matrix.shape[0]

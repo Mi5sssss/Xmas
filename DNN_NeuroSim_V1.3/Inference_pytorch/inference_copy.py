@@ -20,7 +20,7 @@ from subprocess import call
 parser = argparse.ArgumentParser(description='PyTorch CIFAR-X Example')
 parser.add_argument('--dataset', default='cifar10', help='cifar10|cifar100|imagenet')
 parser.add_argument('--model', default='ResNet18', help='VGG8|DenseNet40|ResNet18')
-parser.add_argument('--mode', default='WAGE', help='WAGE|FP')
+parser.add_argument('--mode', default='FP', help='WAGE|FP')
 parser.add_argument('--batch_size', type=int, default=500, help='input batch size for training (default: 64)')
 parser.add_argument('--epochs', type=int, default=200, help='number of epochs to train (default: 10)')
 parser.add_argument('--grad_scale', type=float, default=8, help='learning rate for wage delta calculation')
@@ -80,34 +80,35 @@ elif args.dataset == 'imagenet':
 else:
     raise ValueError("Unknown dataset type")
     
-# assert args.model in ['VGG8', 'DenseNet40', 'ResNet18'], args.model
-# if args.model == 'VGG8':
-#     from models import VGG
-#     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/VGG8.pth'   # WAGE mode pretrained model
-#     modelCF = VGG.vgg8(args = args, logger=logger, pretrained = model_path)
-# elif args.model == 'DenseNet40':
-#     from models import DenseNet
-#     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
-#     modelCF = DenseNet.densenet40(args = args, logger=logger, pretrained = model_path)
-# elif args.model == 'ResNet18':
-#     from models import ResNet
-#     # FP mode pretrained model, loaded from 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
-#     # model_path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar'
-#     # model_path = '/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth'
-#     # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth'
-#     model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
-#     modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
-#     print(modelCF)
-#     # print("here is it",type(modelCF))
-#     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
-#     # modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = True)
-# else:
-#     raise ValueError("Unknown model type")
+assert args.model in ['VGG8', 'DenseNet40', 'ResNet18'], args.model
+if args.model == 'VGG8':
+    from models import VGG
+    model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/VGG8.pth'   # WAGE mode pretrained model
+    modelCF = VGG.vgg8(args = args, logger=logger, pretrained = model_path)
+elif args.model == 'DenseNet40':
+    from models import DenseNet
+    model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
+    modelCF = DenseNet.densenet40(args = args, logger=logger, pretrained = model_path)
+elif args.model == 'ResNet18':
+    from models import ResNet
+    # FP mode pretrained model, loaded from 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
+    # model_path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar'
+    # model_path = '/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth'
+    # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth'
+    # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
+    # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
+    # print(modelCF)
+    import sys
+    sys.path.append('/home/rick/nas_rram')
+    sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
+    modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
+    # print("here is it",type(modelCF))
+    # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
+    # modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = True)
+else:
+    raise ValueError("Unknown model type")
 
-import sys
-sys.path.append('/home/rick/nas_rram')
-sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
-modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
+
 
 # modelCF = torch.load('/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth')
 
