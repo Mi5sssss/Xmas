@@ -1,0 +1,17 @@
+certifi==2021.10.8
+cffi==1.15.0
+cloudpickle==2.0.0
+graphviz==0.19.1
+horovod==0.23.0
+numpy==1.21.5
+Pillow==8.4.0
+powerline-status==2.7
+psutil==5.8.0
+pycparser==2.21
+PyYAML==6.0
+scipy==1.7.3
+six==1.16.0
+torch==1.1.0
+torchvision==0.3.0
+tqdm==4.62.3
+typing_extensions==4.0.1
