@@ -161,7 +161,11 @@ class ConvLayer(My2DLayer):
 			padding[1] *= self.dilation
 
 		weight_dict = OrderedDict({
-			'conv': nn.Conv2d(
+			# 'conv': nn.Conv2d(
+			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
+			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
+			# )
+			'conv': FConv2d(
 				self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
 				dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
 			)

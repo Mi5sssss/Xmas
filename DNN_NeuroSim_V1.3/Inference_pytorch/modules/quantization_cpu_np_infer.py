@@ -3,7 +3,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from utee import wage_initializer,wage_quantizer
-from jit_internal import weak_script_method
+# from jit_internal import weak_script_method # for ofa run
+from torch._jit_internal import weak_script_method # for neurosim run
 import numpy as np
 
 class QConv2d(nn.Conv2d):
