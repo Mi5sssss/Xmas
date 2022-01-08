@@ -1,3 +1,15 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File   :   pth2csv.py
+@Time   :   2022/01/08 11:17:56
+@Author  :   Rick Xie 
+@Version :   1.0
+@Contact :   xier2018@mail.sustech.edu.cn
+@Desc   :   None
+'''
+
+
 import torch
 import numpy as np
 import argparse
@@ -90,7 +102,8 @@ def pth2csv(pth_path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoin
     
     
     print('Transform done.')  
-    
+
+
 def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
             target_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official'):
     '''This is function help to change pth to csv of pytorch official model.
@@ -102,6 +115,8 @@ def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/res
     Returns:
         None
     '''
+    
+    
     ofa_model = torch.load(pth_path)
     
     for i in ofa_model:
@@ -309,7 +324,12 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
     torch.save(tem_target_model, target_path+'/target_model.pth',
                _use_new_zipfile_serialization=False)
         
-    
+
+
+
+
+
+
             
 if __name__ == '__main__':
     args = parser.parse_args()
