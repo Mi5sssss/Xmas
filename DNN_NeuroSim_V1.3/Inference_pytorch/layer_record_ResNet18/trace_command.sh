@@ -1,0 +1,1 @@
+./NeuroSIM/main ./NeuroSIM/NetWork_ResNet18.csv 8 8 ./layer_record_ResNet18/weightConv_0_.csv ./layer_record_ResNet18/inputConv_0_.csv 

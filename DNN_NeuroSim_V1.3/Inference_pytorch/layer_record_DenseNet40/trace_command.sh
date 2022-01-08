@@ -1,0 +1,1 @@
+./NeuroSIM/main ./NeuroSIM/NetWork_DenseNet40.csv 8 8 ./layer_record_DenseNet40/weightConv0_.csv ./layer_record_DenseNet40/inputConv0_.csv ./layer_record_DenseNet40/weightConv1_.csv ./layer_record_DenseNet40/inputConv1_.csv ./layer_record_DenseNet40/weightConv2_.csv ./layer_record_DenseNet40/inputConv2_.csv 
