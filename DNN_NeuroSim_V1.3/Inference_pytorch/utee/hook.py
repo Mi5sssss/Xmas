@@ -123,7 +123,7 @@ def hardware_evaluation(model,wl_weight,wl_activation,model_name,mode):
     if os.path.exists('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh'):
         os.remove('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh')
     f = open('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh', "w")
-    f.write('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/main ./NeuroSIM/NetWork_'+str(model_name)+'.csv '+str(wl_weight)+' '+str(wl_activation)+' ')
+    f.write('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/main /home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork_'+str(model_name)+'.csv '+str(wl_weight)+' '+str(wl_activation)+' ')
     
     for i, layer in enumerate(model.modules()):
         if isinstance(layer, (FConv2d, QConv2d, nn.Conv2d)) or isinstance(layer, (FLinear, QLinear, nn.Linear)):
