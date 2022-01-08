@@ -1,8 +1,11 @@
+#!/home/hp/anaconda3/envs/neurosim/bin/python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import sys
+sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch')
 from utee import wage_initializer,wage_quantizer,float_quantizer
-from torch._jit_internal import weak_script_method
+from jit_internal import weak_script_method
 import numpy as np
 
 class FConv2d(nn.Conv2d):

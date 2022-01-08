@@ -9,6 +9,11 @@ from collections import OrderedDict
 from ofa.utils import get_same_padding, min_divisible_value, SEModule, ShuffleLayer
 from ofa.utils import MyNetwork, MyModule
 from ofa.utils import build_activation, make_divisible
+import sys
+sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/modules')
+from floatrange_cpu_np_infer import FConv2d,FLinear
+from quantization_cpu_np_infer import QConv2d, QLinear
+
 
 __all__ = [
 	'set_layer_from_config',
@@ -677,14 +682,16 @@ class ResNetBasicBlock(MyModule):
 
 		# build modules
 		self.conv1 = nn.Sequential(OrderedDict([
-			('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			# ('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim)),
 			('act', build_activation(self.act_func, inplace=True)),
 		]))
 
 		pad = get_same_padding(self.kernel_size)
 		self.conv2 = nn.Sequential(OrderedDict([
-			('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
+			# ('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
+			('conv', QConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim))
 		]))
 
@@ -692,13 +699,15 @@ class ResNetBasicBlock(MyModule):
 			self.downsample = IdentityLayer(in_channels, out_channels)
 		elif self.downsample_mode == 'conv':
 			self.downsample = nn.Sequential(OrderedDict([
-				('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				# ('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
-				('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				# ('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				('conv', QConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		else:
