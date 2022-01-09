@@ -98,6 +98,8 @@ elif args.model == 'ResNet18':
     # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
     # print(modelCF)
+    
+    # please add the absolute path to here
     import sys
     sys.path.append('/home/rick/nas_rram')
     sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
