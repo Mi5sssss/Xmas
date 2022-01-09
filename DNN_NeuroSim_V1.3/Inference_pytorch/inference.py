@@ -15,6 +15,9 @@ from utee import hook
 #from IPython import embed
 from datetime import datetime
 from subprocess import call
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+
 parser = argparse.ArgumentParser(description='PyTorch CIFAR-X Example')
 parser.add_argument('--dataset', default='cifar10', help='cifar10|cifar100|imagenet')
 parser.add_argument('--model', default='ResNet18', help='VGG8|DenseNet40|ResNet18')
@@ -25,7 +28,7 @@ parser.add_argument('--grad_scale', type=float, default=8, help='learning rate f
 parser.add_argument('--seed', type=int, default=117, help='random seed (default: 1)')
 parser.add_argument('--log_interval', type=int, default=100,  help='how many batches to wait before logging training status')
 parser.add_argument('--test_interval', type=int, default=1,  help='how many epochs to wait before another test')
-parser.add_argument('--logdir', default='/home/rick/nas_rram/neurosim_log/default', help='folder to save to the log')
+parser.add_argument('--logdir', default='/mnt/nfsdisk/zyguan/Xmas/neurosim_log/default', help='folder to save to the log')
 parser.add_argument('--lr', type=float, default=0.01, help='learning rate (default: 1e-3)')
 parser.add_argument('--decreasing_lr', default='140,180', help='decreasing strategy')
 parser.add_argument('--wl_weight', default=8)
@@ -95,7 +98,7 @@ elif args.model == 'ResNet18':
     modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
 else:
     raise ValueError("Unknown model type")
-# modelCF = torch.jit.load('/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar')
+# modelCF = torch.jit.load('/mnt/nfsdisk/zyguan/Xmas/once-for-all/exp/teachernet/checkpoint/model_best.pth.tar')
 
 # # Rick: add multi GPUs
 # if torch.cuda.device_count()>1:
@@ -154,4 +157,4 @@ if args.inference:
 logger('Test set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
 	test_loss, correct, len(test_loader.dataset), acc))
 
-call(["/bin/bash", '/home/rick/nas_rram/neurosim_log/layer_record_'+str(args.model)+'/trace_command.sh'])
+call(["/bin/bash", '/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(args.model)+'/trace_command.sh'])

@@ -16,9 +16,9 @@ def Neural_Sim(self, input, output):
     count1 = random.randint(0,20)
     count2 = random.randint(0,20)
     print("quantize layer ", self.name,str(count1),'_',str(count2))
-    input_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/input' + str(self.name)+str(count1)+'_'+str(count2) + '.csv'
-    weight_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/weight' + str(self.name)+str(count1)+'_'+str(count2)+ '.csv'
-    f = open('/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/trace_command.sh', "a")
+    input_file_name =  '/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_' + str(model_n) + '/input' + str(self.name)+str(count1)+'_'+str(count2) + '.csv'
+    weight_file_name =  '/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_' + str(model_n) + '/weight' + str(self.name)+str(count1)+'_'+str(count2)+ '.csv'
+    f = open('/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_' + str(model_n) + '/trace_command.sh', "a")
     f.write(weight_file_name+' '+input_file_name+' ')
     if FP:
         weight_q = float_quantizer.float_range_quantize(self.weight,self.wl_weight)
@@ -118,12 +118,12 @@ def hardware_evaluation(model,wl_weight,wl_activation,model_name,mode):
     FP = 1 if mode=='FP' else 0
     
     hook_handle_list = []
-    if not os.path.exists('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)):
-        os.makedirs('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name))
-    if os.path.exists('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh'):
-        os.remove('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh')
-    f = open('/home/rick/nas_rram/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh', "w")
-    f.write('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/main /home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork_'+str(model_name)+'.csv '+str(wl_weight)+' '+str(wl_activation)+' ')
+    if not os.path.exists('/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(model_name)):
+        os.makedirs('/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(model_name))
+    if os.path.exists('/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh'):
+        os.remove('/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh')
+    f = open('/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(model_name)+'/trace_command.sh', "w")
+    f.write('/mnt/nfsdisk/zyguan/Xmas/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/main /mnt/nfsdisk/zyguan/Xmas/DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork_'+str(model_name)+'.csv '+str(wl_weight)+' '+str(wl_activation)+' ')
     
     for i, layer in enumerate(model.modules()):
         if isinstance(layer, (FConv2d, QConv2d, nn.Conv2d)) or isinstance(layer, (FLinear, QLinear, nn.Linear)):

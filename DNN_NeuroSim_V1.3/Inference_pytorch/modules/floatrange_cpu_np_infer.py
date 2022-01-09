@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import sys
-sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch')
+sys.path.append('/mnt/nfsdisk/zyguan/Xmas/DNN_NeuroSim_V1.3/Inference_pytorch')
 from utee import wage_initializer,wage_quantizer,float_quantizer
 from torch._jit_internal import weak_script_method # for neurosim run
 # from jit_internal import weak_script_method # for ofa run

@@ -49,7 +49,7 @@ task = expand : kernel depth -> kernel depth width
 '''
 
 if args.task == 'kernel':
-    args.path = '/home/rick/nas_rram/ofa_data/exp/normal2kernel'
+    args.path = '/mnt/nfsdisk/zyguan/Xmas/exp/normal2kernel'
     args.dynamic_batch_size = 1
     args.n_epochs = 120 # 120 original epochs
     args.base_lr = 3e-2
@@ -59,7 +59,7 @@ if args.task == 'kernel':
     args.expand_list = '4'
     args.depth_list = '3'
 elif args.task == 'depth':
-    args.path = '/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/phase1%d' % args.phase
+    args.path = '/mnt/nfsdisk/zyguan/Xmas/exp/kernel2kernel_depth/phase1%d' % args.phase
     args.dynamic_batch_size = 2
     if args.phase == 1:
         args.n_epochs = 25
@@ -78,7 +78,7 @@ elif args.task == 'depth':
         args.expand_list = '4'
         args.depth_list = '2,3'
 elif args.task == 'expand':
-    args.path = '/home/rick/nas_rram/ofa_data/exp/kernel_depth2kernel_depth_width/phase%d' % args.phase
+    args.path = '/mnt/nfsdisk/zyguan/Xmas/exp/kernel_depth2kernel_depth_width/phase%d' % args.phase
     args.dynamic_batch_size = 4
     if args.phase == 1:
         args.n_epochs = 25
@@ -97,7 +97,7 @@ elif args.task == 'expand':
         args.expand_list = '2,3,4'
         args.depth_list = '2,3'
 elif args.task == "teacher":
-    args.path = '/home/rick/nas_rram/ofa_data/exp/teachernet'
+    args.path = '/mnt/nfsdisk/zyguan/Xmas/exp/teachernet'
     args.dynamic_batch_size = 1
     args.n_epochs = 200
     args.base_lr = 0.025
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     torch.cuda.set_device(hvd.local_rank())
     
     if args.kd_ratio > 0:
-        args.teacher_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+        args.teacher_path = "/mnt/nfsdisk/zyguan/Xmas/exp/teachernet/checkpoint/model_best.pth.tar"
 
     num_gpus = hvd.size()
 
@@ -262,7 +262,7 @@ if __name__ == '__main__':
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if run_manager.start_epoch == 0:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/mnt/nfsdisk/zyguan/Xmas/exp/teachernet/checkpoint/model_best.pth.tar"
             # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
             run_manager.write_log(
                 '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
@@ -275,18 +275,18 @@ if __name__ == '__main__':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_depth
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/mnt/nfsdisk/zyguan/Xmas/exp/normal2kernel/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/normal2kernel/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/mnt/nfsdisk/zyguan/Xmas/exp/normal2kernel/checkpoint/model_best.pth.tar"
         train_elastic_depth(train, run_manager, args, validate_func_dict)
     
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_expand
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/mnt/nfsdisk/zyguan/Xmas/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/mnt/nfsdisk/zyguan/Xmas/exp/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         train_elastic_expand(train, run_manager, args, validate_func_dict)
     
     else:

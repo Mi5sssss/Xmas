@@ -27,7 +27,7 @@ parser.add_argument('--grad_scale', type=float, default=8, help='learning rate f
 parser.add_argument('--seed', type=int, default=117, help='random seed (default: 1)')
 parser.add_argument('--log_interval', type=int, default=100,  help='how many batches to wait before logging training status')
 parser.add_argument('--test_interval', type=int, default=1,  help='how many epochs to wait before another test')
-parser.add_argument('--logdir', default='/home/rick/nas_rram/neurosim_log/default', help='folder to save to the log')
+parser.add_argument('--logdir', default='/mnt/nfsdisk/zyguan/Xmas/neurosim_log/default', help='folder to save to the log')
 parser.add_argument('--lr', type=float, default=0.01, help='learning rate (default: 1e-3)')
 parser.add_argument('--decreasing_lr', default='140,180', help='decreasing strategy')
 parser.add_argument('--wl_weight', default=8)
@@ -83,26 +83,25 @@ else:
 assert args.model in ['VGG8', 'DenseNet40', 'ResNet18'], args.model
 if args.model == 'VGG8':
     from models import VGG
-    model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/VGG8.pth'   # WAGE mode pretrained model
+    model_path = '/mnt/nfsdisk/zyguan/Xmas/DNN_NeuroSim_V1.3/Inference_pytorch/log/VGG8.pth'   # WAGE mode pretrained model
     modelCF = VGG.vgg8(args = args, logger=logger, pretrained = model_path)
 elif args.model == 'DenseNet40':
     from models import DenseNet
-    model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
+    model_path = '/mnt/nfsdisk/zyguan/Xmas/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
     modelCF = DenseNet.densenet40(args = args, logger=logger, pretrained = model_path)
 elif args.model == 'ResNet18':
     from models import ResNet
     # FP mode pretrained model, loaded from 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
-    # model_path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar'
-    # model_path = '/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth'
-    # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth'
-    # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
+    # model_path = '/mnt/nfsdisk/zyguan/Xmas/once-for-all/exp_resnet/teachernet/checkpoint/model_best.pth.tar'
+    # model_path = '/mnt/nfsdisk/zyguan/Xmas/once-for-all/modified_model/resnet_18/target_model.pth'
+    # model_path = '/mnt/nfsdisk/zyguan/Xmas/once-for-all/neurosim_model/resnet_official/resnet18-5c106cde.pth'
+    # model_path = '/mnt/nfsdisk/zyguan/Xmas/once-for-all/neurosim_model/resnet_official/resnet18_without_fb.pth'
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
     # print(modelCF)
-    # please add the absolute path to here
     import sys
-    sys.path.append('/home/rick/nas_rram')
-    sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
-    modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
+    sys.path.append('/mnt/nfsdisk/zyguan/Xmas')
+    sys.path.append('/mnt/nfsdisk/zyguan/Xmas/once-for-all')
+    modelCF = torch.load('/mnt/nfsdisk/zyguan/Xmas/once-for-all/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
     # print("here is it",type(modelCF))
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
     # modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = True)
@@ -111,7 +110,7 @@ else:
 
 
 
-# modelCF = torch.load('/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth')
+# modelCF = torch.load('/mnt/nfsdisk/zyguan/Xmas/once-for-all/modified_model/resnet_18/target_model.pth')
 
 # # Rick: add multi GPUs
 # if torch.cuda.device_count()>1:
@@ -170,4 +169,4 @@ if args.inference:
 logger('Test set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
 	test_loss, correct, len(test_loader.dataset), acc))
 
-call(["/bin/bash", '/home/rick/nas_rram/neurosim_log/layer_record_'+str(args.model)+'/trace_command.sh'])
+call(["/bin/bash", '/mnt/nfsdisk/zyguan/Xmas/neurosim_log/layer_record_'+str(args.model)+'/trace_command.sh'])
