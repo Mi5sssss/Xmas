@@ -15,6 +15,7 @@ from utee import hook
 #from IPython import embed
 from datetime import datetime
 from subprocess import call
+from torchsummary import summary
 
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR-X Example')
@@ -84,7 +85,8 @@ assert args.model in ['VGG8', 'DenseNet40', 'ResNet18'], args.model
 if args.model == 'VGG8':
     from models import VGG
     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/VGG8.pth'   # WAGE mode pretrained model
-    modelCF = VGG.vgg8(args = args, logger=logger, pretrained = model_path)
+    modelCF = VGG.vgg8(args = args, logger=logger, pretrained = model_path).cuda()
+    summary(modelCF,input_size =(3,32,32))
 elif args.model == 'DenseNet40':
     from models import DenseNet
     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
@@ -96,7 +98,8 @@ elif args.model == 'ResNet18':
     # model_path = '/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth'
     # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth'
     # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
-    # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
+    # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path).cuda()
+    # summary(modelCF,input_size =(3,32,32))
     # print(modelCF)
     
     # please add the absolute path to here
@@ -104,6 +107,7 @@ elif args.model == 'ResNet18':
     sys.path.append('/home/rick/nas_rram')
     sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
     modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
+    summary(modelCF,input_size =(3,32,32))
     # print("here is it",type(modelCF))
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
     # modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = True)

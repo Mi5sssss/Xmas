@@ -683,7 +683,7 @@ double ChipCalculatePerformance(InputParameter &inputParameter, Technology &tech
 								double *readLatency, double *readDynamicEnergy, double *leakage, double *bufferLatency, double *bufferDynamicEnergy, double *icLatency, double *icDynamicEnergy,
 								double *coreLatencyADC, double *coreLatencyAccum, double *coreLatencyOther, double *coreEnergyADC, double *coreEnergyAccum, double *coreEnergyOther, bool CalculateclkFreq, double *clkPeriod)
 {
-
+	// cout << " Here is the main" << endl;
 	int numRowPerSynapse, numColPerSynapse;
 	numRowPerSynapse = param->numRowPerSynapse;
 	numColPerSynapse = param->numColPerSynapse;

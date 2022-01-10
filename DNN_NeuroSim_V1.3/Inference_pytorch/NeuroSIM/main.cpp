@@ -216,6 +216,7 @@ int main(int argc, char *argv[])
 		numComputation += 2 * (netStructure[i][0] * netStructure[i][1] * netStructure[i][2] * netStructure[i][3] * netStructure[i][4] * netStructure[i][5]);
 	}
 
+
 	ChipInitialize(inputParameter, tech, cell, netStructure, markNM, numTileEachLayer,
 				   numPENM, desiredNumTileNM, desiredPESizeNM, desiredNumTileCM, desiredTileSizeCM, desiredPESizeCM, numTileRow, numTileCol);
 
@@ -273,7 +274,14 @@ int main(int argc, char *argv[])
 	{
 		// calculate clkFreq
 		for (int i = 0; i < netStructure.size(); i++)
-		{
+		{	
+			printf("netStructure.size() is %d\n", netStructure.size());
+			// printf("sizeof(argv) is %d\n", sizeof(argv));
+			cout << "argv[2 * i + 4] : " << argv[2 * i + 4] << endl;
+			printf("i = %d\n", i);
+			// printf("netStructure[i][6] is %c \n", netStructure[i][6]);
+			cout << "netStructure[i][6] : " << netStructure[i][6] << endl;
+
 			ChipCalculatePerformance(inputParameter, tech, cell, i, argv[2 * i + 4], argv[2 * i + 4], argv[2 * i + 5], netStructure[i][6],
 									 netStructure, markNM, numTileEachLayer, utilizationEachLayer, speedUpEachLayer, tileLocaEachLayer,
 									 numPENM, desiredPESizeNM, desiredTileSizeCM, desiredPESizeCM, CMTileheight, CMTilewidth, NMTileheight, NMTilewidth,
@@ -296,9 +304,8 @@ int main(int argc, char *argv[])
 		// layer-by-layer process
 		// show the detailed hardware performance for each layer
 		for (int i = 0; i < netStructure.size(); i++)
-		{
+		{	
 			cout << "-------------------- Estimation of Layer " << i + 1 << " ----------------------" << endl;
-
 			ChipCalculatePerformance(inputParameter, tech, cell, i, argv[2 * i + 4], argv[2 * i + 4], argv[2 * i + 5], netStructure[i][6],
 									 netStructure, markNM, numTileEachLayer, utilizationEachLayer, speedUpEachLayer, tileLocaEachLayer,
 									 numPENM, desiredPESizeNM, desiredTileSizeCM, desiredPESizeCM, CMTileheight, CMTilewidth, NMTileheight, NMTilewidth,
@@ -564,12 +571,11 @@ vector<vector<double>> getNetStructure(const string &inputfile)
 	int ROWin = 0, COLin = 0;
 	if (!infile.good())
 	{
-		cout << " Here is the main" << endl;
 		cerr << "Error: the input file cannot be opened!" << endl;
 		exit(1);
 	}
 	else
-	{
+	{	
 		while (getline(infile, inputline, '\n'))
 		{
 			ROWin++;

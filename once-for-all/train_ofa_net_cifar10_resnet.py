@@ -219,7 +219,7 @@ if __name__ == '__main__':
     args.teacher_model = ResNet18(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=2,
+        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=None,
     )
     args.teacher_model.float().cuda()
 

@@ -19,7 +19,7 @@ class ResNets(MyNetwork):
 		super(ResNets, self).__init__()
 
 		self.input_stem = nn.ModuleList(input_stem)
-		self.max_pooling = nn.MaxPool2d(kernel_size=7, stride=2, padding=1, dilation=1, ceil_mode=False)
+		self.max_pooling = nn.MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
 		self.blocks = nn.ModuleList(blocks)
 		self.global_avg_pool = MyGlobalAvgPool2d(keep_dim=False)
 		self.classifier = classifier
@@ -211,7 +211,7 @@ class ResNet18(ResNets):
 			for i, depth in enumerate(ResNets.BASE_DEPTH_LIST):
 				depth_list[i] = depth + depth_param
 
-		stride_list = [1, 2, 1, 1]
+		stride_list = [1, 2, 2, 2]
 
 		# build input stem
 		input_stem = [ConvLayer(
@@ -220,6 +220,7 @@ class ResNet18(ResNets):
 
 
 		# blocks
+		# please modify 
 		blocks = []
 		for d, width, s in zip(depth_list, stage_width_list, stride_list):
 			for i in range(d):
@@ -230,11 +231,20 @@ class ResNet18(ResNets):
 				)
 				blocks.append(basic_block)
 				input_channel = width
-				# print(i)
+			# print(d, width, s)
 		# classifier
+		# import sys
+		# sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/modules')
+		# from floatrange_cpu_np_infer import FConv2d,FLinear
+		# from quantization_cpu_np_infer import QConv2d, QLinear
 		classifier = LinearLayer(input_channel, n_classes, dropout_rate=dropout_rate)
+		# classifier = FLinear(input_channel, n_classes)
+
 		
 		super(ResNet18, self).__init__(input_stem, blocks, classifier)
 
 		# set bn param
 		self.set_bn_param(*bn_param)
+
+	# def module_str(self):
+	# 	return '%dx%d_Linear' % (self.in_features, self.out_features)
