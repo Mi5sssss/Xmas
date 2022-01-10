@@ -107,8 +107,8 @@ elif args.model == 'ResNet18':
     sys.path.append('/home/rick/nas_rram')
     sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
     modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
-    summary(modelCF,input_size =(3,32,32))
-    # print("here is it",type(modelCF))
+    # summary(modelCF,input_size =(3,32,32))
+    print(modelCF)
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
     # modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = True)
 else:
