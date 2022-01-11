@@ -116,7 +116,7 @@ else:
 
 
 
-
+# Please use only one GPU to inference, otherwise, the layers would be different.
 # # Rick: add multi GPUs
 # if torch.cuda.device_count()>1:
 #     modelCF = torch.nn.DataParallel(modelCF)
