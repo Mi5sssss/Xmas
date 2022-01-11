@@ -1,13 +1,16 @@
-#!/home/hp/anaconda3/envs/neurosim/bin/python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import sys
+import numpy as np
+
+
 sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch')
 from utee import wage_initializer,wage_quantizer,float_quantizer
-from torch._jit_internal import weak_script_method # for neurosim run
-# from jit_internal import weak_script_method # for ofa run
-import numpy as np
+
+if 'inference' in sys._getframe(14).f_code.co_filename: 
+    from torch._jit_internal import weak_script_method # for neurosim run
+else: from jit_internal import weak_script_method # for ofa run
 
 class FConv2d(nn.Conv2d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=False, logger=None,

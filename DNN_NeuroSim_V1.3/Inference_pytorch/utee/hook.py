@@ -27,6 +27,7 @@ def Neural_Sim(self, input, output):
     write_matrix_weight( weight_q.cpu().data.numpy(),weight_file_name)
     if len(self.weight.shape) > 2:
         k=self.weight.shape[-1]
+        # print("k is", k)
         padding = self.padding
         stride = self.stride  
         write_matrix_activation_conv(stretch_input(input[0].cpu().data.numpy(),k,padding,stride),None,self.wl_input,input_file_name)
