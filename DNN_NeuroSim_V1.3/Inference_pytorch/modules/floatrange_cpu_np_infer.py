@@ -5,13 +5,15 @@ import sys
 import numpy as np
 
 
-sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch')
+sys.path.append('./DNN_NeuroSim_V1.3/Inference_pytorch')
+sys.path.append('./DNN_NeuroSim_V1.3/Inference_pytorch/modules')
 from utee import wage_initializer,wage_quantizer,float_quantizer
 
-if 'inference' in sys._getframe(14).f_code.co_filename: 
-    from torch._jit_internal import weak_script_method # for neurosim run
-else: from jit_internal import weak_script_method # for ofa run
+# if 'inference' in sys._getframe(14).f_code.co_filename: 
+#     from torch._jit_internal import weak_script_method # for neurosim run
+# else: from jit_internal import weak_script_method # for ofa run
 
+from jit_internal import weak_script_method # for ofa run
 class FConv2d(nn.Conv2d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=False, logger=None,
                 wl_input =8,wl_weight= 8,inference=0,onoffratio=10,cellBit=1,subArray=128,ADCprecision=5,

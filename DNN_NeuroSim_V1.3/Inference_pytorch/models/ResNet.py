@@ -2,7 +2,8 @@ import torch
 import torch.nn as nn
 from modules.quantization_cpu_np_infer import QConv2d, QLinear
 from modules.floatrange_cpu_np_infer import FConv2d, FLinear
-from torchvision.models.utils import load_state_dict_from_url
+# from torchvision.models.utils import load_state_dict_from_url # for torch version 1.1.0
+from torch.hub import load_state_dict_from_url # for higher versions
 name=0
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',

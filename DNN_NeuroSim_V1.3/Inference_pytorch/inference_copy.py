@@ -104,8 +104,9 @@ elif args.model == 'ResNet18':
     
     # Please add the absolute path of /ofa/once-for-all to here.
     import sys
-    sys.path.append('/home/rick/nas_rram')
-    sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
+    # sys.path.append('/home/rick/nas_rram')
+    # sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
+    sys.path.append('./once-for-all')
     modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
     summary(modelCF,input_size =(3,32,32))
     print(modelCF)

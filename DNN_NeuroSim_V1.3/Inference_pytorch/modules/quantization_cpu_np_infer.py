@@ -5,11 +5,13 @@ import torch.nn.functional as F
 from utee import wage_initializer,wage_quantizer
 import sys
 import numpy as np
+sys.path.append('./DNN_NeuroSim_V1.3/Inference_pytorch')
+sys.path.append('./DNN_NeuroSim_V1.3/Inference_pytorch/modules')
+# if 'inference' in sys._getframe(14).f_code.co_filename: 
+#     from torch._jit_internal import weak_script_method # for neurosim run
+# else: from jit_internal import weak_script_method # for ofa run
 
-if 'inference' in sys._getframe(14).f_code.co_filename: 
-    from torch._jit_internal import weak_script_method # for neurosim run
-else: from jit_internal import weak_script_method # for ofa run
-
+from jit_internal import weak_script_method # for ofa run
 
 class QConv2d(nn.Conv2d):
     def __init__(self, in_channels, out_channels, kernel_size,
