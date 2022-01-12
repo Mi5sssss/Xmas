@@ -124,7 +124,7 @@ class DynamicConv2d(nn.Module):
 		return y
 
 class DynamicFConv2d(nn.Module):
-	def __init__(self, max_in_channels, max_out_channels, kernel_size=1, stride=1, dilation=1):
+	def __init__(self, max_in_channels, max_out_channels, kernel_size=1, stride=1, dilation=1, padding=0):
 		super(DynamicFConv2d, self).__init__()
 
 		self.max_in_channels = max_in_channels
@@ -132,9 +132,10 @@ class DynamicFConv2d(nn.Module):
 		self.kernel_size = kernel_size
 		self.stride = stride
 		self.dilation = dilation
+		self.padding = padding
 
 		self.conv = FConv2d(
-			self.max_in_channels, self.max_out_channels, self.kernel_size, stride=self.stride, bias=False,
+			self.max_in_channels, self.max_out_channels, self.kernel_size, stride=self.stride, padding=self.padding, bias=False,
 		)
 
 		self.active_out_channel = self.max_out_channels

@@ -693,7 +693,7 @@ class ResNetBasicBlock(MyModule):
 		self.conv1 = nn.Sequential(OrderedDict([
 			# ('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
 			# ('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
-			('conv', FConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			('conv', FConv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim)),
 			('act', build_activation(self.act_func, inplace=True)),
 		]))
@@ -729,11 +729,16 @@ class ResNetBasicBlock(MyModule):
 		self.final_act = build_activation(self.act_func, inplace=True)
 
 	def forward(self, x):
+		# import pdb
+		# pdb.set_trace()	
+		# print('x_shape', x.shape)
 		residual = self.downsample(x)
+		# print('residual.shape',residual.shape)
 
 		x = self.conv1(x)
+		# print('x_conv1.shape', x.shape)
 		x = self.conv2(x)
-
+		# print('x_conv2.shape', x.shape)
 		x = x + residual
 		x = self.final_act(x)
 		return x

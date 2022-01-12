@@ -637,6 +637,7 @@ class DynamicResNetBottleneckBlock(MyModule):
 
         return None
     
+from ofa.utils import get_same_padding    
 class DynamicResNetBasicBlock(MyModule):
 
     def __init__(self, in_channel_list, out_channel_list, expand_ratio_list=0.25,
@@ -657,12 +658,12 @@ class DynamicResNetBasicBlock(MyModule):
             round(max(self.out_channel_list) * max(self.expand_ratio_list)), MyNetwork.CHANNEL_DIVISIBLE)
 
         self.conv1 = nn.Sequential(OrderedDict([
-            ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel)),
+            ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, kernel_size)),
             # ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, kernel_size, stride)),
             ('bn', DynamicBatchNorm2d(max_middle_channel)),
             ('act', build_activation(self.act_func, inplace=True)),
         ]))
-
+        # pad = get_same_padding(self.kernel_size)
         self.conv2 = nn.Sequential(OrderedDict([
             # ('conv', DynamicConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
             ('conv', DynamicFConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
@@ -701,12 +702,13 @@ class DynamicResNetBasicBlock(MyModule):
         self.conv2.conv.active_out_channel = self.active_out_channel
         if not isinstance(self.downsample, IdentityLayer):
             self.downsample.conv.active_out_channel = self.active_out_channel
-
+        # print('x_shape', x.shape)
         residual = self.downsample(x)
-
+        # print('residual', residual.shape)
         x = self.conv1(x)
+        # print('x_conv1.shape', x.shape)
         x = self.conv2(x)
-
+        # print('x_conv2.shape', x.shape)
         x = x + residual
         x = self.final_act(x)
         return x
