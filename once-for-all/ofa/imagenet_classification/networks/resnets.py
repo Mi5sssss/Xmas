@@ -12,8 +12,8 @@ class ResNets(MyNetwork):
 	# BASE_DEPTH_LIST = [2, 2, 4, 2]
 	# STAGE_WIDTH_LIST = [256, 512, 1024, 2048]
 	BASE_DEPTH_LIST = [2, 2, 2, 2]
-	STAGE_WIDTH_LIST = [64, 128, 256, 512]
-	# STAGE_WIDTH_LIST = [2, 4, 8, 16]
+	# STAGE_WIDTH_LIST = [64, 128, 256, 512]
+	STAGE_WIDTH_LIST = [2, 4, 8, 16]
 
 	def __init__(self, input_stem, blocks, classifier):
 		super(ResNets, self).__init__()

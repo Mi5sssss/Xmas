@@ -36,7 +36,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--task', type=str, default='teacher', choices=[
     'kernel', 'depth', 'expand', 'teacher',
 ])
-parser.add_argument('--phase', type=int, default=1, choices=[1, 2])
+parser.add_argument('--phase', type=int, default=2, choices=[1, 2])
 parser.add_argument('--resume', action='store_true')
 
 args = parser.parse_args()
@@ -70,9 +70,9 @@ elif args.task == 'depth':
         args.expand_list = '4'
         args.depth_list = '2,3'
     else:
-        args.n_epochs = 120
+        args.n_epochs = 1 # 120
         args.base_lr = 7.5e-3
-        args.warmup_epochs = 5
+        args.warmup_epochs = 0 # 5
         args.warmup_lr = -1
         args.ks_list = '3'
         args.expand_list = '4'
@@ -89,9 +89,9 @@ elif args.task == 'expand':
         args.expand_list = '3,4'
         args.depth_list = '2,3'
     else:
-        args.n_epochs = 120
+        args.n_epochs = 1 # 120
         args.base_lr = 7.5e-3
-        args.warmup_epochs = 5
+        args.warmup_epochs = 0 #5
         args.warmup_lr = -1
         args.ks_list = '3'
         args.expand_list = '2,3,4'
@@ -143,7 +143,7 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 1
+args.kd_ratio = 0
 args.kd_type = 'ce'
 
 
@@ -285,9 +285,9 @@ if __name__ == '__main__':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_expand
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase12/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase12/checkpoint/model_best.pth.tar"
         train_elastic_expand(train, distributed_run_manager, args, validate_func_dict)
     
     else:

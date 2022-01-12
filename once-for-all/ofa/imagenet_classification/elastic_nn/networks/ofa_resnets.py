@@ -279,6 +279,8 @@ class OFAResNets18(ResNets):
 		self.depth_list.sort()
 		self.expand_ratio_list.sort()
 		self.width_mult_list.sort()
+		# import pdb
+		# pdb.set_trace()
 
 		input_channel = [
 			make_divisible(64 * width_mult, MyNetwork.CHANNEL_DIVISIBLE) for width_mult in self.width_mult_list
