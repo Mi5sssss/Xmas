@@ -20,6 +20,7 @@ def count_convNd(m, _, y):
 	# cout x oW x oH
 	total_ops = cin * output_elements * ops_per_element // m.groups
 	m.total_ops = torch.zeros(1).fill_(total_ops)
+	
 
 
 def count_linear(m, _, __):
@@ -50,7 +51,8 @@ def profile(model, input_size, custom_ops=None):
 	def add_hooks(m_):
 		if len(list(m_.children())) > 0:
 			return
-
+		# import pdb
+		# pdb.set_trace()
 		m_.register_buffer('total_ops', torch.zeros(1))
 		m_.register_buffer('total_params', torch.zeros(1))
 
@@ -74,7 +76,8 @@ def profile(model, input_size, custom_ops=None):
 
 	model.eval()
 	model.apply(add_hooks)
-
+	# import pdb
+	# pdb.set_trace()
 	x = torch.zeros(input_size).to(original_device)
 	with torch.no_grad():
 		model(x)
@@ -83,8 +86,10 @@ def profile(model, input_size, custom_ops=None):
 	total_params = 0
 	for m in model.modules():
 		if len(list(m.children())) > 0:  # skip for non-leaf module
+		# # if len(list(m)) > 0:  # skip for non-leaf module
 			continue
 		total_ops += m.total_ops
+		# print("m.total_ops---", type(m))
 		total_params += m.total_params
 
 	total_ops = total_ops.item()

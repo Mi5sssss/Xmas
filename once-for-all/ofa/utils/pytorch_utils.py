@@ -77,6 +77,7 @@ def count_parameters(net):
 
 def count_net_flops(net, data_shape=(1, 3, 224, 224)):
 	from .flops_counter import profile
+	# from thop import profile
 	if isinstance(net, nn.DataParallel):
 		net = net.module
 
@@ -140,6 +141,8 @@ def measure_net_latency(net, l_type='gpu8', fast=True, input_shape=(3, 224, 224)
 
 def get_net_info(net, input_shape=(3, 224, 224), measure_latency=None, print_info=True):
 	net_info = {}
+	# import pdb
+	# pdb.set_trace()
 	if isinstance(net, nn.DataParallel):
 		net = net.module
 

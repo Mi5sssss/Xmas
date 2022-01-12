@@ -10,7 +10,7 @@ from ofa.utils import get_same_padding, min_divisible_value, SEModule, ShuffleLa
 from ofa.utils import MyNetwork, MyModule
 from ofa.utils import build_activation, make_divisible
 import sys
-sys.path.append('/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/modules')
+sys.path.append('./DNN_NeuroSim_V1.3/Inference_pytorch/modules')
 from floatrange_cpu_np_infer import FConv2d,FLinear
 from quantization_cpu_np_infer import QConv2d, QLinear
 

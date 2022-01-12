@@ -6,11 +6,15 @@ import torch.nn.functional as F
 import torch.nn as nn
 import torch
 from torch.nn.parameter import Parameter
+import sys
 
 from ofa.utils import get_same_padding, sub_filter_start_end, make_divisible, SEModule, MyNetwork, MyConv2d
+sys.path.append('./DNN_NeuroSim_V1.3/Inference_pytorch/modules')
+from floatrange_cpu_np_infer import FConv2d,FLinear
+from quantization_cpu_np_infer import QConv2d, QLinear
 
 __all__ = ['DynamicSeparableConv2d', 'DynamicConv2d', 'DynamicGroupConv2d',
-           'DynamicBatchNorm2d', 'DynamicGroupNorm', 'DynamicSE', 'DynamicLinear']
+		   'DynamicBatchNorm2d', 'DynamicGroupNorm', 'DynamicSE', 'DynamicLinear','DynamicFConv2d','DynamicQConv2d','DynamicFLinear']
 
 
 class DynamicSeparableConv2d(nn.Module):
@@ -119,7 +123,65 @@ class DynamicConv2d(nn.Module):
 		y = F.conv2d(x, filters, None, self.stride, padding, self.dilation, 1)
 		return y
 
+class DynamicFConv2d(nn.Module):
+	def __init__(self, max_in_channels, max_out_channels, kernel_size=1, stride=1, dilation=1):
+		super(DynamicFConv2d, self).__init__()
 
+		self.max_in_channels = max_in_channels
+		self.max_out_channels = max_out_channels
+		self.kernel_size = kernel_size
+		self.stride = stride
+		self.dilation = dilation
+
+		self.conv = FConv2d(
+			self.max_in_channels, self.max_out_channels, self.kernel_size, stride=self.stride, bias=False,
+		)
+
+		self.active_out_channel = self.max_out_channels
+
+	def get_active_filter(self, out_channel, in_channel):
+		return self.conv.weight[:out_channel, :in_channel, :, :]
+
+	def forward(self, x, out_channel=None):
+		if out_channel is None:
+			out_channel = self.active_out_channel
+		in_channel = x.size(1)
+		filters = self.get_active_filter(out_channel, in_channel).contiguous()
+
+		padding = get_same_padding(self.kernel_size)
+		filters = self.conv.weight_standardization(filters) if isinstance(self.conv, MyConv2d) else filters
+		y = F.conv2d(x, filters, None, self.stride, padding, self.dilation, 1)
+		return y
+
+class DynamicQConv2d(nn.Module):
+	def __init__(self, max_in_channels, max_out_channels, kernel_size=1, stride=1, dilation=1):
+		super(DynamicQConv2d, self).__init__()
+
+		self.max_in_channels = max_in_channels
+		self.max_out_channels = max_out_channels
+		self.kernel_size = kernel_size
+		self.stride = stride
+		self.dilation = dilation
+
+		self.conv = QConv2d(
+			self.max_in_channels, self.max_out_channels, self.kernel_size, stride=self.stride, bias=False,
+		)
+
+		self.active_out_channel = self.max_out_channels
+
+	def get_active_filter(self, out_channel, in_channel):
+		return self.conv.weight[:out_channel, :in_channel, :, :]
+
+	def forward(self, x, out_channel=None):
+		if out_channel is None:
+			out_channel = self.active_out_channel
+		in_channel = x.size(1)
+		filters = self.get_active_filter(out_channel, in_channel).contiguous()
+
+		padding = get_same_padding(self.kernel_size)
+		filters = self.conv.weight_standardization(filters) if isinstance(self.conv, MyConv2d) else filters
+		y = F.conv2d(x, filters, None, self.stride, padding, self.dilation, 1)
+		return y
 class DynamicGroupConv2d(nn.Module):
 
 	def __init__(self, in_channels, out_channels, kernel_size_list, groups_list, stride=1, dilation=1):
@@ -294,6 +356,35 @@ class DynamicLinear(nn.Module):
 		self.bias = bias
 
 		self.linear = nn.Linear(self.max_in_features, self.max_out_features, self.bias)
+
+		self.active_out_features = self.max_out_features
+
+	def get_active_weight(self, out_features, in_features):
+		return self.linear.weight[:out_features, :in_features]
+
+	def get_active_bias(self, out_features):
+		return self.linear.bias[:out_features] if self.bias else None
+
+	def forward(self, x, out_features=None):
+		if out_features is None:
+			out_features = self.active_out_features
+
+		in_features = x.size(1)
+		weight = self.get_active_weight(out_features, in_features).contiguous()
+		bias = self.get_active_bias(out_features)
+		y = F.linear(x, weight, bias)
+		return y
+
+class DynamicFLinear(nn.Module):
+    
+	def __init__(self, max_in_features, max_out_features, bias=True):
+		super(DynamicFLinear, self).__init__()
+
+		self.max_in_features = max_in_features
+		self.max_out_features = max_out_features
+		self.bias = bias
+
+		self.linear = FLinear(self.max_in_features, self.max_out_features, self.bias)
 
 		self.active_out_features = self.max_out_features
 

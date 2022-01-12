@@ -10,7 +10,7 @@ from collections import OrderedDict
 from ofa.utils.layers import MBConvLayer, ConvLayer, IdentityLayer, set_layer_from_config
 from ofa.utils.layers import ResNetBottleneckBlock, LinearLayer, ResNetBasicBlock
 from ofa.utils import MyModule, val2list, get_net_device, build_activation, make_divisible, SEModule, MyNetwork
-from .dynamic_op import DynamicSeparableConv2d, DynamicConv2d, DynamicBatchNorm2d, DynamicSE, DynamicGroupNorm
+from .dynamic_op import DynamicSeparableConv2d, DynamicConv2d, DynamicBatchNorm2d, DynamicSE, DynamicGroupNorm, DynamicFConv2d, DynamicQConv2d, DynamicFLinear
 from .dynamic_op import DynamicLinear
 
 __all__ = [
@@ -52,7 +52,10 @@ class DynamicLinearLayer(MyModule):
             self.dropout = nn.Dropout(self.dropout_rate, inplace=True)
         else:
             self.dropout = None
-        self.linear = DynamicLinear(
+        # self.linear = DynamicLinear(
+        #     max_in_features=max(self.in_features_list), max_out_features=self.out_features, bias=self.bias
+        # )
+        self.linear = DynamicFLinear(
             max_in_features=max(self.in_features_list), max_out_features=self.out_features, bias=self.bias
         )
 
@@ -80,6 +83,7 @@ class DynamicLinearLayer(MyModule):
         return DynamicLinearLayer(**config)
 
     def get_active_subnet(self, in_features, preserve_weight=True):
+        # sub_layer = LinearLayer(in_features, self.out_features, self.bias, dropout_rate=self.dropout_rate)
         sub_layer = LinearLayer(in_features, self.out_features, self.bias, dropout_rate=self.dropout_rate)
         sub_layer = sub_layer.to(get_net_device(self))
         if not preserve_weight:
@@ -653,14 +657,15 @@ class DynamicResNetBasicBlock(MyModule):
             round(max(self.out_channel_list) * max(self.expand_ratio_list)), MyNetwork.CHANNEL_DIVISIBLE)
 
         self.conv1 = nn.Sequential(OrderedDict([
-            ('conv', DynamicConv2d(max(self.in_channel_list), max_middle_channel)),
-            # ('conv', DynamicConv2d(max(self.in_channel_list), max_middle_channel, kernel_size, stride)),
+            ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel)),
+            # ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, kernel_size, stride)),
             ('bn', DynamicBatchNorm2d(max_middle_channel)),
             ('act', build_activation(self.act_func, inplace=True)),
         ]))
 
         self.conv2 = nn.Sequential(OrderedDict([
-            ('conv', DynamicConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
+            # ('conv', DynamicConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
+            ('conv', DynamicFConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
             ('bn', DynamicBatchNorm2d(max_middle_channel)),
         ]))
 
@@ -669,13 +674,15 @@ class DynamicResNetBasicBlock(MyModule):
             self.downsample = IdentityLayer(max(self.in_channel_list), max(self.out_channel_list))
         elif self.downsample_mode == 'conv':
             self.downsample = nn.Sequential(OrderedDict([
-                ('conv', DynamicConv2d(max(self.in_channel_list), max(self.out_channel_list), stride=stride)),
+                # ('conv', DynamicConv2d(max(self.in_channel_list), max(self.out_channel_list), stride=stride)),
+                ('conv', DynamicFConv2d(max(self.in_channel_list), max(self.out_channel_list), stride=stride)),
                 ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),
             ]))
         elif self.downsample_mode == 'avgpool_conv':
             self.downsample = nn.Sequential(OrderedDict([
                 ('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
-                ('conv', DynamicConv2d(max(self.in_channel_list), max(self.out_channel_list))),
+                # ('conv', DynamicConv2d(max(self.in_channel_list), max(self.out_channel_list))),
+                ('conv', DynamicFConv2d(max(self.in_channel_list), max(self.out_channel_list))),
                 ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),
             ]))
         else:

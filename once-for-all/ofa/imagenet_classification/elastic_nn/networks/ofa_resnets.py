@@ -1,6 +1,6 @@
 import random
 
-from ofa.imagenet_classification.elastic_nn.modules.dynamic_layers import DynamicConvLayer, DynamicLinearLayer
+from ofa.imagenet_classification.elastic_nn.modules.dynamic_layers import DynamicConvLayer, DynamicLinearLayer, DynamicFConv2d, DynamicQConv2d, DynamicFLinear
 from ofa.imagenet_classification.elastic_nn.modules.dynamic_layers import DynamicResNetBottleneckBlock, DynamicResNetBasicBlock
 from ofa.utils.layers import IdentityLayer, ResidualBlock
 from ofa.imagenet_classification.networks import ResNets
@@ -12,7 +12,7 @@ __all__ = ['OFAResNets','OFAResNets18']
 class OFAResNets(ResNets):
 
 	def __init__(self, n_classes=1000, bn_param=(0.1, 1e-5), dropout_rate=0,
-	             depth_list=2, expand_ratio_list=0.25, width_mult_list=1.0):
+				 depth_list=2, expand_ratio_list=0.25, width_mult_list=1.0):
 
 		self.depth_list = val2list(depth_list)
 		self.expand_ratio_list = val2list(expand_ratio_list)
@@ -269,7 +269,7 @@ class OFAResNets(ResNets):
 class OFAResNets18(ResNets):
 
 	def __init__(self, n_classes=1000, bn_param=(0.1, 1e-5), dropout_rate=0,
-	             depth_list=2, expand_ratio_list=0.25, width_mult_list=1.0):
+				 depth_list=2, expand_ratio_list=0.25, width_mult_list=1.0):
 
 		self.depth_list = val2list(depth_list)
 		# print("here is it", depth_list)
@@ -292,10 +292,11 @@ class OFAResNets18(ResNets):
 			stage_width_list[i] = [
 				make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE) for width_mult in self.width_mult_list
 			]
-   
-		# the depth in ResNet18 cannot be changed since the network structure is fixed.
-		n_block_list = [base_depth + max(self.depth_list) for base_depth in ResNets.BASE_DEPTH_LIST]
+		
+		# n_block_list = [base_depth + max(self.depth_list) for base_depth in ResNets.BASE_DEPTH_LIST]
+		n_block_list = [max(base_depth, max(self.depth_list)) for base_depth in ResNets.BASE_DEPTH_LIST]
 		# n_block_list = 4
+		print("n_block_list = ", n_block_list)
   
 		stride_list = [1, 2, 2, 2]
 
@@ -321,7 +322,7 @@ class OFAResNets18(ResNets):
 				blocks.append(basic_block)
 				input_channel = width
 
-			# print('here is it',i)
+			# print('here is it',n_block_list)
 		# classifier
 		classifier = DynamicLinearLayer(input_channel, n_classes, dropout_rate=dropout_rate)
 

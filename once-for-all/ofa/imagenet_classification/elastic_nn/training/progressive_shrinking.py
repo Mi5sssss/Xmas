@@ -224,6 +224,13 @@ def train_one_epoch_cifar10(run_manager, args, epoch, warmup_epochs=0, warmup_lr
 
 			images, labels = images.cuda(), labels.cuda()
 			target = labels
+   
+			# soft target
+			if args.kd_ratio > 0:
+				args.teacher_model.train()
+				with torch.no_grad():
+					soft_logits = args.teacher_model(images).detach()
+					soft_label = F.softmax(soft_logits, dim=1)
 
 			# clean gradients
 			dynamic_net.zero_grad()
@@ -241,10 +248,23 @@ def train_one_epoch_cifar10(run_manager, args, epoch, warmup_epochs=0, warmup_lr
 				# subnet_str += '%d: ' % _ + ','.join(['%s_%s' % (
 				# 	key, '%.1f' % subset_mean(val, 0) if isinstance(val, list) else val
 				# ) for key, val in subnet_settings.items()]) + ' || '
-	
+    
+				subnet_str = 'Teachernet'
+
+				# output = run_manager.net(images)
+				# loss = run_manager.train_criterion(output, labels)
+				# loss_type = 'ce'
 				output = run_manager.net(images)
-				loss = run_manager.train_criterion(output, labels)
-				loss_type = 'ce'
+				if args.kd_ratio == 0:
+					loss = run_manager.train_criterion(output, labels)
+					loss_type = 'ce'
+				else:
+					if args.kd_type == 'ce':
+						kd_loss = cross_entropy_loss_with_soft_target(output, soft_label)
+					else:
+						kd_loss = F.mse_loss(output, soft_logits)
+					loss = args.kd_ratio * kd_loss + run_manager.train_criterion(output, labels)
+					loss_type = '%.1fkd-%s & ce' % (args.kd_ratio, args.kd_type)
 
 				# measure accuracy and record loss
 				loss_of_subnets.append(loss)

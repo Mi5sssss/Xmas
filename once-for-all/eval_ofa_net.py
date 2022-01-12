@@ -40,7 +40,7 @@ parser.add_argument(
     '-n',
     '--net',
     metavar='OFANET',
-    default='ofa_resnet50',
+    default='ofa_mbv3_d234_e346_k357_w1.0',
     choices=['ofa_mbv3_d234_e346_k357_w1.0', 'ofa_mbv3_d234_e346_k357_w1.2', 'ofa_proxyless_d234_e346_k357_w1.3',
              'ofa_resnet50'],
     help='OFA networks')
@@ -64,6 +64,7 @@ run_config = ImagenetRunConfig(test_batch_size=args.batch_size, n_worker=args.wo
 """
 ofa_network.sample_active_subnet()
 subnet = ofa_network.get_active_subnet(preserve_weight=True)
+print(subnet)
 
 """ Test sampled subnet 
 """

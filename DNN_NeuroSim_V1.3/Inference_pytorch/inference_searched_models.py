@@ -92,7 +92,7 @@ elif args.model == 'DenseNet40':
     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
     modelCF = DenseNet.densenet40(args = args, logger=logger, pretrained = model_path)
 elif args.model == 'ResNet18':
-    from models import ResNet
+    # from models import ResNet
     # FP mode pretrained model, loaded from 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
     # model_path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar'
     # model_path = '/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth'
@@ -108,6 +108,7 @@ elif args.model == 'ResNet18':
     # sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
     sys.path.append('./once-for-all')
     modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
+    # modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/intact_model_best.pth.tar')
     summary(modelCF,input_size =(3,32,32))
     print(modelCF)
 

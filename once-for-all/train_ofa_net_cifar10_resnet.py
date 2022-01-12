@@ -51,9 +51,9 @@ task = expand : kernel depth -> kernel depth width
 if args.task == 'kernel':
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel'
     args.dynamic_batch_size = 1
-    args.n_epochs = 120 # 120 original epochs
+    args.n_epochs = 1 # 120 original epochs
     args.base_lr = 3e-2
-    args.warmup_epochs = 5
+    args.warmup_epochs = 0
     args.warmup_lr = -1
     args.ks_list = '3'  # 3 for cifar10
     args.expand_list = '4'
@@ -143,7 +143,7 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 0
+args.kd_ratio = 1
 args.kd_type = 'ce'
 
 
@@ -219,7 +219,7 @@ if __name__ == '__main__':
     args.teacher_model = ResNet18(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=None,
+        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=0,
     )
     args.teacher_model.float().cuda()
 
@@ -233,18 +233,18 @@ if __name__ == '__main__':
     
     # identify the net of task
     if args.task =='teacher': run_manager_net = args.teacher_model.float()
-    else: run_manager_net = net
+    else: run_manager_net = net.float().cuda()
         
-    run_manager = DistributedRunManager(
+    distributed_run_manager = DistributedRunManager(
         args.path, run_manager_net, run_config, compression, backward_steps=args.dynamic_batch_size, is_root=(hvd.rank() == 0)
     )        
-    run_manager.save_config()
+    distributed_run_manager.save_config()
     # hvd broadcast
-    run_manager.broadcast()
+    distributed_run_manager.broadcast()
     
     # load teacher net weights
     if args.kd_ratio > 0:
-        load_models(run_manager, args.teacher_model, model_path=args.teacher_path)
+        load_models(distributed_run_manager, args.teacher_model, model_path=args.teacher_path)
 
     # training
     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import (
@@ -258,18 +258,18 @@ if __name__ == '__main__':
     
     # train teacher net
     if args.task =='teacher':
-        train_cifar10(run_manager, args, lambda _run_manager, epoch, is_test: validate_cifar10(_run_manager, epoch, is_test, **validate_func_dict))
+        train_cifar10(distributed_run_manager, args, lambda _run_manager, epoch, is_test: validate_cifar10(_run_manager, epoch, is_test, **validate_func_dict))
         
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
-        if run_manager.start_epoch == 0:
+        if distributed_run_manager.start_epoch == 0:
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar"
-            # load_models(run_manager, run_manager.net, args.ofa_checkpoint_path)
-            run_manager.write_log(
-                '%.3f\t%.3f\t%.3f\t%s' % validate(run_manager, is_test=True, **validate_func_dict), 'valid')
+            # load_models(distributed_run_manager, distributed_run_manager.net, args.ofa_checkpoint_path)
+            distributed_run_manager.write_log(
+                '%.3f\t%.3f\t%.3f\t%s' % validate(distributed_run_manager, is_test=True, **validate_func_dict), 'valid')
         else:
             assert args.resume
-        train(run_manager, args,
+        train(distributed_run_manager, args,
               lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict))
     
     elif args.task == 'depth':
@@ -279,7 +279,7 @@ if __name__ == '__main__':
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar"
         else:
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar"
-        train_elastic_depth(train, run_manager, args, validate_func_dict)
+        train_elastic_depth(train, distributed_run_manager, args, validate_func_dict)
     
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
@@ -288,7 +288,7 @@ if __name__ == '__main__':
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/checkpoint/model_best.pth.tar"
         else:
             args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/checkpoint/model_best.pth.tar"
-        train_elastic_expand(train, run_manager, args, validate_func_dict)
+        train_elastic_expand(train, distributed_run_manager, args, validate_func_dict)
     
     else:
         raise NotImplementedError    

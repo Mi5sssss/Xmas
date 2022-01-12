@@ -9,12 +9,15 @@ import torch
 import random
 from utee import wage_quantizer
 from utee import float_quantizer
+import sys
 
 def Neural_Sim(self, input, output): 
     global model_n, FP
     # Rick: in order to make the file name different
     count1 = random.randint(0,20)
     count2 = random.randint(0,20)
+    # print('sys._getframe()   ', sys._getframe(1).f_code)
+    # print('self.name',  self.name.data)
     print("quantize layer ", self.name,str(count1),'_',str(count2))
     input_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/input' + str(self.name)+str(count1)+'_'+str(count2) + '.csv'
     weight_file_name =  '/home/rick/nas_rram/neurosim_log/layer_record_' + str(model_n) + '/weight' + str(self.name)+str(count1)+'_'+str(count2)+ '.csv'
