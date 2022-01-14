@@ -295,8 +295,8 @@ class OFAResNets18(ResNets):
 				make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE) for width_mult in self.width_mult_list
 			]
 		
-		# n_block_list = [base_depth + max(self.depth_list) for base_depth in ResNets.BASE_DEPTH_LIST]
-		n_block_list = [max(base_depth, max(self.depth_list)) for base_depth in ResNets.BASE_DEPTH_LIST]
+		n_block_list = [base_depth + max(self.depth_list) for base_depth in ResNets.BASE_DEPTH_LIST]
+		# n_block_list = [max(base_depth, max(self.depth_list)) for base_depth in ResNets.BASE_DEPTH_LIST]
 		# n_block_list = 4
 		print("n_block_list = ", n_block_list)
   

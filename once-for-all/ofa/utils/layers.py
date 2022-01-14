@@ -18,7 +18,7 @@ from quantization_cpu_np_infer import QConv2d, QLinear
 __all__ = [
 	'set_layer_from_config',
 	'ConvLayer', 'IdentityLayer', 'LinearLayer', 'MultiHeadLinearLayer', 'ZeroLayer', 'MBConvLayer',
-	'ResidualBlock', 'ResNetBottleneckBlock',
+	'ResidualBlock', 'ResNetBottleneckBlock', 'ResNetBasicBlock'
 ]
 
 
@@ -37,6 +37,7 @@ def set_layer_from_config(layer_config):
 		##########################################################
 		ResidualBlock.__name__: ResidualBlock,
 		ResNetBottleneckBlock.__name__: ResNetBottleneckBlock,
+		ResNetBasicBlock.__name__: ResNetBasicBlock,
 	}
 
 	layer_name = layer_config.pop('name')
@@ -612,7 +613,7 @@ class ResNetBottleneckBlock(MyModule):
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
 			self.downsample = nn.Sequential(OrderedDict([
-				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
+				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=kernel_size, padding=0, ceil_mode=True)),
 				('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
@@ -702,8 +703,8 @@ class ResNetBasicBlock(MyModule):
 		self.conv2 = nn.Sequential(OrderedDict([
 			# ('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
 			# ('conv', QConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
-			('conv', FConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
-			('bn', nn.BatchNorm2d(feature_dim))
+			('conv', FConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+			('bn', nn.BatchNorm2d(self.out_channels))
 		]))
 
 		if stride == 1 and in_channels == out_channels:
@@ -712,7 +713,7 @@ class ResNetBasicBlock(MyModule):
 			self.downsample = nn.Sequential(OrderedDict([
 				# ('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				# ('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
-				('conv', FConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':

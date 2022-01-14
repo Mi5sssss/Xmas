@@ -666,8 +666,8 @@ class DynamicResNetBasicBlock(MyModule):
         # pad = get_same_padding(self.kernel_size)
         self.conv2 = nn.Sequential(OrderedDict([
             # ('conv', DynamicConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
-            ('conv', DynamicFConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
-            ('bn', DynamicBatchNorm2d(max_middle_channel)),
+            ('conv', DynamicFConv2d(max_middle_channel, max(self.out_channel_list), kernel_size, stride)),
+            ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),
         ]))
 
 
@@ -682,6 +682,7 @@ class DynamicResNetBasicBlock(MyModule):
         elif self.downsample_mode == 'avgpool_conv':
             self.downsample = nn.Sequential(OrderedDict([
                 ('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
+                # ('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
                 # ('conv', DynamicConv2d(max(self.in_channel_list), max(self.out_channel_list))),
                 ('conv', DynamicFConv2d(max(self.in_channel_list), max(self.out_channel_list))),
                 ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),

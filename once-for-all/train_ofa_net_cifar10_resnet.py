@@ -143,7 +143,7 @@ args.width_mult_list = '1.0'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
-args.kd_ratio = 0
+args.kd_ratio = 1
 args.kd_type = 'ce'
 
 

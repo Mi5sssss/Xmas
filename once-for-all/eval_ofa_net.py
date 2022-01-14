@@ -55,13 +55,14 @@ os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 args.batch_size = args.batch_size * max(len(device_list), 1)
 ImagenetDataProvider.DEFAULT_PATH = args.path
 
-ofa_network = ofa_net(args.net, pretrained=True)
+ofa_network = ofa_net(args.net, pretrained=False)
 run_config = ImagenetRunConfig(test_batch_size=args.batch_size, n_worker=args.workers)
 
 """ Randomly sample a sub-network, 
     you can also manually set the sub-network using: 
         ofa_network.set_active_subnet(ks=7, e=6, d=4) 
 """
+# print(ofa_network)
 ofa_network.sample_active_subnet()
 subnet = ofa_network.get_active_subnet(preserve_weight=True)
 print(subnet)
