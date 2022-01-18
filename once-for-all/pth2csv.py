@@ -165,23 +165,19 @@ def pth2csv_official(pth_path = '/home/rick/nas_rram/ofa_data/neurosim_model/res
     print('Transform done.')  
         
 def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar',
-                  template_path='/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth',
                   target_path='/home/rick/nas_rram/ofa_data/modified_model/resnet_18'):
     '''This is function help to change the keys in ofa trained model to the neurosim input.
 
     Args:
         ofa_path (str): The path of .pth format file.
-        template_path (str): The template path of the target.
         target_path (str): The path where you want to save the neurosim-like .pth files.
 
     Returns:
         None
     '''
     ofa_model = torch.load(ofa_path)
-    template_model = torch.load(template_path)
     state_dict = ofa_model['state_dict']
     
-    target_model = collections.OrderedDict.fromkeys(template_model.keys()) # start a target dictionary
     # print(template_model.keys())
     tem_target_model = collections.OrderedDict.fromkeys(()) # start a target dictionary
     # target_model = dict.fromkeys(()) # start a target dictionary
@@ -202,7 +198,6 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
     
     for i in state_dict:
         if not 'num_batches_tracked' in i:
-            
             # input layer
             if 'input_stem.0.' in i:
                 if 'conv.weight' in i:
@@ -239,7 +234,9 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
                     
             # block layer
             else:
-            # in layerA.B.convC // BlockN, ConvC // N = 4A+2B+C-5 
+            # in layerA.B.convC // BlockN, ConvC // N = 4A+2B+C-5 // wrong 
+            
+            # in layerA.B.convC // BlockN, ConvC // N = 2A+B-2 
                 if 'blocks.' in i:
                     if (i[i.index('blocks.')+len('blocks.')+1] == '.'):
                         N = int(i[i.index('blocks.')+len('blocks.')])
@@ -251,75 +248,77 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
                 # print(N,C)
                 
                 for B in [0,1]:
-                    if (N+5-C-2*B)%4 == 0:
-                        A = int((N+5-C-2*B)/4)
-                        break
-                # print(A,B,C,N)
+                    # if (N+5-C-2*B)%4 == 0:
+                    #     A = int((N+5-C-2*B)/4)
+                    A = int((N+2-B)/2)
+                        # break
+                    print(A,B,N,C)
                 
-                if 'conv'+str(C) in i:
-                    if 'conv.weight' in i:
-                        tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                               'conv'+str(C)+'.weight':state_dict[i]}
-                        tem_target_model.update(tem)
-                        tem.clear()
-                    if 'bn.' in i:
-                        if 'weight' in i:
+                    if 'conv'+str(C) in i:
+                        if 'conv.weight' in i:
                             tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                   'bn'+str(C)+'.weight':state_dict[i]}
+                                'conv'+str(C)+'.weight':state_dict[i]}
                             tem_target_model.update(tem)
                             tem.clear()
-                        if 'bias' in i:  
+                        if 'bn.' in i:
+                            if 'weight' in i:
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                    'bn'+str(C)+'.weight':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
+                            if 'bias' in i:  
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                    'bn'+str(C)+'.bias':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
+                            if 'running_mean' in i:
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                    'bn'+str(C)+'.running_mean':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
+                            if 'running_var' in i:
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                    'bn'+str(C)+'.running_var':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear() 
+                                # tem = {'layer'+str(A)+'.'+str(B)+'.'+str()
+                                #        :state_dict[i]}
+                                # tem_target_model.update(tem)
+                                # tem.clear()
+                                
+                    if 'downsample.' in i:
+                        if 'conv.weight' in i:
                             tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                   'bn'+str(C)+'.bias':state_dict[i]}
+                                    'downsample.0'+'.weight':state_dict[i]}
                             tem_target_model.update(tem)
                             tem.clear()
-                        if 'running_mean' in i:
-                            tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                   'bn'+str(C)+'.running_mean':state_dict[i]}
-                            tem_target_model.update(tem)
-                            tem.clear()
-                        if 'running_var' in i:
-                            tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                   'bn'+str(C)+'.running_var':state_dict[i]}
-                            tem_target_model.update(tem)
-                            tem.clear() 
-                            # tem = {'layer'+str(A)+'.'+str(B)+'.'+str()
-                            #        :state_dict[i]}
-                            # tem_target_model.update(tem)
-                            # tem.clear()
-                            
-                if 'downsample.' in i:
-                    if 'conv.weight' in i:
-                        tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                'downsample.0'+'.weight':state_dict[i]}
-                        tem_target_model.update(tem)
-                        tem.clear()
-                    if 'bn.' in i:
-                        if 'weight' in i:
-                            tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                    'downsample.1'+'.weight':state_dict[i]}
-                            tem_target_model.update(tem)
-                            tem.clear()
-                        if 'bias' in i:  
-                            tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                    'downsample.1'+'.bias':state_dict[i]}
-                            tem_target_model.update(tem)
-                            tem.clear()
-                        if 'running_mean' in i:
-                            tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                    'downsample.1'+'.running_mean':state_dict[i]}
-                            tem_target_model.update(tem)
-                            tem.clear()
-                        if 'running_var' in i:
-                            tem = {'layer'+str(A)+'.'+str(B)+'.'+
-                                    'downsample.1'+'.running_var':state_dict[i]}
-                            tem_target_model.update(tem)
-                            tem.clear() 
+                        if 'bn.' in i:
+                            if 'weight' in i:
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                        'downsample.1'+'.weight':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
+                            if 'bias' in i:  
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                        'downsample.1'+'.bias':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
+                            if 'running_mean' in i:
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                        'downsample.1'+'.running_mean':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
+                            if 'running_var' in i:
+                                tem = {'layer'+str(A)+'.'+str(B)+'.'+
+                                        'downsample.1'+'.running_var':state_dict[i]}
+                                tem_target_model.update(tem)
+                                tem.clear()
                     
 
                     
                     
         # print(i+':'+str(tem_target_model[i].data.size()))
+    print(state_dict.keys())
     print(tem_target_model.keys())
     torch.save(tem_target_model, target_path+'/target_model.pth',
                _use_new_zipfile_serialization=False)

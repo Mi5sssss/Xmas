@@ -1,0 +1,619 @@
+Run config:
+	n_epochs: 120
+	init_lr: 0.0075
+	lr_schedule_type: cosine
+	lr_schedule_param: None
+	dataset: cifar10
+	train_batch_size: 16
+	test_batch_size: 64
+	valid_size: 10000
+	opt_type: sgd
+	opt_param: {'momentum': 0.9, 'nesterov': True}
+	weight_decay: 0.0003
+	label_smoothing: 0.1
+	no_decay_keys: bn#bias
+	mixup_alpha: None
+	model_init: he_fout
+	validation_frequency: 1
+	print_frequency: 10
+	n_worker: 8
+	resize_scale: 0.08
+	distort_color: tf
+	image_size: 32
+Color jitter: tf, resize_scale: 0.08, img_size: 32
+Run config:
+	n_epochs: 120
+	init_lr: 0.0075
+	lr_schedule_type: cosine
+	lr_schedule_param: None
+	dataset: cifar10
+	train_batch_size: 16
+	test_batch_size: 64
+	valid_size: 10000
+	opt_type: sgd
+	opt_param: {'momentum': 0.9, 'nesterov': True}
+	weight_decay: 0.0003
+	label_smoothing: 0.1
+	no_decay_keys: bn#bias
+	mixup_alpha: None
+	model_init: he_fout
+	validation_frequency: 1
+	print_frequency: 10
+	n_worker: 8
+	resize_scale: 0.08
+	distort_color: tf
+	image_size: 32
+Color jitter: tf, resize_scale: 0.08, img_size: 32
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Use MyDistributedSampler: 20000, 40000
+Use MyDistributedSampler: 5000, 10000
+Use MyDistributedSampler: 20000, 40000
+Use MyDistributedSampler: 5000, 10000
+Files already downloaded and verified
+Files already downloaded and verified
+n_block_list =  [5, 5, 5, 5]
+n_block_list =  [5, 5, 5, 5]
+self.run_config.data_provider.data_shape (3, 32, 32)
+OFAResNets18(
+  (input_stem): ModuleList(
+    (0): DynamicConvLayer(
+      (conv): DynamicConv2d(
+        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), bias=False)
+      )
+      (bn): DynamicBatchNorm2d(
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (act): ReLU(inplace=True)
+    )
+    (1): ResidualBlock(
+      (conv): DynamicConvLayer(
+        (conv): DynamicConv2d(
+          (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (shortcut): IdentityLayer()
+    )
+    (2): DynamicConvLayer(
+      (conv): DynamicConv2d(
+        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+      )
+      (bn): DynamicBatchNorm2d(
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (act): ReLU(inplace=True)
+    )
+  )
+  (max_pooling): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (blocks): ModuleList(
+    (0): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): Sequential(
+        (avg_pool): AvgPool2d(kernel_size=1, stride=1, padding=0)
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 8, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (final_act): ReLU(inplace=True)
+    )
+    (1): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (2): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (3): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (4): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (5): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(2, 2), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): Sequential(
+        (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 8, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (final_act): ReLU(inplace=True)
+    )
+    (6): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (7): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (8): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (9): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (10): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(2, 2), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): Sequential(
+        (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 8, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (final_act): ReLU(inplace=True)
+    )
+    (11): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (12): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (13): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (14): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 32, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(32, 8, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (15): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 16, kernel_size=(3, 3), stride=(2, 2), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): Sequential(
+        (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(8, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (final_act): ReLU(inplace=True)
+    )
+    (16): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(16, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 16, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (17): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(16, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 16, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (18): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(16, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 16, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+    (19): DynamicResNetBasicBlock(
+      (conv1): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(16, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (conv): DynamicFConv2d(
+          (conv): FConv2d(64, 16, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        )
+        (bn): DynamicBatchNorm2d(
+          (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): IdentityLayer()
+      (final_act): ReLU(inplace=True)
+    )
+  )
+  (global_avg_pool): MyGlobalAvgPool2d(keep_dim=False)
+  (classifier): DynamicLinearLayer(
+    (dropout): Dropout(p=0.1, inplace=True)
+    (linear): DynamicFLinear(
+      (linear): FLinear(in_features=16, out_features=10, bias=True)
+    )
+  )
+)
+Total training params: 0.20M
+Total FLOPs: 0.00M
+Network configs dump to /home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase12/net.config
+Loaded init from /home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar
+Loaded init from /home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar
+Files already downloaded and verified
+Files already downloaded and verified
+Validate Epoch #1 R32-D2-E4-K3-W0:   0%|          | 0/79 [00:00<?, ?it/s]Validate Epoch #1 R32-D2-E4-K3-W0:   0%|          | 0/79 [00:00<?, ?it/s, loss=2.07, top1=33.6, top5=83.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   1%|▏         | 1/79 [00:00<01:14,  1.05it/s, loss=2.07, top1=33.6, top5=83.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   1%|▏         | 1/79 [00:00<01:14,  1.05it/s, loss=2.08, top1=27.7, top5=78.1, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   3%|▎         | 2/79 [00:00<01:13,  1.05it/s, loss=2.07, top1=27.1, top5=79.2, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   4%|▍         | 3/79 [00:00<01:12,  1.05it/s, loss=2.12, top1=24.8, top5=78.1, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   5%|▌         | 4/79 [00:01<01:11,  1.05it/s, loss=2.13, top1=26.6, top5=78, img_size=32]  Validate Epoch #1 R32-D2-E4-K3-W0:   6%|▋         | 5/79 [00:01<01:10,  1.05it/s, loss=2.11, top1=26.7, top5=77.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   8%|▊         | 6/79 [00:01<01:09,  1.05it/s, loss=2.08, top1=27.1, top5=78.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:   9%|▉         | 7/79 [00:01<01:08,  1.05it/s, loss=2.1, top1=27.6, top5=78.1, img_size=32] Validate Epoch #1 R32-D2-E4-K3-W0:  10%|█         | 8/79 [00:01<01:07,  1.05it/s, loss=2.12, top1=27.4, top5=78.3, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  11%|█▏        | 9/79 [00:01<00:06, 11.17it/s, loss=2.12, top1=27.4, top5=78.3, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  11%|█▏        | 9/79 [00:01<00:06, 11.17it/s, loss=2.14, top1=26.5, top5=77.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  13%|█▎        | 10/79 [00:01<00:06, 11.17it/s, loss=2.14, top1=26.3, top5=77.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  14%|█▍        | 11/79 [00:01<00:06, 11.17it/s, loss=2.13, top1=26.4, top5=78.1, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  15%|█▌        | 12/79 [00:01<00:05, 11.17it/s, loss=2.13, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  16%|█▋        | 13/79 [00:01<00:05, 11.17it/s, loss=2.13, top1=27.1, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  18%|█▊        | 14/79 [00:01<00:05, 11.17it/s, loss=2.12, top1=27.2, top5=79.2, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  19%|█▉        | 15/79 [00:01<00:05, 11.17it/s, loss=2.11, top1=27.4, top5=79.5, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  20%|██        | 16/79 [00:01<00:03, 20.04it/s, loss=2.11, top1=27.4, top5=79.5, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  20%|██        | 16/79 [00:01<00:03, 20.04it/s, loss=2.12, top1=27.3, top5=79.3, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  22%|██▏       | 17/79 [00:01<00:03, 20.04it/s, loss=2.11, top1=27.6, top5=79.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  23%|██▎       | 18/79 [00:01<00:03, 20.04it/s, loss=2.11, top1=27.5, top5=79.5, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  24%|██▍       | 19/79 [00:01<00:02, 20.04it/s, loss=2.11, top1=27.7, top5=79.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  25%|██▌       | 20/79 [00:01<00:02, 20.04it/s, loss=2.11, top1=27.5, top5=79.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  27%|██▋       | 21/79 [00:01<00:02, 20.04it/s, loss=2.11, top1=27.4, top5=79.5, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  28%|██▊       | 22/79 [00:01<00:02, 20.04it/s, loss=2.11, top1=27.6, top5=79.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  29%|██▉       | 23/79 [00:01<00:02, 20.04it/s, loss=2.1, top1=27.8, top5=79.9, img_size=32] Validate Epoch #1 R32-D2-E4-K3-W0:  30%|███       | 24/79 [00:01<00:01, 30.23it/s, loss=2.1, top1=27.8, top5=79.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  30%|███       | 24/79 [00:01<00:01, 30.23it/s, loss=2.1, top1=27.8, top5=79.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  32%|███▏      | 25/79 [00:01<00:01, 30.23it/s, loss=2.09, top1=27.8, top5=79.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  33%|███▎      | 26/79 [00:01<00:01, 30.23it/s, loss=2.1, top1=27.6, top5=79.7, img_size=32] Validate Epoch #1 R32-D2-E4-K3-W0:  34%|███▍      | 27/79 [00:01<00:01, 30.23it/s, loss=2.1, top1=27.5, top5=79.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  35%|███▌      | 28/79 [00:01<00:01, 30.23it/s, loss=2.09, top1=27.6, top5=79.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  37%|███▋      | 29/79 [00:01<00:01, 30.23it/s, loss=2.09, top1=27.6, top5=79.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  38%|███▊      | 30/79 [00:01<00:01, 30.23it/s, loss=2.08, top1=27.7, top5=80, img_size=32]  Validate Epoch #1 R32-D2-E4-K3-W0:  39%|███▉      | 31/79 [00:01<00:01, 30.23it/s, loss=2.09, top1=27.5, top5=79.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  41%|████      | 32/79 [00:01<00:01, 39.54it/s, loss=2.09, top1=27.5, top5=79.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  41%|████      | 32/79 [00:01<00:01, 39.54it/s, loss=2.09, top1=27.6, top5=79.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  42%|████▏     | 33/79 [00:01<00:01, 39.54it/s, loss=2.09, top1=27.7, top5=79.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  43%|████▎     | 34/79 [00:01<00:01, 39.54it/s, loss=2.08, top1=27.6, top5=79.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  44%|████▍     | 35/79 [00:01<00:01, 39.54it/s, loss=2.08, top1=27.9, top5=79.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  46%|████▌     | 36/79 [00:01<00:01, 39.54it/s, loss=2.08, top1=28, top5=79.9, img_size=32]  Validate Epoch #1 R32-D2-E4-K3-W0:  47%|████▋     | 37/79 [00:01<00:01, 39.54it/s, loss=2.07, top1=27.9, top5=79.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  48%|████▊     | 38/79 [00:01<00:01, 39.54it/s, loss=2.08, top1=27.7, top5=79.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  49%|████▉     | 39/79 [00:01<00:00, 45.68it/s, loss=2.08, top1=27.7, top5=79.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  49%|████▉     | 39/79 [00:01<00:00, 45.68it/s, loss=2.08, top1=27.6, top5=79.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  51%|█████     | 40/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.5, top5=79.4, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  52%|█████▏    | 41/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.2, top5=79.3, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  53%|█████▎    | 42/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.3, top5=79.3, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  54%|█████▍    | 43/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.1, top5=79.2, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  56%|█████▌    | 44/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.2, top5=79.2, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  57%|█████▋    | 45/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.2, top5=79.3, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  58%|█████▊    | 46/79 [00:01<00:00, 45.68it/s, loss=2.09, top1=27.1, top5=79.1, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  59%|█████▉    | 47/79 [00:01<00:00, 52.53it/s, loss=2.09, top1=27.1, top5=79.1, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  59%|█████▉    | 47/79 [00:01<00:00, 52.53it/s, loss=2.09, top1=27.1, top5=79, img_size=32]  Validate Epoch #1 R32-D2-E4-K3-W0:  61%|██████    | 48/79 [00:01<00:00, 52.53it/s, loss=2.1, top1=27, top5=79, img_size=32]   Validate Epoch #1 R32-D2-E4-K3-W0:  62%|██████▏   | 49/79 [00:01<00:00, 52.53it/s, loss=2.1, top1=26.9, top5=78.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  63%|██████▎   | 50/79 [00:01<00:00, 52.53it/s, loss=2.1, top1=26.8, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  65%|██████▍   | 51/79 [00:01<00:00, 52.53it/s, loss=2.1, top1=26.9, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  66%|██████▌   | 52/79 [00:01<00:00, 52.53it/s, loss=2.1, top1=26.8, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  67%|██████▋   | 53/79 [00:01<00:00, 52.53it/s, loss=2.1, top1=26.8, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  68%|██████▊   | 54/79 [00:01<00:00, 56.67it/s, loss=2.1, top1=26.8, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  68%|██████▊   | 54/79 [00:01<00:00, 56.67it/s, loss=2.1, top1=26.8, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  70%|██████▉   | 55/79 [00:01<00:00, 56.67it/s, loss=2.1, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  71%|███████   | 56/79 [00:01<00:00, 56.67it/s, loss=2.09, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  72%|███████▏  | 57/79 [00:01<00:00, 56.67it/s, loss=2.09, top1=26.6, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  73%|███████▎  | 58/79 [00:01<00:00, 56.67it/s, loss=2.09, top1=26.7, top5=78.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  75%|███████▍  | 59/79 [00:01<00:00, 56.67it/s, loss=2.09, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  76%|███████▌  | 60/79 [00:01<00:00, 56.67it/s, loss=2.09, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  77%|███████▋  | 61/79 [00:01<00:00, 56.67it/s, loss=2.09, top1=26.7, top5=78.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  78%|███████▊  | 62/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.7, top5=78.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  78%|███████▊  | 62/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.8, top5=79, img_size=32]  Validate Epoch #1 R32-D2-E4-K3-W0:  80%|███████▉  | 63/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.9, top5=78.9, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  81%|████████  | 64/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.9, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  82%|████████▏ | 65/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.9, top5=78.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  84%|████████▎ | 66/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.9, top5=78.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  85%|████████▍ | 67/79 [00:01<00:00, 61.62it/s, loss=2.09, top1=26.8, top5=78.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  86%|████████▌ | 68/79 [00:01<00:00, 61.62it/s, loss=2.1, top1=26.8, top5=78.6, img_size=32] Validate Epoch #1 R32-D2-E4-K3-W0:  87%|████████▋ | 69/79 [00:01<00:00, 61.62it/s, loss=2.1, top1=26.8, top5=78.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  89%|████████▊ | 70/79 [00:01<00:00, 61.62it/s, loss=2.1, top1=26.7, top5=78.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  90%|████████▉ | 71/79 [00:01<00:00, 61.62it/s, loss=2.1, top1=26.7, top5=78.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  91%|█████████ | 72/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  91%|█████████ | 72/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.6, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  92%|█████████▏| 73/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  94%|█████████▎| 74/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.8, top5=78.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  95%|█████████▍| 75/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  96%|█████████▌| 76/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.7, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  97%|█████████▋| 77/79 [00:01<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0:  99%|█████████▊| 78/79 [00:02<00:00, 69.96it/s, loss=2.1, top1=26.7, top5=78.8, img_size=32]Validate Epoch #1 R32-D2-E4-K3-W0: 100%|██████████| 79/79 [00:02<00:00, 37.11it/s, loss=2.1, top1=26.7, top5=78.8, img_size=32]
+Validate Epoch #1 R32-D3-E4-K3-W0:   0%|          | 0/79 [00:00<?, ?it/s]Validate Epoch #1 R32-D3-E4-K3-W0:   0%|          | 0/79 [00:00<?, ?it/s, loss=1.69, top1=34.4, top5=91.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   1%|▏         | 1/79 [00:00<00:57,  1.37it/s, loss=1.69, top1=34.4, top5=91.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   1%|▏         | 1/79 [00:00<00:57,  1.37it/s, loss=1.77, top1=31.2, top5=89.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   3%|▎         | 2/79 [00:00<00:56,  1.37it/s, loss=1.79, top1=30.7, top5=87.5, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   4%|▍         | 3/79 [00:00<00:55,  1.37it/s, loss=1.8, top1=31.8, top5=87.7, img_size=32] Validate Epoch #1 R32-D3-E4-K3-W0:   5%|▌         | 4/79 [00:00<00:54,  1.37it/s, loss=1.79, top1=32.8, top5=87.2, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   6%|▋         | 5/79 [00:00<00:54,  1.37it/s, loss=1.79, top1=34, top5=86.8, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:   8%|▊         | 6/79 [00:00<00:53,  1.37it/s, loss=1.77, top1=34.8, top5=87.6, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   9%|▉         | 7/79 [00:00<00:06, 10.75it/s, loss=1.77, top1=34.8, top5=87.6, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:   9%|▉         | 7/79 [00:00<00:06, 10.75it/s, loss=1.78, top1=35.2, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  10%|█         | 8/79 [00:00<00:06, 10.75it/s, loss=1.8, top1=35.1, top5=87.3, img_size=32] Validate Epoch #1 R32-D3-E4-K3-W0:  11%|█▏        | 9/79 [00:00<00:06, 10.75it/s, loss=1.8, top1=34.3, top5=87, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  13%|█▎        | 10/79 [00:00<00:06, 10.75it/s, loss=1.8, top1=34.4, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  14%|█▍        | 11/79 [00:00<00:06, 10.75it/s, loss=1.81, top1=34.2, top5=86.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  15%|█▌        | 12/79 [00:00<00:06, 10.75it/s, loss=1.79, top1=34.6, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  16%|█▋        | 13/79 [00:00<00:03, 19.71it/s, loss=1.79, top1=34.6, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  16%|█▋        | 13/79 [00:00<00:03, 19.71it/s, loss=1.78, top1=35, top5=87.4, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  18%|█▊        | 14/79 [00:00<00:03, 19.71it/s, loss=1.78, top1=35.3, top5=87.6, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  19%|█▉        | 15/79 [00:00<00:03, 19.71it/s, loss=1.78, top1=35.4, top5=87.6, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  20%|██        | 16/79 [00:01<00:03, 19.71it/s, loss=1.78, top1=35.4, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  22%|██▏       | 17/79 [00:01<00:03, 19.71it/s, loss=1.78, top1=35.5, top5=87.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  23%|██▎       | 18/79 [00:01<00:03, 19.71it/s, loss=1.78, top1=35.4, top5=87.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  24%|██▍       | 19/79 [00:01<00:03, 19.71it/s, loss=1.79, top1=35, top5=87.3, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  25%|██▌       | 20/79 [00:01<00:01, 30.04it/s, loss=1.79, top1=35, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  25%|██▌       | 20/79 [00:01<00:01, 30.04it/s, loss=1.79, top1=34.7, top5=87.5, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  27%|██▋       | 21/79 [00:01<00:01, 30.04it/s, loss=1.79, top1=34.6, top5=87.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  28%|██▊       | 22/79 [00:01<00:01, 30.04it/s, loss=1.79, top1=34.8, top5=87.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  29%|██▉       | 23/79 [00:01<00:01, 30.04it/s, loss=1.79, top1=35.1, top5=87.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  30%|███       | 24/79 [00:01<00:01, 30.04it/s, loss=1.78, top1=35.2, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  32%|███▏      | 25/79 [00:01<00:01, 30.04it/s, loss=1.79, top1=35.2, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  33%|███▎      | 26/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.2, top5=87.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  33%|███▎      | 26/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.1, top5=87.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  34%|███▍      | 27/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.2, top5=87.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  35%|███▌      | 28/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.2, top5=87.2, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  37%|███▋      | 29/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.2, top5=87.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  38%|███▊      | 30/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.2, top5=86.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  39%|███▉      | 31/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35, top5=86.8, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  41%|████      | 32/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.3, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  42%|████▏     | 33/79 [00:01<00:01, 36.86it/s, loss=1.79, top1=35.2, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  43%|████▎     | 34/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=35.2, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  43%|████▎     | 34/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=35.1, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  44%|████▍     | 35/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=35.2, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  46%|████▌     | 36/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=35, top5=86.7, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  47%|████▋     | 37/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=35.1, top5=86.8, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  48%|████▊     | 38/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=35.1, top5=86.8, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  49%|████▉     | 39/79 [00:01<00:00, 45.47it/s, loss=1.79, top1=34.9, top5=86.7, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  51%|█████     | 40/79 [00:01<00:00, 45.47it/s, loss=1.8, top1=34.9, top5=86.6, img_size=32] Validate Epoch #1 R32-D3-E4-K3-W0:  52%|█████▏    | 41/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=34.9, top5=86.6, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  52%|█████▏    | 41/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=34.8, top5=86.5, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  53%|█████▎    | 42/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=34.9, top5=86.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  54%|█████▍    | 43/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=35, top5=86.3, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  56%|█████▌    | 44/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=34.9, top5=86.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  57%|█████▋    | 45/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=34.9, top5=86.4, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  58%|█████▊    | 46/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=35, top5=86.4, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  59%|█████▉    | 47/79 [00:01<00:00, 50.16it/s, loss=1.8, top1=35, top5=86.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  61%|██████    | 48/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=35, top5=86.3, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  61%|██████    | 48/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=35.1, top5=86.2, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  62%|██████▏   | 49/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=35, top5=86.2, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  63%|██████▎   | 50/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=34.9, top5=86.1, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  65%|██████▍   | 51/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=35, top5=86.1, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  66%|██████▌   | 52/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=35, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  67%|██████▋   | 53/79 [00:01<00:00, 52.25it/s, loss=1.8, top1=35, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  68%|██████▊   | 54/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  68%|██████▊   | 54/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  70%|██████▉   | 55/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  71%|███████   | 56/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=85.9, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  72%|███████▏  | 57/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=86, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  73%|███████▎  | 58/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  75%|███████▍  | 59/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  76%|███████▌  | 60/79 [00:01<00:00, 53.01it/s, loss=1.8, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  77%|███████▋  | 61/79 [00:01<00:00, 56.17it/s, loss=1.8, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  77%|███████▋  | 61/79 [00:01<00:00, 56.17it/s, loss=1.81, top1=34.9, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  78%|███████▊  | 62/79 [00:01<00:00, 56.17it/s, loss=1.8, top1=34.9, top5=86, img_size=32] Validate Epoch #1 R32-D3-E4-K3-W0:  80%|███████▉  | 63/79 [00:01<00:00, 56.17it/s, loss=1.8, top1=35, top5=86, img_size=32]  Validate Epoch #1 R32-D3-E4-K3-W0:  81%|████████  | 64/79 [00:01<00:00, 56.17it/s, loss=1.8, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  82%|████████▏ | 65/79 [00:01<00:00, 56.17it/s, loss=1.81, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  84%|████████▎ | 66/79 [00:01<00:00, 56.17it/s, loss=1.81, top1=35, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  85%|████████▍ | 67/79 [00:01<00:00, 56.17it/s, loss=1.8, top1=35, top5=86, img_size=32] Validate Epoch #1 R32-D3-E4-K3-W0:  86%|████████▌ | 68/79 [00:01<00:00, 56.17it/s, loss=1.81, top1=34.9, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  87%|████████▋ | 69/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=86, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  87%|████████▋ | 69/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  89%|████████▊ | 70/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  90%|████████▉ | 71/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.8, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  91%|█████████ | 72/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.8, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  92%|█████████▏| 73/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  94%|█████████▎| 74/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  95%|█████████▍| 75/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.8, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  96%|█████████▌| 76/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  97%|█████████▋| 77/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0:  99%|█████████▊| 78/79 [00:01<00:00, 62.25it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0: 100%|██████████| 79/79 [00:01<00:00, 71.17it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]Validate Epoch #1 R32-D3-E4-K3-W0: 100%|██████████| 79/79 [00:02<00:00, 38.94it/s, loss=1.81, top1=34.9, top5=85.9, img_size=32]1.954	30.780	82.365	R32-D2-E4-K3-W0 (26.690), R32-D3-E4-K3-W0 (34.870), 
+------------------------------Supporting Elastic Depth: [3] -> [3, 2]------------------------------
+
+Train Epoch #1:   0%|          | 0/1250 [00:00<?, ?it/s]Train Epoch #1:   0%|          | 0/1250 [00:03<?, ?it/s, loss=4.51, top1=21.9, top5=67.2, R=32, lr=0.0075, loss_type=1.0kd-ce & ce, seed=1000, str=0: d_2.0,e_4.0,w_0.0 || 1: d_3.0,e_4.0,w_0.0 ||, data_time=0.328]Train Epoch #1:   0%|          | 1/1250 [00:03<1:11:22,  3.43s/it, loss=4.51, top1=21.9, top5=67.2, R=32, lr=0.0075, loss_type=1.0kd-ce & ce, seed=1000, str=0: d_2.0,e_4.0,w_0.0 || 1: d_3.0,e_4.0,w_0.0 ||, data_time=0.328]Train Epoch #1:   0%|          | 1/1250 [00:03<1:14:20,  3.57s/it, loss=4.51, top1=21.9, top5=67.2, R=32, lr=0.0075, loss_type=1.0kd-ce & ce, seed=1000, str=0: d_2.0,e_4.0,w_0.0 || 1: d_3.0,e_4.0,w_0.0 ||, data_time=0.328]
+Traceback (most recent call last):
+  File "./once-for-all/train_ofa_net_cifar10_resnet.py", line 282, in <module>
+    train_elastic_depth(train, distributed_run_manager, args, validate_func_dict)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/training/progressive_shrinking.py", line 393, in train_elastic_depth
+    lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/training/progressive_shrinking.py", line 299, in train
+    run_manager, args, epoch, args.warmup_epochs, args.warmup_lr)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/training/progressive_shrinking.py", line 174, in train_one_epoch
+    loss.backward()
+  File "/home/hp/anaconda3/envs/ofa/lib/python3.7/site-packages/torch/_tensor.py", line 307, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "/home/hp/anaconda3/envs/ofa/lib/python3.7/site-packages/torch/autograd/__init__.py", line 156, in backward
+    allow_unreachable=True, accumulate_grad=True)  # allow_unreachable flag
+RuntimeError: CUDA out of memory. Tried to allocate 18.00 MiB (GPU 0; 7.79 GiB total capacity; 5.90 MiB already allocated; 27.00 MiB free; 8.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Traceback (most recent call last):
+  File "/home/hp/anaconda3/envs/ofa/lib/python3.7/site-packages/horovod/torch/mpi_ops.py", line 944, in synchronize
+    mpi_lib.horovod_torch_wait_and_clear(handle)
+RuntimeError: Horovod has been shut down. This was caused by an exception on one of the ranks or an attempt to allreduce, allgather or broadcast a tensor after one of the ranks finished execution. If the shutdown was caused by an exception, you should see the exception in the log before the first shutdown message.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "./once-for-all/train_ofa_net_cifar10_resnet.py", line 282, in <module>
+    train_elastic_depth(train, distributed_run_manager, args, validate_func_dict)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/training/progressive_shrinking.py", line 393, in train_elastic_depth
+    lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/training/progressive_shrinking.py", line 299, in train
+    run_manager, args, epoch, args.warmup_epochs, args.warmup_lr)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/training/progressive_shrinking.py", line 172, in train_one_epoch
+    run_manager.update_metric(metric_dict, output, target)
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/run_manager/distributed_run_manager.py", line 209, in update_metric
+    metric_dict['top1'].update(acc1[0], output.size(0))
+  File "/home/rick/nas_rram/ofa/once-for-all/ofa/utils/common_tools.py", line 254, in update
+    self.sum += hvd.allreduce(val.detach().cpu(), name=self.name)
+  File "/home/hp/anaconda3/envs/ofa/lib/python3.7/site-packages/horovod/torch/mpi_ops.py", line 249, in allreduce
+    process_set)
+  File "/home/hp/anaconda3/envs/ofa/lib/python3.7/site-packages/horovod/torch/mpi_ops.py", line 199, in forward
+    return synchronize(handle)
+  File "/home/hp/anaconda3/envs/ofa/lib/python3.7/site-packages/horovod/torch/mpi_ops.py", line 949, in synchronize
+    raise HorovodInternalError(e)
+horovod.common.exceptions.HorovodInternalError: Horovod has been shut down. This was caused by an exception on one of the ranks or an attempt to allreduce, allgather or broadcast a tensor after one of the ranks finished execution. If the shutdown was caused by an exception, you should see the exception in the log before the first shutdown message.
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[649,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------

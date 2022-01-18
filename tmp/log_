@@ -1,0 +1,20 @@
+nohup: ignoring input
+usage: train_ofa_net_cifar10_resnet.py [-h]
+                                       [--task {kernel,depth,expand,teacher}]
+                                       [--phase {1,2}] [--resume]
+train_ofa_net_cifar10_resnet.py: error: argument --task: expected one argument
+usage: train_ofa_net_cifar10_resnet.py [-h]
+                                       [--task {kernel,depth,expand,teacher}]
+                                       [--phase {1,2}] [--resume]
+train_ofa_net_cifar10_resnet.py: error: argument --task: expected one argument
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[65315,1],1]
+  Exit code:    2
+--------------------------------------------------------------------------

@@ -4,6 +4,7 @@
 
 import torch
 import torch.nn as nn
+from torch.nn import Conv2d, Linear
 
 from collections import OrderedDict
 from ofa.utils import get_same_padding, min_divisible_value, SEModule, ShuffleLayer
@@ -48,7 +49,7 @@ def set_layer_from_config(layer_config):
 class My2DLayer(MyModule):
 
 	def __init__(self, in_channels, out_channels,
-	             use_bn=True, act_func='relu', dropout_rate=0, ops_order='weight_bn_act'):
+				 use_bn=True, act_func='relu', dropout_rate=0, ops_order='weight_bn_act'):
 		super(My2DLayer, self).__init__()
 		self.in_channels = in_channels
 		self.out_channels = out_channels
@@ -138,8 +139,8 @@ class My2DLayer(MyModule):
 class ConvLayer(My2DLayer):
 
 	def __init__(self, in_channels, out_channels,
-	             kernel_size=3, stride=1, dilation=1, groups=1, bias=False, has_shuffle=False, use_se=False,
-	             use_bn=True, act_func='relu', dropout_rate=0, ops_order='weight_bn_act'):
+				 kernel_size=3, stride=1, dilation=1, groups=1, bias=False, has_shuffle=False, use_se=False,
+				 use_bn=True, act_func='relu', dropout_rate=0, ops_order='weight_bn_act'):
 		# default normal 3x3_Conv with bn and relu
 		self.kernel_size = kernel_size
 		self.stride = stride
@@ -162,14 +163,14 @@ class ConvLayer(My2DLayer):
 			padding[1] *= self.dilation
 
 		weight_dict = OrderedDict({
-			# 'conv': nn.Conv2d(
-			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
-			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
-			# )
-			'conv': FConv2d(
+			'conv': Conv2d(
 				self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
 				dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
 			)
+			# 'conv': FConv2d(
+			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
+			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
+			# )
 			# 'conv': QConv2d(
 			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
 			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
@@ -229,7 +230,7 @@ class ConvLayer(My2DLayer):
 class IdentityLayer(My2DLayer):
 
 	def __init__(self, in_channels, out_channels,
-	             use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
+				 use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
 		super(IdentityLayer, self).__init__(in_channels, out_channels, use_bn, act_func, dropout_rate, ops_order)
 
 	def weight_op(self):
@@ -254,7 +255,7 @@ class IdentityLayer(My2DLayer):
 class LinearLayer(MyModule):
 
 	def __init__(self, in_features, out_features, bias=True,
-	             use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
+				 use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
 		super(LinearLayer, self).__init__()
 
 		self.in_features = in_features
@@ -285,7 +286,7 @@ class LinearLayer(MyModule):
 			modules['dropout'] = None
 		# linear
 		# modules['weight'] = {'linear': nn.Linear(self.in_features, self.out_features, self.bias)}
-		modules['weight'] = {'FLinear': FLinear(self.in_features, self.out_features, self.bias)}
+		modules['weight'] = {'Linear': Linear(self.in_features, self.out_features, self.bias)}
 
 		# add modules
 		for op in self.ops_list:
@@ -423,8 +424,8 @@ class ZeroLayer(MyModule):
 class MBConvLayer(MyModule):
 
 	def __init__(self, in_channels, out_channels,
-	             kernel_size=3, stride=1, expand_ratio=6, mid_channels=None, act_func='relu6', use_se=False,
-	             groups=None):
+				 kernel_size=3, stride=1, expand_ratio=6, mid_channels=None, act_func='relu6', use_se=False,
+				 groups=None):
 		super(MBConvLayer, self).__init__()
 
 		self.in_channels = in_channels
@@ -561,8 +562,8 @@ class ResidualBlock(MyModule):
 class ResNetBottleneckBlock(MyModule):
 
 	def __init__(self, in_channels, out_channels,
-	             kernel_size=3, stride=1, expand_ratio=0.25, mid_channels=None, act_func='relu', groups=1,
-	             downsample_mode='avgpool_conv'):
+				 kernel_size=3, stride=1, expand_ratio=0.25, mid_channels=None, act_func='relu', groups=1,
+				 downsample_mode='avgpool_conv'):
 		super(ResNetBottleneckBlock, self).__init__()
 
 		self.in_channels = in_channels
@@ -666,8 +667,8 @@ class ResNetBasicBlock(MyModule):
 	# for ResNet18
  
 	def __init__(self, in_channels, out_channels,
-	             kernel_size=3, stride=1, expand_ratio=1, mid_channels=None, act_func='relu', groups=1,
-	             downsample_mode='avgpool_conv'):
+				 kernel_size=3, stride=1, expand_ratio=1, mid_channels=None, act_func='relu', groups=1,
+				 downsample_mode='avgpool_conv'):
 		super(ResNetBasicBlock, self).__init__()
 
 		self.in_channels = in_channels
@@ -692,18 +693,18 @@ class ResNetBasicBlock(MyModule):
 
 		# build modules
 		self.conv1 = nn.Sequential(OrderedDict([
-			# ('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+			('conv', Conv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
 			# ('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
-			('conv', FConv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
+			# ('conv', FConv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim)),
 			('act', build_activation(self.act_func, inplace=True)),
 		]))
 
 		pad = get_same_padding(self.kernel_size)
 		self.conv2 = nn.Sequential(OrderedDict([
-			# ('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
-			# ('conv', QConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
-			('conv', FConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+			('conv', Conv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+			# ('conv', QConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+			# ('conv', FConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
 			('bn', nn.BatchNorm2d(self.out_channels))
 		]))
 
@@ -711,17 +712,17 @@ class ResNetBasicBlock(MyModule):
 			self.downsample = IdentityLayer(in_channels, out_channels)
 		elif self.downsample_mode == 'conv':
 			self.downsample = nn.Sequential(OrderedDict([
-				# ('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				# ('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
-				('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
+				# ('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
+				('conv', Conv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
-				# ('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
 				# ('conv', QConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
-				('conv', FConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				# ('conv', FConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				('conv', Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		else:
@@ -772,3 +773,13 @@ class ResNetBasicBlock(MyModule):
 	@staticmethod
 	def build_from_config(config):
 		return ResNetBasicBlock(**config)
+
+# class Conv2d(nn.Conv2d):
+# 	name = "conv2d"
+# 	wl_weight=2
+# 	wl_input=2
+	
+# class Linear(nn.Linear):
+# 	name = "linear"
+# 	wl_weight=2
+# 	wl_input=2
