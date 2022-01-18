@@ -246,11 +246,12 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
                     if (i[i.index('conv')+len('conv')] != '.'):
                         C = int(i[i.index('conv')+len('conv')])
                 # print(N,C)
-                
+                # A = 1
                 for B in [0,1]:
                     # if (N+5-C-2*B)%4 == 0:
                     #     A = int((N+5-C-2*B)/4)
-                    A = int((N+2-B)/2)
+                    if (N+2-B)%2 == 0:
+                        A = int((N+2-B)/2)
                         # break
                     print(A,B,N,C)
                 

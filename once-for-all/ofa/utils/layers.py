@@ -286,7 +286,7 @@ class LinearLayer(MyModule):
 			modules['dropout'] = None
 		# linear
 		# modules['weight'] = {'linear': nn.Linear(self.in_features, self.out_features, self.bias)}
-		modules['weight'] = {'Linear': Linear(self.in_features, self.out_features, self.bias)}
+		modules['weight'] = {'linear': Linear(self.in_features, self.out_features, self.bias)}
 
 		# add modules
 		for op in self.ops_list:
