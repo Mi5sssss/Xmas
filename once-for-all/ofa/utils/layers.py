@@ -714,7 +714,7 @@ class ResNetBasicBlock(MyModule):
 			self.downsample = nn.Sequential(OrderedDict([
 				# ('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				# ('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
-				('conv', Conv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
+				('conv', Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
