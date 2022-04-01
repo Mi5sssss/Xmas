@@ -51,9 +51,9 @@ task = expand : kernel depth -> kernel depth width
 if args.task == 'kernel':
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel'
     args.dynamic_batch_size = 1
-    args.n_epochs = 120 # 120 original epochs
+    args.n_epochs = 1 # 120 original epochs
     args.base_lr = 3e-2
-    args.warmup_epochs = 5
+    args.warmup_epochs = 1
     args.warmup_lr = -1
     args.ks_list = '3'  # 3 for cifar10
     args.expand_list = '4'
@@ -100,8 +100,8 @@ elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet'
     args.dynamic_batch_size = 1
     args.n_epochs = 1
-    args.base_lr = 0.025 # 7.5e-3
-    args.warmup_epochs = 0
+    args.base_lr = 7.5e-3 # 7.5e-3
+    args.warmup_epochs = 1
     args.warmup_lr = -1
     args.ks_list = '3'
     args.expand_list = '4'
@@ -118,7 +118,7 @@ args.valid_size = 10000
 args.opt_type = 'sgd'
 args.momentum = 0.9
 args.no_nesterov = False
-args.weight_decay = 3e-4 #3e-5
+args.weight_decay = 3e-5 #3e-5
 args.label_smoothing = 0.1
 args.no_decay_keys = 'bn#bias'
 args.fp16_allreduce = False
@@ -159,6 +159,7 @@ if __name__ == '__main__':
     
     if args.kd_ratio > 0:
         args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar"
+        # args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet_resnet34_cifar/checkpoint/model_best.pth.tar"
 
     num_gpus = hvd.size()
 
@@ -219,7 +220,7 @@ if __name__ == '__main__':
     args.teacher_model = ResNet18(
         n_classes=run_config.data_provider.n_classes, bn_param=(
             args.bn_momentum, args.bn_eps),
-        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=0,
+        dropout_rate=0, width_mult=1.0, expand_ratio=1, depth_param=None,
     )
     args.teacher_model.float().cuda()
     from torchsummary import summary

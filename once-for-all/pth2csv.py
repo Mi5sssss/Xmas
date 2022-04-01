@@ -326,9 +326,6 @@ def key_transform(ofa_path='/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/c
         
 
 
-
-
-
 if __name__ == '__main__':
     args = parser.parse_args()
     

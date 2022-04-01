@@ -163,14 +163,14 @@ class ConvLayer(My2DLayer):
 			padding[1] *= self.dilation
 
 		weight_dict = OrderedDict({
-			'conv': Conv2d(
-				self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
-				dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
-			)
-			# 'conv': FConv2d(
+			# 'conv': Conv2d(
 			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
 			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
 			# )
+			'conv': FConv2d(
+				self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
+				dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
+			)
 			# 'conv': QConv2d(
 			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
 			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
@@ -286,7 +286,7 @@ class LinearLayer(MyModule):
 			modules['dropout'] = None
 		# linear
 		# modules['weight'] = {'linear': nn.Linear(self.in_features, self.out_features, self.bias)}
-		modules['weight'] = {'linear': Linear(self.in_features, self.out_features, self.bias)}
+		modules['weight'] = {'linear': FLinear(self.in_features, self.out_features, self.bias)}
 
 		# add modules
 		for op in self.ops_list:
@@ -693,18 +693,18 @@ class ResNetBasicBlock(MyModule):
 
 		# build modules
 		self.conv1 = nn.Sequential(OrderedDict([
-			('conv', Conv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
+			# ('conv', Conv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
 			# ('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
-			# ('conv', FConv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
+			('conv', FConv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
 			('bn', nn.BatchNorm2d(feature_dim)),
 			('act', build_activation(self.act_func, inplace=True)),
 		]))
 
 		pad = get_same_padding(self.kernel_size)
 		self.conv2 = nn.Sequential(OrderedDict([
-			('conv', Conv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+			# ('conv', Conv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
 			# ('conv', QConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
-			# ('conv', FConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+			('conv', FConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
 			('bn', nn.BatchNorm2d(self.out_channels))
 		]))
 
@@ -713,16 +713,16 @@ class ResNetBasicBlock(MyModule):
 		elif self.downsample_mode == 'conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				# ('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
-				# ('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
-				('conv', Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+				('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
+				# ('conv', Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		elif self.downsample_mode == 'avgpool_conv':
 			self.downsample = nn.Sequential(OrderedDict([
 				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
 				# ('conv', QConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
-				# ('conv', FConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
-				('conv', Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				('conv', FConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+				# ('conv', Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
 				('bn', nn.BatchNorm2d(out_channels)),
 			]))
 		else:
