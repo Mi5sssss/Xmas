@@ -202,13 +202,12 @@ class ResNet18(ResNets):
 
 		expand_ratio = 0.25 if expand_ratio is None else expand_ratio
 
-		input_channel = make_divisible(64 * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
+		input_channel = make_divisible(32 * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
 		stage_width_list = ResNets.STAGE_WIDTH_LIST.copy()
 		for i, width in enumerate(stage_width_list):
 			stage_width_list[i] = make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE)
   
 		depth_list = [2, 2, 2, 2]
-		# depth_list = [3, 4, 6, 3] #resnet 34
 		if depth_param is not None:
 			for i, depth in enumerate(ResNets.BASE_DEPTH_LIST):
 				depth_list[i] = depth + depth_param

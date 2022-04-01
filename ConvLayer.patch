@@ -1,0 +1,22 @@
+--- /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
++++ /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
+@@ -1,8 +1,8 @@
+ class ConvLayer(My2DLayer):
+ 
+ 	def __init__(self, in_channels, out_channels,
+-				 kernel_size=3, stride=1, dilation=1, groups=1, bias=False, has_shuffle=False, use_se=False,
+-				 use_bn=True, act_func='relu', dropout_rate=0, ops_order='weight_bn_act'):
++	             kernel_size=3, stride=1, dilation=1, groups=1, bias=False, has_shuffle=False, use_se=False,
++	             use_bn=True, act_func='relu', dropout_rate=0, ops_order='weight_bn_act'):
+ 		# default normal 3x3_Conv with bn and relu
+ 		self.kernel_size = kernel_size
+ 		self.stride = stride
+@@ -25,7 +25,7 @@
+ 			padding[1] *= self.dilation
+ 
+ 		weight_dict = OrderedDict({
+-			# 'conv': Conv2d(
++			# 'conv': nn.Conv2d(
+ 			# 	self.in_channels, self.out_channels, kernel_size=self.kernel_size, stride=self.stride, padding=padding,
+ 			# 	dilation=self.dilation, groups=min_divisible_value(self.in_channels, self.groups), bias=self.bias
+ 			# )

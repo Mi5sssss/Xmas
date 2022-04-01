@@ -17,11 +17,12 @@ from collections import OrderedDict
 import pdb
 import numpy as np
 import csv
+from torchsummary import summary
 
 sys.path.append('/home/rick/nas_rram')
 sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
 sys.path.append('/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/networks')
-
+torch.nn.Module.dump_patches = True
 ##########################generate_layer_infor##########################
 def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
     """Basic Description:
@@ -67,6 +68,10 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
             if hasattr(module, "bias") and hasattr(module.bias, "size"):
                 params += torch.prod(torch.LongTensor(list(module.bias.size())))
             generate_layer_infor[m_key]["nb_params"] = params
+            
+            if hasattr(module, "kernel_size"):
+                generate_layer_infor[m_key]["kernel_size"] = module.kernel_size
+                # print(module.kernel_size)
             
 
         if (
@@ -143,6 +148,9 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
             
             count += 1
             
+            print(generate_layer_infor[layer]["kernel_size"])
+            
+            
     count = 0
     stride = 0
     pooling = 0
@@ -169,23 +177,25 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
         layer_infor[count].insert(len(layer_infor[count]), pooling)
         layer_infor[count].insert(len(layer_infor[count]), stride)
         
-        with open('./DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork.csv', 'w') as f:
-            writer = csv.writer(f)
-            for k, v in layer_infor.items():
-                writer.writerow(v)
+        # with open('./DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork.csv', 'w') as f:
+        #     writer = csv.writer(f)
+        #     for k, v in layer_infor.items():
+        #         writer.writerow(v)
                 
     
-    # print(layer_infor)
+    print(layer_infor)
     
 
 model = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/intact_model_best.pth.tar')
 teacher = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
 
 demo = torch.load('/home/rick/nas_rram/NeuroSim_modified/Inference_pytorch/log/OFA_ResNet18/intact_model_best.pth.tar')
+demo = torch.load('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/intact_resnet18_without_fb.pth')
 
 subnet = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
 
-generate_layer_infor(teacher,(3,32,32))
+generate_layer_infor(demo,(3,224,224))
+# print(demo)
 
 
 

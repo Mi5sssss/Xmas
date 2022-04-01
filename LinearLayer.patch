@@ -1,0 +1,20 @@
+--- /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
++++ /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
+@@ -1,7 +1,7 @@
+ class LinearLayer(MyModule):
+ 
+ 	def __init__(self, in_features, out_features, bias=True,
+-				 use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
++	             use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
+ 		super(LinearLayer, self).__init__()
+ 
+ 		self.in_features = in_features
+@@ -32,7 +32,7 @@
+ 			modules['dropout'] = None
+ 		# linear
+ 		# modules['weight'] = {'linear': nn.Linear(self.in_features, self.out_features, self.bias)}
+-		modules['weight'] = {'linear': FLinear(self.in_features, self.out_features, self.bias)}
++		modules['weight'] = {'FLinear': FLinear(self.in_features, self.out_features, self.bias)}
+ 
+ 		# add modules
+ 		for op in self.ops_list:

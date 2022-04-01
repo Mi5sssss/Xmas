@@ -1,0 +1,53 @@
+--- /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
++++ /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
+@@ -2,8 +2,8 @@
+ 	# for ResNet18
+  
+ 	def __init__(self, in_channels, out_channels,
+-				 kernel_size=3, stride=1, expand_ratio=1, mid_channels=None, act_func='relu', groups=1,
+-				 downsample_mode='avgpool_conv'):
++	             kernel_size=3, stride=1, expand_ratio=1, mid_channels=None, act_func='relu', groups=1,
++	             downsample_mode='avgpool_conv'):
+ 		super(ResNetBasicBlock, self).__init__()
+ 
+ 		self.in_channels = in_channels
+@@ -28,7 +28,7 @@
+ 
+ 		# build modules
+ 		self.conv1 = nn.Sequential(OrderedDict([
+-			# ('conv', Conv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
++			# ('conv', nn.Conv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+ 			# ('conv', QConv2d(self.in_channels, feature_dim, 1, 1, 0, bias=False)),
+ 			('conv', FConv2d(self.in_channels, feature_dim, kernel_size, 1, 1, bias=False)),
+ 			('bn', nn.BatchNorm2d(feature_dim)),
+@@ -37,8 +37,8 @@
+ 
+ 		pad = get_same_padding(self.kernel_size)
+ 		self.conv2 = nn.Sequential(OrderedDict([
+-			# ('conv', Conv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+-			# ('conv', QConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
++			# ('conv', nn.Conv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
++			# ('conv', QConv2d(feature_dim, feature_dim, kernel_size, stride, pad, groups=groups, bias=False)),
+ 			('conv', FConv2d(feature_dim, self.out_channels, kernel_size, stride, pad, groups=groups, bias=False)),
+ 			('bn', nn.BatchNorm2d(self.out_channels))
+ 		]))
+@@ -47,17 +47,17 @@
+ 			self.downsample = IdentityLayer(in_channels, out_channels)
+ 		elif self.downsample_mode == 'conv':
+ 			self.downsample = nn.Sequential(OrderedDict([
++				# ('conv', nn.Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+ 				# ('conv', QConv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+ 				('conv', FConv2d(in_channels, out_channels, kernel_size, stride, 1, bias=False)),
+-				# ('conv', Conv2d(in_channels, out_channels, 1, stride, 0, bias=False)),
+ 				('bn', nn.BatchNorm2d(out_channels)),
+ 			]))
+ 		elif self.downsample_mode == 'avgpool_conv':
+ 			self.downsample = nn.Sequential(OrderedDict([
+ 				('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
++				# ('conv', nn.Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+ 				# ('conv', QConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+ 				('conv', FConv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+-				# ('conv', Conv2d(in_channels, out_channels, 1, 1, 0, bias=False)),
+ 				('bn', nn.BatchNorm2d(out_channels)),
+ 			]))
+ 		else:

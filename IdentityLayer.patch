@@ -1,0 +1,11 @@
+--- /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
++++ /home/rick/nas_rram/ofa/once-for-all/ofa/utils/layers.py
+@@ -1,7 +1,7 @@
+ class IdentityLayer(My2DLayer):
+ 
+ 	def __init__(self, in_channels, out_channels,
+-				 use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
++	             use_bn=False, act_func=None, dropout_rate=0, ops_order='weight_bn_act'):
+ 		super(IdentityLayer, self).__init__(in_channels, out_channels, use_bn, act_func, dropout_rate, ops_order)
+ 
+ 	def weight_op(self):
