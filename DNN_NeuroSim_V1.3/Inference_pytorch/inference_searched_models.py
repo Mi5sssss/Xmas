@@ -97,10 +97,10 @@ elif args.model == 'ResNet18':
     # model_path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar'
     # model_path = '/home/rick/nas_rram/ofa_data/modified_model/resnet_18/target_model.pth'
     # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18-5c106cde.pth'
-    model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
+    # model_path = '/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/resnet18_without_fb.pth'
     
-    modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path).cuda()
-    torch.save(modelCF,'/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/intact_resnet18_without_fb.pth')
+    # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path).cuda()
+    # torch.save(modelCF,'/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/intact_resnet18_without_fb.pth')
     # summary(modelCF,input_size =(3,32,32))
     # print(modelCF)
     
@@ -113,7 +113,7 @@ elif args.model == 'ResNet18':
     # modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/intact_model_best.pth.tar')
     
     # this is for sampled subunets
-    # modelCF = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
+    modelCF = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
     summary(modelCF,input_size =(3,32,32))
     print(modelCF)
 

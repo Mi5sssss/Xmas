@@ -140,6 +140,11 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
             input_shape = input_shape[::-1]
             output_shape = output_shape[::-1]
             
+            if("kernel_size" in generate_layer_infor[layer]):
+                kernel_size = generate_layer_infor[layer]["kernel_size"]
+                output_shape = [kernel_size[0],kernel_size[1], output_shape[2]]
+
+            
             if ((len(input_shape) == 1) and (len(output_shape)) == 1):
                 input_shape = [1, 1, input_shape[0]]
                 output_shape = [1, 1, output_shape[0]]
@@ -147,8 +152,8 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
             layer_infor[count] = input_shape + output_shape
             
             count += 1
+            # print(generate_layer_infor[layer]["kernel_size"])
             
-            print(generate_layer_infor[layer]["kernel_size"])
             
             
     count = 0
@@ -177,13 +182,13 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
         layer_infor[count].insert(len(layer_infor[count]), pooling)
         layer_infor[count].insert(len(layer_infor[count]), stride)
         
-        # with open('./DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork.csv', 'w') as f:
-        #     writer = csv.writer(f)
-        #     for k, v in layer_infor.items():
-        #         writer.writerow(v)
+        with open('./DNN_NeuroSim_V1.3/Inference_pytorch/NeuroSIM/NetWork.csv', 'w') as f:
+            writer = csv.writer(f)
+            for k, v in layer_infor.items():
+                writer.writerow(v)
                 
     
-    print(layer_infor)
+    # print(layer_infor)
     
 
 model = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/intact_model_best.pth.tar')
@@ -194,7 +199,8 @@ demo = torch.load('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/i
 
 subnet = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
 
-generate_layer_infor(demo,(3,224,224))
+generate_layer_infor(subnet,(3,32,32))
+# generate_layer_infor(demo,(3,224,224))
 # print(demo)
 
 
