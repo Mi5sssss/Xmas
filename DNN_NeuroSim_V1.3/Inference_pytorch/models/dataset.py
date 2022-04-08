@@ -18,7 +18,7 @@ def get_cifar10(batch_size, data_root='/home/rick/nas_rram/datasets/cifar10', tr
                     transforms.RandomCrop(32),
                     transforms.RandomHorizontalFlip(),
                     transforms.ToTensor(),
-                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                    transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]),
                 ])),
             batch_size=batch_size, shuffle=True, **kwargs)
 
@@ -29,12 +29,53 @@ def get_cifar10(batch_size, data_root='/home/rick/nas_rram/datasets/cifar10', tr
                 root=data_root, train=False, download=True,
                 transform=transforms.Compose([
                     transforms.ToTensor(),
-                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                    transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]),
                 ])),
             batch_size=batch_size, shuffle=False, **kwargs)
         ds.append(test_loader)
     ds = ds[0] if len(ds) == 1 else ds
     return ds
+
+# def get_cifar10(batch_size, data_root='/home/rick/nas_rram/datasets/cifar10', train=True, val=True, **kwargs):
+#     # data_root = data_root
+#     num_workers = kwargs.setdefault('num_workers', 1)
+#     print("Building Cifar10 data loader with {} workers".format(num_workers))
+    
+#     ds = []
+#     if train:
+#         transform=transforms.Compose([
+#             # transforms.Pad(4),
+#             transforms.RandomResizedCrop(32),
+#             transforms.RandomHorizontalFlip(),
+#             transforms.ToTensor(),
+#             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+#         ])
+#         train_path = os.path.join(data_root, 'train')
+#         imagenet_traindata = datasets.ImageFolder(train_path, transform=transform)
+#         train_loader = torch.utils.data.DataLoader(
+#             imagenet_traindata,
+#             batch_size=batch_size,
+#             shuffle=True,
+#             num_workers=0)
+#         ds.append(train_loader)
+#     if val:
+#         transform=transforms.Compose([
+#             transforms.Resize(256),
+#             transforms.CenterCrop(224),
+#             transforms.ToTensor(),
+#             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+#         ])
+#         val_path = os.path.join(data_root, 'val')
+#         imagenet_testdata = datasets.ImageFolder(val_path, transform=transform)
+#         test_loader = torch.utils.data.DataLoader(
+#             imagenet_testdata,
+#             batch_size=batch_size, 
+#             shuffle=False, 
+#             **kwargs)
+#         ds.append(test_loader)
+#     ds = ds[0] if len(ds) == 1 else ds
+#     return ds
+
 
 def get_cifar100(batch_size, data_root='/home/rick/nas_rram/datasets/cifar100', train=True, val=True, **kwargs):
     data_root = os.path.expanduser(os.path.join(data_root, 'cifar100-data'))

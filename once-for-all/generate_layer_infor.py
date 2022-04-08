@@ -19,6 +19,7 @@ import numpy as np
 import csv
 from torchsummary import summary
 
+
 sys.path.append('/home/rick/nas_rram')
 sys.path.append('/home/rick/nas_rram/ofa/once-for-all')
 sys.path.append('/home/rick/nas_rram/ofa/once-for-all/ofa/imagenet_classification/elastic_nn/networks')
@@ -194,13 +195,17 @@ def generate_layer_infor(model, input_size, batch_size=-1, device="cuda"):
 model = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/intact_model_best.pth.tar')
 teacher = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/intact_model_best.pth.tar')
 
-demo = torch.load('/home/rick/nas_rram/NeuroSim_modified/Inference_pytorch/log/OFA_ResNet18/intact_model_best.pth.tar')
+# demo = torch.load('/home/rick/nas_rram/NeuroSim_modified/Inference_pytorch/log/OFA_ResNet18/intact_model_best.pth.tar')
 demo = torch.load('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/intact_resnet18_without_fb.pth')
 
 subnet = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
 
-generate_layer_infor(subnet,(3,32,32))
-# generate_layer_infor(demo,(3,224,224))
+final_searched_result = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel_depth2kernel_depth_width/phase2/checkpoint/intact_model_best.pth.tar')
+final_searched_result_subnet = final_searched_result.get_active_subnet()
+torch.save(final_searched_result_subnet,'/home/rick/nas_rram/ofa_data/neurosim_input/intact_model_best.pth.tar')
+# generate_layer_infor(teacher,(3,32,32))
+# generate_layer_infor(subnet,(3,32,32))
+generate_layer_infor(final_searched_result_subnet,(3,32,32))
 # print(demo)
 
 

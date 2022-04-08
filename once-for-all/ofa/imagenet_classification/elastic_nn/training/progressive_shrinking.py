@@ -36,11 +36,14 @@ def validate(run_manager, epoch=0, is_test=False, image_size_list=None,
 		expand_ratio_list = dynamic_net.expand_ratio_list
 	if depth_list is None:
 		depth_list = dynamic_net.depth_list
+	# import pdb
+	# pdb.set_trace()
 	if width_mult_list is None:
 		if 'width_mult_list' in dynamic_net.__dict__:
 			width_mult_list = list(range(len(dynamic_net.width_mult_list)))
 		else:
 			width_mult_list = [0]
+	print('width_mult_list is ', width_mult_list)
 
 	subnet_settings = []
 	for d in depth_list:

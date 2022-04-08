@@ -403,6 +403,8 @@ class OFAResNets18(ResNets):
 		model_dict = self.state_dict()
 		for key in state_dict:
 			new_key = key
+			# import pdb
+			# pdb.set_trace()
 			if new_key in model_dict:
 				pass
 			elif '.linear.' in new_key:
@@ -414,6 +416,7 @@ class OFAResNets18(ResNets):
 			else:
 				raise ValueError(new_key)
 			assert new_key in model_dict, '%s' % new_key
+
 			model_dict[new_key] = state_dict[key]
 		super(OFAResNets18, self).load_state_dict(model_dict)
 
@@ -426,7 +429,8 @@ class OFAResNets18(ResNets):
 		depth = val2list(d, len(ResNets.BASE_DEPTH_LIST) + 1)
 		expand_ratio = val2list(e, len(self.blocks))
 		width_mult = val2list(w, len(ResNets.BASE_DEPTH_LIST) + 2)
-
+		# import pdb
+		# pdb.set_trace()
 		for block, e in zip(self.blocks, expand_ratio):
 			if e is not None:
 				block.active_expand_ratio = e

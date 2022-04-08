@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@File   :   train_ofa_net_cifar10_resnet.py
-@Time   :   2022/01/08 11:35:44
+@File   :   train_ofa_net_cifar10_resnet_with_width.py
+@Time   :   2022/04/02 10:20:29
 @Author  :   Rick Xie 
 @Version :   1.0
 @Contact :   xier2018@mail.sustech.edu.cn
 @Desc   :   None
 '''
 
+
+
 import argparse
 import os
+import pdb
 import random
 
 import numpy as np
@@ -34,7 +37,7 @@ from ofa.utils import download_url
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--task', type=str, default='teacher', choices=[
-    'kernel', 'depth', 'expand', 'teacher',
+    'width', 'depth', 'expand', 'teacher','kernel',
 ])
 parser.add_argument('--phase', type=int, default=2, choices=[1, 2])
 parser.add_argument('--resume', action='store_true')
@@ -49,24 +52,35 @@ task = expand : kernel depth -> kernel depth width
 '''
 
 if args.task == 'kernel':
-    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel'
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/normal2kernel'
     args.dynamic_batch_size = 1
     args.n_epochs = 1 # 120 original epochs
     args.base_lr = 3e-2
     args.warmup_epochs = 1
     args.warmup_lr = -1
-    args.ks_list = '3'  # 3 for cifar10
+    # args.ks_list = '3'  # 3 for cifar10
+    args.width_mult_list = '1.0' 
+    args.expand_list = '4'
+    args.depth_list = '3'
+elif args.task == 'width':
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel2width'
+    args.dynamic_batch_size = 1
+    args.n_epochs = 1 # 120 original epochs
+    args.base_lr = 3e-2
+    args.warmup_epochs = 1
+    args.warmup_lr = -1
+    args.width_mult_list = '0.65,0.8,1.0'  # 3 for cifar10
     args.expand_list = '4'
     args.depth_list = '3'
 elif args.task == 'depth':
-    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase1%d' % args.phase
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel2kernel_depth/phase1%d' % args.phase
     args.dynamic_batch_size = 2
     if args.phase == 1:
         args.n_epochs = 25
         args.base_lr = 2.5e-3
         args.warmup_epochs = 0
         args.warmup_lr = -1
-        args.ks_list = '3'
+        args.width_mult_list = '1.0'
         args.expand_list = '4'
         args.depth_list = '2,3'
     else:
@@ -74,18 +88,18 @@ elif args.task == 'depth':
         args.base_lr = 7.5e-3
         args.warmup_epochs = 5 # 5
         args.warmup_lr = -1
-        args.ks_list = '3'
+        args.width_mult_list = '1.0'
         args.expand_list = '4'
         args.depth_list = '2,3'
 elif args.task == 'expand':
-    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/kernel_depth2kernel_depth_width/phase%d' % args.phase
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel_depth2kernel_depth_width/phase%d' % args.phase
     args.dynamic_batch_size = 4
     if args.phase == 1:
         args.n_epochs = 25
         args.base_lr = 2.5e-3
         args.warmup_epochs = 0
         args.warmup_lr = -1
-        args.ks_list = '3'
+        args.width_mult_list = '1.0'
         args.expand_list = '3,4'
         args.depth_list = '2,3'
     else:
@@ -93,17 +107,17 @@ elif args.task == 'expand':
         args.base_lr = 7.5e-3
         args.warmup_epochs = 5 #5
         args.warmup_lr = -1
-        args.ks_list = '3'
+        args.width_mult_list = '1.0'
         args.expand_list = '2,3,4'
         args.depth_list = '2,3'
 elif args.task == "teacher":
-    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet/teachernet'
+    args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/teachernet'
     args.dynamic_batch_size = 1
     args.n_epochs = 1
     args.base_lr = 7.5e-3 # 7.5e-3
     args.warmup_epochs = 1
     args.warmup_lr = -1
-    args.ks_list = '3'
+    args.width_mult_list = '1'
     args.expand_list = '4'
     args.depth_list = '3'
 else:
@@ -139,7 +153,8 @@ args.bn_eps = 1e-5
 args.dropout = 0.1
 args.base_stage_width = 'proxyless'
 
-args.width_mult_list = '1.0'
+# args.width_mult_list = '1.0'
+args.ks_list = '3'
 args.dy_conv_scaling_mode = 1
 args.independent_distributed_sampling = False
 
@@ -158,8 +173,8 @@ if __name__ == '__main__':
     torch.cuda.set_device(hvd.local_rank())
     
     if args.kd_ratio > 0:
-        args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar"
-        # args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet_resnet34_cifar/checkpoint/model_best.pth.tar"
+        args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/teachernet/checkpoint/model_best.pth.tar"
+        # args.teacher_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/teachernet_resnet34_cifar/checkpoint/model_best.pth.tar"
 
     num_gpus = hvd.size()
 
@@ -207,8 +222,10 @@ if __name__ == '__main__':
     args.ks_list = [int(ks) for ks in args.ks_list.split(',')]
     args.expand_list = [int(e) for e in args.expand_list.split(',')]
     args.depth_list = [int(d) for d in args.depth_list.split(',')]
-    args.width_mult_list = args.width_mult_list[0] if len(
+    args.width_mult_list = [args.width_mult_list[0]] if len(
         args.width_mult_list) == 1 else args.width_mult_list
+    
+    # pdb.set_trace()
     
     net = OFAResNets18(
         n_classes=run_config.data_provider.n_classes,  bn_param=(args.bn_momentum, args.bn_eps),
@@ -252,12 +269,16 @@ if __name__ == '__main__':
     # training
     from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import (
         train_cifar10, validate_cifar10, train, validate)
-
+    # pdb.set_trace()
     validate_func_dict = {'image_size_list': {32} if isinstance(args.image_size, int) else sorted({24, 32}),
+                        #   'width_mult_list': sorted({min(args.width_mult_list), max(args.width_mult_list)}),
+                        #   'width_mult_list': sorted(args.width_mult_list,key=lambda x:float(x)),
+                          'width_mult_list': sorted({0, len(args.width_mult_list) - 1}),
                           'ks_list': sorted({min(args.ks_list), max(args.ks_list)}),
                           'expand_ratio_list': sorted({min(args.expand_list), max(args.expand_list)}),
                           'depth_list': sorted({min(net.depth_list), max(net.depth_list)}),
                           }
+    
     
     # train teacher net
     if args.task =='teacher':
@@ -266,7 +287,7 @@ if __name__ == '__main__':
     elif args.task == 'kernel':
         validate_func_dict['ks_list'] = sorted(args.ks_list)
         if distributed_run_manager.start_epoch == 0:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/teachernet/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/teachernet/checkpoint/model_best.pth.tar"
             # load_models(distributed_run_manager, distributed_run_manager.net, args.ofa_checkpoint_path)
             distributed_run_manager.write_log(
                 '%.3f\t%.3f\t%.3f\t%s' % validate(distributed_run_manager, is_test=True, **validate_func_dict), 'valid')
@@ -274,23 +295,35 @@ if __name__ == '__main__':
             assert args.resume
         train(distributed_run_manager, args,
               lambda _run_manager, epoch, is_test: validate(_run_manager, epoch, is_test, **validate_func_dict))
-    
+        
+    elif args.task == 'width':
+        # validate_func_dict['width_mult_list'] = sorted(args.width_mult_list)
+        # validate_func_dict['width_mult_list'] = sorted({np.min(args.width_mult_list), np.max(args.width_mult_list)})
+        from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
+                train_elastic_width_mult
+
+        if args.phase == 1:
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/normal2kernel/checkpoint/model_best.pth.tar"
+        else:
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/normal2kernel/checkpoint/model_best.pth.tar"
+        train_elastic_width_mult(train, distributed_run_manager, args, validate_func_dict)
+        
     elif args.task == 'depth':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_depth
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel2width/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel2width/checkpoint/model_best.pth.tar"
         train_elastic_depth(train, distributed_run_manager, args, validate_func_dict)
     
     elif args.task == 'expand':
         from ofa.imagenet_classification.elastic_nn.training.progressive_shrinking import \
             train_elastic_expand
         if args.phase == 1:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase12/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel2kernel_depth/phase12/checkpoint/model_best.pth.tar"
         else:
-            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet/kernel2kernel_depth/phase12/checkpoint/model_best.pth.tar"
+            args.ofa_checkpoint_path = "/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel2kernel_depth/phase12/checkpoint/model_best.pth.tar"
         train_elastic_expand(train, distributed_run_manager, args, validate_func_dict)
     
     else:

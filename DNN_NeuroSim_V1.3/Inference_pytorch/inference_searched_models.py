@@ -113,7 +113,8 @@ elif args.model == 'ResNet18':
     # modelCF = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/normal2kernel/checkpoint/intact_model_best.pth.tar')
     
     # this is for sampled subunets
-    modelCF = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
+    # modelCF = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
+    modelCF = torch.load('/home/rick/nas_rram/ofa_data/neurosim_input/intact_model_best.pth.tar')
     summary(modelCF,input_size =(3,32,32))
     print(modelCF)
 
@@ -156,6 +157,7 @@ for i, (data, target) in enumerate(test_loader):
         test_loss += test_loss_i.data
         pred = output.data.max(1)[1]  # get the index of the max log-probability
         correct += pred.cpu().eq(indx_target).sum()
+        # print((output.data.max(0)[1]))
     if i==0:
         hook.remove_hook_list(hook_handle_list)
 
