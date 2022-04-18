@@ -117,7 +117,7 @@ elif args.task == "teacher":
     args.base_lr = 7.5e-3 # 7.5e-3
     args.warmup_epochs = 1
     args.warmup_lr = -1
-    args.width_mult_list = '1'
+    args.width_mult_list = '1.0'
     args.expand_list = '4'
     args.depth_list = '3'
 else:
