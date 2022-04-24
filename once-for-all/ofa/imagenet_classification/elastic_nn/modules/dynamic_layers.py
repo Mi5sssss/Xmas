@@ -658,28 +658,34 @@ class DynamicResNetBasicBlock(MyModule):
             round(max(self.out_channel_list) * max(self.expand_ratio_list)), MyNetwork.CHANNEL_DIVISIBLE)
 
         self.conv1 = nn.Sequential(OrderedDict([
-            ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, kernel_size)),
-            # ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, kernel_size, stride)),
+            # ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, kernel_size)),
+            ('conv', DynamicFConv2d(max(self.in_channel_list), max_middle_channel, stride = stride)),
+            # ('conv', DynamicFConv2d(max(self.in_channel_list),  max(self.out_channel_list), stride = stride)),
             ('bn', DynamicBatchNorm2d(max_middle_channel)),
             ('act', build_activation(self.act_func, inplace=True)),
         ]))
         # pad = get_same_padding(self.kernel_size)
         self.conv2 = nn.Sequential(OrderedDict([
             # ('conv', DynamicConv2d(max_middle_channel, max_middle_channel, kernel_size, stride)),
-            ('conv', DynamicFConv2d(max_middle_channel, max(self.out_channel_list), kernel_size, stride)),
+            # ('conv', DynamicFConv2d(max_middle_channel, max(self.out_channel_list), kernel_size, stride)),
+            ('conv', DynamicFConv2d(max_middle_channel, max(self.out_channel_list))),
+            # ('conv', DynamicFConv2d( max(self.out_channel_list), max(self.out_channel_list))),
             ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),
         ]))
 
 
         if self.stride == 1 and self.in_channel_list == self.out_channel_list:
+            # print("IdentityLayer")
             self.downsample = IdentityLayer(max(self.in_channel_list), max(self.out_channel_list))
         elif self.downsample_mode == 'conv':
+            # print("conv")
             self.downsample = nn.Sequential(OrderedDict([
                 # ('conv', DynamicConv2d(max(self.in_channel_list), max(self.out_channel_list), stride=stride)),
                 ('conv', DynamicFConv2d(max(self.in_channel_list), max(self.out_channel_list), stride=stride)),
                 ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),
             ]))
         elif self.downsample_mode == 'avgpool_conv':
+            # print("avgpool_conv")
             self.downsample = nn.Sequential(OrderedDict([
                 ('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
                 # ('avg_pool', nn.AvgPool2d(kernel_size=stride, stride=stride, padding=0, ceil_mode=True)),
@@ -687,6 +693,7 @@ class DynamicResNetBasicBlock(MyModule):
                 ('conv', DynamicFConv2d(max(self.in_channel_list), max(self.out_channel_list))),
                 ('bn', DynamicBatchNorm2d(max(self.out_channel_list))),
             ]))
+            
         else:
             raise NotImplementedError
 
@@ -704,12 +711,19 @@ class DynamicResNetBasicBlock(MyModule):
         if not isinstance(self.downsample, IdentityLayer):
             self.downsample.conv.active_out_channel = self.active_out_channel
         # print('x_shape', x.shape)
+        # import pdb
+        # pdb.set_trace()
         residual = self.downsample(x)
+        # if (residual.shape == torch.Size([64, 64, 8, 8])):
+        #     import pdb
+        #     pdb.set_trace()
         # print('residual', residual.shape)
         x = self.conv1(x)
         # print('x_conv1.shape', x.shape)
         x = self.conv2(x)
         # print('x_conv2.shape', x.shape)
+        # print('max(self.in_channel_list)', max(self.in_channel_list))
+        # print('max(self.out_channel_list)', max(self.out_channel_list))
         x = x + residual
         x = self.final_act(x)
         return x
@@ -717,7 +731,7 @@ class DynamicResNetBasicBlock(MyModule):
     @property
     def module_str(self):
         return '(%s, %s)' % (
-            '%dx%d_BottleneckConv_in->%d->%d_S%d' % (
+            '%dx%d_BaseConv_in->%d->%d_S%d' % (
                 self.kernel_size, self.kernel_size, self.active_middle_channels, self.active_out_channel, self.stride
             ),
             'Identity' if isinstance(self.downsample, IdentityLayer) else self.downsample_mode,

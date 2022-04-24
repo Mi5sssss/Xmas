@@ -290,6 +290,8 @@ class OFAResNets18(ResNets):
 		]
 
 		stage_width_list = ResNets.STAGE_WIDTH_LIST.copy()
+		# import pdb
+		# pdb.set_trace()
 		for i, width in enumerate(stage_width_list):
 			stage_width_list[i] = [
 				make_divisible(width * width_mult, MyNetwork.CHANNEL_DIVISIBLE) for width_mult in self.width_mult_list

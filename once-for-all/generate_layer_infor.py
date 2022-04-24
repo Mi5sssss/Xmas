@@ -200,7 +200,7 @@ demo = torch.load('/home/rick/nas_rram/ofa_data/neurosim_model/resnet_official/i
 
 subnet = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
 
-final_searched_result = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/kernel_depth2kernel_depth_width/phase2/checkpoint/intact_model_best.pth.tar')
+final_searched_result = torch.load('/home/rick/nas_rram/ofa_data/exp_resnet/kernel_depth2kernel_depth_width/phase2/checkpoint/intact_model_best.pth.tar')
 final_searched_result_subnet = final_searched_result.get_active_subnet()
 torch.save(final_searched_result_subnet,'/home/rick/nas_rram/ofa_data/neurosim_input/intact_model_best.pth.tar')
 # generate_layer_infor(teacher,(3,32,32))

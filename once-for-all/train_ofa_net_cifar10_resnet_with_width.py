@@ -54,9 +54,9 @@ task = expand : kernel depth -> kernel depth width
 if args.task == 'kernel':
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/normal2kernel'
     args.dynamic_batch_size = 1
-    args.n_epochs = 1 # 120 original epochs
+    args.n_epochs = 120 # 120 original epochs
     args.base_lr = 3e-2
-    args.warmup_epochs = 1
+    args.warmup_epochs = 5
     args.warmup_lr = -1
     # args.ks_list = '3'  # 3 for cifar10
     args.width_mult_list = '1.0' 
@@ -113,9 +113,9 @@ elif args.task == 'expand':
 elif args.task == "teacher":
     args.path = '/home/rick/nas_rram/ofa_data/exp_resnet_multi_width/teachernet'
     args.dynamic_batch_size = 1
-    args.n_epochs = 1
+    args.n_epochs = 200
     args.base_lr = 7.5e-3 # 7.5e-3
-    args.warmup_epochs = 1
+    args.warmup_epochs = 5
     args.warmup_lr = -1
     args.width_mult_list = '1.0'
     args.expand_list = '4'
@@ -126,7 +126,7 @@ args.manual_seed = 0
 
 args.lr_schedule_type = 'cosine'
 
-args.base_batch_size = 16 # 128
+args.base_batch_size = 64 # 128
 args.valid_size = 10000
 
 args.opt_type = 'sgd'

@@ -37,15 +37,15 @@ parser.add_argument('--wl_activate', default=8)
 parser.add_argument('--wl_error', default=8)
 # Hardware Properties
 # if do not consider hardware effects, set inference=0
-parser.add_argument('--inference', default=0, help='run hardware inference simulation')
+parser.add_argument('--inference', default=1, help='run hardware inference simulation')
 parser.add_argument('--subArray', default=128, help='size of subArray (e.g. 128*128)')
 parser.add_argument('--ADCprecision', default=5, help='ADC precision (e.g. 5-bit)')
 parser.add_argument('--cellBit', default=4, help='cell precision (e.g. 4-bit/cell)')
 parser.add_argument('--onoffratio', default=10, help='device on/off ratio (e.g. Gmax/Gmin = 3)')
 # if do not run the device retention / conductance variation effects, set vari=0, v=0
-parser.add_argument('--vari', default=0, help='conductance variation (e.g. 0.1 standard deviation to generate random variation)')
+parser.add_argument('--vari', default=1, help='conductance variation (e.g. 0.1 standard deviation to generate random variation)')
 parser.add_argument('--t', default=0, help='retention time')
-parser.add_argument('--v', default=0, help='drift coefficient')
+parser.add_argument('--v', default=.1, help='drift coefficient')
 parser.add_argument('--detect', default=0, help='if 1, fixed-direction drift, if 0, random drift')
 parser.add_argument('--target', default=0, help='drift target for fixed-direction drift')
 current_time = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
@@ -86,7 +86,7 @@ if args.model == 'VGG8':
     from models import VGG
     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/VGG8.pth'   # WAGE mode pretrained model
     modelCF = VGG.vgg8(args = args, logger=logger, pretrained = model_path).cuda()
-    summary(modelCF,input_size =(3,32,32))
+    # summary(modelCF,input_size =(3,32,32))
 elif args.model == 'DenseNet40':
     from models import DenseNet
     model_path = '/home/rick/nas_rram/DNN_NeuroSim_V1.3/Inference_pytorch/log/DenseNet40.pth'     # WAGE mode pretrained model
@@ -115,8 +115,8 @@ elif args.model == 'ResNet18':
     # this is for sampled subunets
     # modelCF = torch.load('/home/rick/nas_rram/ofa_data/sample_subnet/sample_resnet18/intact_subnet_best.pth.tar')
     modelCF = torch.load('/home/rick/nas_rram/ofa_data/neurosim_input/intact_model_best.pth.tar')
-    summary(modelCF,input_size =(3,32,32))
-    print(modelCF)
+    # summary(modelCF,input_size =(3,32,32))
+    # print(modelCF)
 
 else:
     raise ValueError("Unknown model type")
