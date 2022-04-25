@@ -1,0 +1,1504 @@
+Script started on 2022-04-25 16:57:08+0800
+/home/hp/.zshrc:source:6: no such file or directory: /home/hp/.bash_profile
+[1m[7m%[27m[1m[0m                                                                                                                                                [0m[27m[24m[J[0m[49m[39m[0m[49m[38;5;37m ofa[0m[38;5;37m[49m[38;5;37m[0m[38;5;37m[49m [0m[38;5;37m[49m[38;5;76m>[0m[38;5;76m[49m[38;5;76m[0m[38;5;76m[49m [0m[38;5;76m[49m[38;5;31m]8;;file:///home/rick/nas_rram/ofa/[1m[38;5;31m[38;5;39mhome[0m[38;5;39m[49m[38;5;31m/[38;5;103mr[0m[38;5;103m[49m[38;5;31m/[38;5;103mn[0m[38;5;103m[49m[38;5;31m/[1m[38;5;31m[38;5;39mofa[0m[38;5;39m[49m[38;5;31m]8;;[0m[38;5;31m[49m[38;5;31m[0m[38;5;31m[49m[30m[0m[30m[49m[39m [0m[49m[39m[K[108C[0m[49m[38;5;70mdone[0m[38;5;70m[49m[38;5;70m[0m[38;5;70m[49m[38;5;70m[0m[38;5;70m[49m[38;5;66m 16:57:08[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[39m[121D[?1h=[?2004h[32mscript[39m [36m-t[39m 2>[35mtime.txt[39m [36m-a[39m [35mrecord.txt[39m[34D[32mm[32ma[32mk[32me[39m[39m [39m  [39m [39m    [39m [39m [39m [39m [39m [39m [39m [39m  [39m [39m  [39m [39m [39m [39m [39m [39m [39m [39m [39m [39m [30D[32me[32mx[32mi[32mt[39m[32m/[32mh[32mo[32mm[32me/hp/anaconda3/envs/ofa/bin/python[39m [35m/home/rick/nas_rram/ofa/DNN_NeuroSim_V1.3/Inference_pytorch/inference_searched_mode[35ml[35ms.py[39m[K[?1l>[?2004l
+/home/rick/nas_rram/neurosim_log/default/ADCprecision=5/batch_size=500/cellBit=4/dataset=cifar10/decreasing_lr=140,180/detect=0/grad_scale=8/inference=1/lr=0.01/mode=FP/model=ResNet18/onoffratio=10/seed=117/subArray=128/t=0/target=0/v=0.1/vari=1/wl_activate=8/wl_error=8/wl_grad=8/wl_weight=8
+=================FLAGS==================
+dataset: cifar10
+model: ResNet18
+mode: FP
+batch_size: 500
+epochs: 200
+grad_scale: 8
+seed: 117
+log_interval: 100
+test_interval: 1
+logdir: /home/rick/nas_rram/neurosim_log/default/ADCprecision=5/batch_size=500/cellBit=4/dataset=cifar10/decreasing_lr=140,180/detect=0/grad_scale=8/inference=1/lr=0.01/mode=FP/model=ResNet18/onoffratio=10/seed=117/subArray=128/t=0/target=0/v=0.1/vari=1/wl_activate=8/wl_error=8/wl_grad=8/wl_weight=8
+lr: 0.01
+decreasing_lr: 140,180
+wl_weight: 8
+wl_grad: 8
+wl_activate: 8
+wl_error: 8
+inference: 1
+subArray: 128
+ADCprecision: 5
+cellBit: 4
+onoffratio: 10
+vari: 1
+t: 0
+v: 0.1
+detect: 0
+target: 0
+========================================
+Building CIFAR-10 data loader with 1 workers
+Files already downloaded and verified
+Files already downloaded and verified
+quantize layer  Fconv 1650877038.2921114
+quantize layer  Fconv 1650877038.5629263
+quantize layer  Fconv 1650877038.8069525
+quantize layer  Fconv 1650877039.0573292
+quantize layer  Fconv 1650877039.088785
+quantize layer  Fconv 1650877039.2024438
+quantize layer  Fconv 1650877039.3075397
+quantize layer  Fconv 1650877039.3432107
+quantize layer  Fconv 1650877039.450717
+quantize layer  Fconv 1650877039.4859033
+quantize layer  Fconv 1650877039.5881443
+quantize layer  Fconv 1650877039.622773
+quantize layer  Fconv 1650877039.72659
+quantize layer  Fconv 1650877039.7617114
+quantize layer  Fconv 1650877039.864028
+quantize layer  Fconv 1650877039.8702087
+quantize layer  Fconv 1650877039.9080317
+quantize layer  Fconv 1650877039.989138
+quantize layer  Fconv 1650877040.0161529
+quantize layer  Fconv 1650877040.0750492
+quantize layer  Fconv 1650877040.100502
+quantize layer  Fconv 1650877040.1613722
+quantize layer  Fconv 1650877040.1869533
+quantize layer  Fconv 1650877040.246968
+quantize layer  Fconv 1650877040.2725823
+quantize layer  Fconv 1650877040.3323255
+quantize layer  Fconv 1650877040.3354926
+quantize layer  Fconv 1650877040.3714993
+quantize layer  Fconv 1650877040.452154
+quantize layer  Fconv 1650877040.49844
+quantize layer  Fconv 1650877040.566703
+quantize layer  Fconv 1650877040.6127021
+quantize layer  Fconv 1650877040.6799567
+quantize layer  Fconv 1650877040.7252636
+quantize layer  Fconv 1650877040.79492
+quantize layer  Fconv 1650877040.84029
+quantize layer  Fconv 1650877040.905235
+quantize layer  Fconv 1650877040.9091346
+quantize layer  Fconv 1650877040.993532
+quantize layer  Fconv 1650877041.176715
+quantize layer  Fconv 1650877041.3266041
+quantize layer  Fconv 1650877041.4975278
+quantize layer  Fconv 1650877041.6459508
+quantize layer  Fconv 1650877041.8182454
+quantize layer  Fconv 1650877041.9701784
+quantize layer  Fconv 1650877042.1498673
+quantize layer  Fconv 1650877042.2988665
+quantize layer  Flinear 1650877042.4740016
+ --- Hardware Properties --- 
+subArray size: 
+128
+ADC precision: 
+5
+cell precision: 
+4
+on/off ratio: 
+10
+variation: 
+1
+Test set: Average loss: 18504510215609647104.0000, Accuracy: 1000/10000 (10%)
+------------------------------ FloorPlan --------------------------------
+
+Tile and PE size are optimized to maximize memory utilization ( = memory mapped by synapse / total memory on chip)
+
+Desired Conventional Mapped Tile Storage Size: 256x256
+Desired Conventional PE Storage Size: 128x128
+Desired Novel Mapped Tile Storage Size: 9x128x128
+User-defined SubArray Size: 32x32
+
+----------------- # of tile used for each layer -----------------
+layer1: 1
+layer2: 1
+layer3: 2
+layer4: 1
+layer5: 2
+layer6: 1
+layer7: 2
+layer8: 1
+layer9: 2
+layer10: 1
+layer11: 2
+layer12: 1
+layer13: 2
+layer14: 1
+layer15: 1
+layer16: 4
+layer17: 1
+layer18: 4
+layer19: 1
+layer20: 4
+layer21: 1
+layer22: 4
+layer23: 1
+layer24: 4
+layer25: 1
+layer26: 1
+layer27: 8
+layer28: 4
+layer29: 8
+layer30: 4
+layer31: 8
+layer32: 4
+layer33: 8
+layer34: 4
+layer35: 8
+layer36: 4
+layer37: 2
+layer38: 16
+layer39: 16
+layer40: 16
+layer41: 16
+layer42: 16
+layer43: 16
+layer44: 16
+layer45: 16
+layer46: 16
+layer47: 16
+layer48: 1
+
+----------------- Speed-up of each layer ------------------
+layer1: 16
+layer2: 4
+layer3: 4
+layer4: 16
+layer5: 2
+layer6: 4
+layer7: 4
+layer8: 4
+layer9: 4
+layer10: 4
+layer11: 4
+layer12: 4
+layer13: 4
+layer14: 4
+layer15: 16
+layer16: 4
+layer17: 1
+layer18: 4
+layer19: 1
+layer20: 4
+layer21: 1
+layer22: 4
+layer23: 1
+layer24: 4
+layer25: 1
+layer26: 8
+layer27: 4
+layer28: 1
+layer29: 2
+layer30: 1
+layer31: 2
+layer32: 1
+layer33: 2
+layer34: 1
+layer35: 2
+layer36: 1
+layer37: 4
+layer38: 2
+layer39: 1
+layer40: 1
+layer41: 1
+layer42: 1
+layer43: 1
+layer44: 1
+layer45: 1
+layer46: 1
+layer47: 1
+layer48: 8
+
+----------------- Utilization of each layer ------------------
+layer1: 0.84375
+layer2: 1
+layer3: 1
+layer4: 1
+layer5: 1
+layer6: 1
+layer7: 0.5
+layer8: 1
+layer9: 0.5
+layer10: 1
+layer11: 0.5
+layer12: 1
+layer13: 0.5
+layer14: 1
+layer15: 0.5
+layer16: 0.5
+layer17: 1
+layer18: 1
+layer19: 1
+layer20: 1
+layer21: 1
+layer22: 1
+layer23: 1
+layer24: 1
+layer25: 1
+layer26: 1
+layer27: 1
+layer28: 1
+layer29: 1
+layer30: 1
+layer31: 1
+layer32: 1
+layer33: 1
+layer34: 1
+layer35: 1
+layer36: 1
+layer37: 1
+layer38: 1
+layer39: 1
+layer40: 1
+layer41: 1
+layer42: 1
+layer43: 1
+layer44: 1
+layer45: 1
+layer46: 1
+layer47: 1
+layer48: 0.625
+Memory Utilization of Whole Chip: 97.3958 % 
+
+---------------------------- FloorPlan Done ------------------------------
+
+
+
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877038.2921114.csv
+i = 0
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877038.5629263.csv
+i = 1
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877038.8069525.csv
+i = 2
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.0573292.csv
+i = 3
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.088785.csv
+i = 4
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.2024438.csv
+i = 5
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.3075397.csv
+i = 6
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.3432107.csv
+i = 7
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.450717.csv
+i = 8
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.4859033.csv
+i = 9
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.5881443.csv
+i = 10
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.622773.csv
+i = 11
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.72659.csv
+i = 12
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.7617114.csv
+i = 13
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.864028.csv
+i = 14
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.8702087.csv
+i = 15
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.9080317.csv
+i = 16
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877039.989138.csv
+i = 17
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.0161529.csv
+i = 18
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.0750492.csv
+i = 19
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.100502.csv
+i = 20
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.1613722.csv
+i = 21
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.1869533.csv
+i = 22
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.246968.csv
+i = 23
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.2725823.csv
+i = 24
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.3323255.csv
+i = 25
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.3354926.csv
+i = 26
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.3714993.csv
+i = 27
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.452154.csv
+i = 28
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.49844.csv
+i = 29
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.566703.csv
+i = 30
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.6127021.csv
+i = 31
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.6799567.csv
+i = 32
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.7252636.csv
+i = 33
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.79492.csv
+i = 34
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.84029.csv
+i = 35
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.905235.csv
+i = 36
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.9091346.csv
+i = 37
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877040.993532.csv
+i = 38
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877041.176715.csv
+i = 39
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877041.3266041.csv
+i = 40
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877041.4975278.csv
+i = 41
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877041.6459508.csv
+i = 42
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877041.8182454.csv
+i = 43
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877041.9701784.csv
+i = 44
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877042.1498673.csv
+i = 45
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFconv1650877042.2988665.csv
+i = 46
+netStructure[i][6] : 0
+netStructure.size() is 48
+argv[2 * i + 4] : /home/rick/nas_rram/neurosim_log/layer_record_ResNet18/weightFlinear1650877042.4740016.csv
+i = 47
+netStructure[i][6] : 0
+-------------------------------------- Hardware Performance --------------------------------------
+-------------------- Estimation of Layer 1 ----------------------
+layer1's readLatency is: 129644ns
+layer1's readDynamicEnergy is: 102590pJ
+layer1's leakagePower is: 2.94576uW
+layer1's leakageEnergy is: 102731pJ
+layer1's buffer latency is: 118514ns
+layer1's buffer readDynamicEnergy is: 2238.92pJ
+layer1's ic latency is: 7198.52ns
+layer1's ic readDynamicEnergy is: 80068.5pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1627.04ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2033.8ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 125984ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 973.739pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 9587.98pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 92028.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 2 ----------------------
+layer2's readLatency is: 235860ns
+layer2's readDynamicEnergy is: 444963pJ
+layer2's leakagePower is: 7.36019uW
+layer2's leakageEnergy is: 466977pJ
+layer2's buffer latency is: 209402ns
+layer2's buffer readDynamicEnergy is: 9253.52pJ
+layer2's ic latency is: 7796.14ns
+layer2's ic readDynamicEnergy is: 276476pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 5669.33ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 12756ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 217435ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 7733.74pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 77337.8pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 359892pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 3 ----------------------
+layer3's readLatency is: 41390.6ns
+layer3's readDynamicEnergy is: 184332pJ
+layer3's leakagePower is: 14.7204uW
+layer3's leakageEnergy is: 81644.2pJ
+layer3's buffer latency is: 34412.2ns
+layer3's buffer readDynamicEnergy is: 4431.65pJ
+layer3's ic latency is: 2252.75ns
+layer3's ic readDynamicEnergy is: 97844.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1417.33ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 3189ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 36784.2ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 6179.08pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 38668.9pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 139484pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 4 ----------------------
+layer4's readLatency is: 46250.8ns
+layer4's readDynamicEnergy is: 37398.1pJ
+layer4's leakagePower is: 3.10038uW
+layer4's leakageEnergy is: 38573.2pJ
+layer4's buffer latency is: 43011.2ns
+layer4's buffer readDynamicEnergy is: 718.376pJ
+layer4's ic latency is: 2129.62ns
+layer4's ic readDynamicEnergy is: 30645.7pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 462.803ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 607.428ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 45180.6ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 416.966pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 2884.64pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 34096.5pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 5 ----------------------
+layer5's readLatency is: 50528.4ns
+layer5's readDynamicEnergy is: 246383pJ
+layer5's leakagePower is: 15.4162uW
+layer5's leakageEnergy is: 104380pJ
+layer5's buffer latency is: 41756.8ns
+layer5's buffer readDynamicEnergy is: 4564.51pJ
+layer5's ic latency is: 2827.43ns
+layer5's ic readDynamicEnergy is: 119361pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 2082.61ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 3774.73ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 44671.1ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 11320.8pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 56421.6pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 178640pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 6 ----------------------
+layer6's readLatency is: 69432.9ns
+layer6's readDynamicEnergy is: 116505pJ
+layer6's leakagePower is: 7.70809uW
+layer6's leakageEnergy is: 143967pJ
+layer6's buffer latency is: 63478ns
+layer6's buffer readDynamicEnergy is: 1939.48pJ
+layer6's ic latency is: 2483.95ns
+layer6's ic readDynamicEnergy is: 84189.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2408.02ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 65983.6ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2331.58pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 14404.1pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 99769pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 7 ----------------------
+layer7's readLatency is: 21656.6ns
+layer7's readDynamicEnergy is: 110816pJ
+layer7's leakagePower is: 14.7204uW
+layer7's leakageEnergy is: 42718.3pJ
+layer7's buffer latency is: 17122.6ns
+layer7's buffer readDynamicEnergy is: 2595.63pJ
+layer7's ic latency is: 1063ns
+layer7's ic readDynamicEnergy is: 47873.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2342.94ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 18272.3ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 4569.28pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 28409.8pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 77836.7pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 8 ----------------------
+layer8's readLatency is: 69432.9ns
+layer8's readDynamicEnergy is: 116710pJ
+layer8's leakagePower is: 7.70809uW
+layer8's leakageEnergy is: 143967pJ
+layer8's buffer latency is: 63478ns
+layer8's buffer readDynamicEnergy is: 1939.48pJ
+layer8's ic latency is: 2483.95ns
+layer8's ic readDynamicEnergy is: 84189.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2408.02ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 65983.6ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2521.87pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 14404.1pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 99784.5pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 9 ----------------------
+layer9's readLatency is: 21656.6ns
+layer9's readDynamicEnergy is: 110111pJ
+layer9's leakagePower is: 14.7204uW
+layer9's leakageEnergy is: 42718.3pJ
+layer9's buffer latency is: 17122.6ns
+layer9's buffer readDynamicEnergy is: 2595.63pJ
+layer9's ic latency is: 1063ns
+layer9's ic readDynamicEnergy is: 47873.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2342.94ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 18272.3ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 3916.99pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 28409.8pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 77784.4pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 10 ----------------------
+layer10's readLatency is: 69432.9ns
+layer10's readDynamicEnergy is: 116782pJ
+layer10's leakagePower is: 7.70809uW
+layer10's leakageEnergy is: 143967pJ
+layer10's buffer latency is: 63478ns
+layer10's buffer readDynamicEnergy is: 1939.48pJ
+layer10's ic latency is: 2483.95ns
+layer10's ic readDynamicEnergy is: 84189.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2408.02ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 65983.6ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2588.51pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 14404.1pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 99789pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 11 ----------------------
+layer11's readLatency is: 21656.6ns
+layer11's readDynamicEnergy is: 110784pJ
+layer11's leakagePower is: 14.7204uW
+layer11's leakageEnergy is: 42718.3pJ
+layer11's buffer latency is: 17122.6ns
+layer11's buffer readDynamicEnergy is: 2595.63pJ
+layer11's ic latency is: 1063ns
+layer11's ic readDynamicEnergy is: 47873.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2342.94ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 18272.3ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 4531.4pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 28409.8pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 77842.4pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 12 ----------------------
+layer12's readLatency is: 69432.9ns
+layer12's readDynamicEnergy is: 116587pJ
+layer12's leakagePower is: 7.70809uW
+layer12's leakageEnergy is: 143967pJ
+layer12's buffer latency is: 63478ns
+layer12's buffer readDynamicEnergy is: 1939.48pJ
+layer12's ic latency is: 2483.95ns
+layer12's ic readDynamicEnergy is: 84189.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2408.02ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 65983.6ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2404.29pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 14404.1pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 99778.7pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 13 ----------------------
+layer13's readLatency is: 21656.6ns
+layer13's readDynamicEnergy is: 111359pJ
+layer13's leakagePower is: 14.7204uW
+layer13's leakageEnergy is: 42718.3pJ
+layer13's buffer latency is: 17122.6ns
+layer13's buffer readDynamicEnergy is: 2595.63pJ
+layer13's ic latency is: 1063ns
+layer13's ic readDynamicEnergy is: 47873.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2342.94ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 18272.3ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5056.74pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 28409.8pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 77892.9pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 14 ----------------------
+layer14's readLatency is: 17379.9ns
+layer14's readDynamicEnergy is: 31245pJ
+layer14's leakagePower is: 7.70809uW
+layer14's leakageEnergy is: 36036.9pJ
+layer14's buffer latency is: 15869.5ns
+layer14's buffer readDynamicEnergy is: 484.87pJ
+layer14's ic latency is: 642.681ns
+layer14's ic readDynamicEnergy is: 22057.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 260.326ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 602.005ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 16517.6ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 1633.54pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 3601.02pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 26010.5pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 15 ----------------------
+layer15's readLatency is: 7735.4ns
+layer15's readDynamicEnergy is: 6330.83pJ
+layer15's leakagePower is: 2.94576uW
+layer15's leakageEnergy is: 6129.6pJ
+layer15's buffer latency is: 7003.23ns
+layer15's buffer readDynamicEnergy is: 137.414pJ
+layer15's ic latency is: 451.956ns
+layer15's ic readDynamicEnergy is: 4658.11pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 144.626ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 7475.08ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 156.494pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 681.812pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 5492.52pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 16 ----------------------
+layer16's readLatency is: 18972ns
+layer16's readDynamicEnergy is: 205485pJ
+layer16's leakagePower is: 29.4408uW
+layer16's leakageEnergy is: 37143.5pJ
+layer16's buffer latency is: 13917.3ns
+layer16's buffer readDynamicEnergy is: 5120.22pJ
+layer16's ic latency is: 1496.88ns
+layer16's ic readDynamicEnergy is: 80935.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 2342.94ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 15587.7ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 7964.2pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 56819.6pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 140702pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 17 ----------------------
+layer17's readLatency is: 35880.7ns
+layer17's readDynamicEnergy is: 78001.9pJ
+layer17's leakagePower is: 8.42321uW
+layer17's leakageEnergy is: 81300.1pJ
+layer17's buffer latency is: 31880ns
+layer17's buffer readDynamicEnergy is: 969.741pJ
+layer17's ic latency is: 1256.44ns
+layer17's ic readDynamicEnergy is: 42767.9pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 1041.31ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 1692.12ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 33147.3ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 6360.33pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 14058.4pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 57583.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 18 ----------------------
+layer18's readLatency is: 2722.45ns
+layer18's readDynamicEnergy is: 31736.4pJ
+layer18's leakagePower is: 29.4408uW
+layer18's leakageEnergy is: 5330.05pJ
+layer18's buffer latency is: 2089.52ns
+layer18's buffer readDynamicEnergy is: 703.761pJ
+layer18's ic latency is: 237.026ns
+layer18's ic readDynamicEnergy is: 12842pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 260.326ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 2346.43ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5558.04pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6313.29pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 19865.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 19 ----------------------
+layer19's readLatency is: 15944ns
+layer19's readDynamicEnergy is: 37884.6pJ
+layer19's leakagePower is: 8.42321uW
+layer19's leakageEnergy is: 36126.5pJ
+layer19's buffer latency is: 14168.5ns
+layer19's buffer readDynamicEnergy is: 430.22pJ
+layer19's ic latency is: 555.202ns
+layer19's ic readDynamicEnergy is: 18858.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 462.803ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 752.054ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 14729.1ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 6022.18pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6248.18pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 25614.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 20 ----------------------
+layer20's readLatency is: 2722.45ns
+layer20's readDynamicEnergy is: 32389.9pJ
+layer20's leakagePower is: 29.4408uW
+layer20's leakageEnergy is: 5330.05pJ
+layer20's buffer latency is: 2089.52ns
+layer20's buffer readDynamicEnergy is: 703.761pJ
+layer20's ic latency is: 237.026ns
+layer20's ic readDynamicEnergy is: 12842pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 260.326ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 2346.43ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 6177.88pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6313.29pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 19898.8pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 21 ----------------------
+layer21's readLatency is: 15944ns
+layer21's readDynamicEnergy is: 37832.5pJ
+layer21's leakagePower is: 8.42321uW
+layer21's leakageEnergy is: 36126.5pJ
+layer21's buffer latency is: 14168.5ns
+layer21's buffer readDynamicEnergy is: 430.22pJ
+layer21's ic latency is: 555.202ns
+layer21's ic readDynamicEnergy is: 18858.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 462.803ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 752.054ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 14729.1ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5971.04pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6248.18pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 25613.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 22 ----------------------
+layer22's readLatency is: 2722.45ns
+layer22's readDynamicEnergy is: 31467.2pJ
+layer22's leakagePower is: 29.4408uW
+layer22's leakageEnergy is: 5330.05pJ
+layer22's buffer latency is: 2089.52ns
+layer22's buffer readDynamicEnergy is: 703.761pJ
+layer22's ic latency is: 237.026ns
+layer22's ic readDynamicEnergy is: 12842pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 260.326ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 2346.43ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5305.67pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6313.29pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 19848.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 23 ----------------------
+layer23's readLatency is: 15944ns
+layer23's readDynamicEnergy is: 37474.8pJ
+layer23's leakagePower is: 8.42321uW
+layer23's leakageEnergy is: 36126.5pJ
+layer23's buffer latency is: 14168.5ns
+layer23's buffer readDynamicEnergy is: 430.22pJ
+layer23's ic latency is: 555.202ns
+layer23's ic readDynamicEnergy is: 18858.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 462.803ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 752.054ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 14729.1ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5634.42pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6248.18pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 25592.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 24 ----------------------
+layer24's readLatency is: 2722.45ns
+layer24's readDynamicEnergy is: 31880.1pJ
+layer24's leakagePower is: 29.4408uW
+layer24's leakageEnergy is: 5330.05pJ
+layer24's buffer latency is: 2089.52ns
+layer24's buffer readDynamicEnergy is: 703.761pJ
+layer24's ic latency is: 237.026ns
+layer24's ic readDynamicEnergy is: 12842pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 260.326ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 2346.43ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5701.7pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6313.29pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 19865.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 25 ----------------------
+layer25's readLatency is: 3992.77ns
+layer25's readDynamicEnergy is: 14177.2pJ
+layer25's leakagePower is: 8.42321uW
+layer25's leakageEnergy is: 9047pJ
+layer25's buffer latency is: 3541.22ns
+layer25's buffer readDynamicEnergy is: 105.809pJ
+layer25's ic latency is: 146.032ns
+layer25's ic readDynamicEnergy is: 5051.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 188.014ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 3689.06ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 5646.09pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 1562.04pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 6969.09pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 26 ----------------------
+layer26's readLatency is: 3856.18ns
+layer26's readDynamicEnergy is: 3893.55pJ
+layer26's leakagePower is: 2.94576uW
+layer26's leakageEnergy is: 3055.67pJ
+layer26's buffer latency is: 3480.15ns
+layer26's buffer readDynamicEnergy is: 73.7401pJ
+layer26's ic latency is: 235.017ns
+layer26's ic readDynamicEnergy is: 2798.75pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 57.8503ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 72.3129ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 3726.01ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 318.524pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 340.906pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 3234.12pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 27 ----------------------
+layer27's readLatency is: 2489.24ns
+layer27's readDynamicEnergy is: 61049.4pJ
+layer27's leakagePower is: 58.8815uW
+layer27's leakageEnergy is: 4800.18pJ
+layer27's buffer latency is: 1720.72ns
+layer27's buffer readDynamicEnergy is: 1391.74pJ
+layer27's ic latency is: 352.726ns
+layer27's ic readDynamicEnergy is: 22991.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 260.326ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 2113.22ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 11401.4pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 12626.6pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 37021.5pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 28 ----------------------
+layer28's readLatency is: 2517.59ns
+layer28's readDynamicEnergy is: 47291.5pJ
+layer28's leakagePower is: 33.6929uW
+layer28's leakageEnergy is: 5640.84pJ
+layer28's buffer latency is: 1966.6ns
+layer28's buffer readDynamicEnergy is: 391.322pJ
+layer28's ic latency is: 232.807ns
+layer28's ic readDynamicEnergy is: 12126pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 198.861ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 2203.03ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 21379.2pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 6251.55pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 19660.7pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 29 ----------------------
+layer29's readLatency is: 0ns
+layer29's readDynamicEnergy is: 0pJ
+layer29's leakagePower is: 465111uW
+layer29's leakageEnergy is: 0pJ
+layer29's buffer latency is: 0ns
+layer29's buffer readDynamicEnergy is: 0pJ
+layer29's ic latency is: 0ns
+layer29's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 30 ----------------------
+layer30's readLatency is: 0ns
+layer30's readDynamicEnergy is: 0pJ
+layer30's leakagePower is: 232558uW
+layer30's leakageEnergy is: 0pJ
+layer30's buffer latency is: 0ns
+layer30's buffer readDynamicEnergy is: 0pJ
+layer30's ic latency is: 0ns
+layer30's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 31 ----------------------
+layer31's readLatency is: 0ns
+layer31's readDynamicEnergy is: 0pJ
+layer31's leakagePower is: 465111uW
+layer31's leakageEnergy is: 0pJ
+layer31's buffer latency is: 0ns
+layer31's buffer readDynamicEnergy is: 0pJ
+layer31's ic latency is: 0ns
+layer31's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 32 ----------------------
+layer32's readLatency is: 0ns
+layer32's readDynamicEnergy is: 0pJ
+layer32's leakagePower is: 232558uW
+layer32's leakageEnergy is: 0pJ
+layer32's buffer latency is: 0ns
+layer32's buffer readDynamicEnergy is: 0pJ
+layer32's ic latency is: 0ns
+layer32's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 33 ----------------------
+layer33's readLatency is: 0ns
+layer33's readDynamicEnergy is: 0pJ
+layer33's leakagePower is: 465111uW
+layer33's leakageEnergy is: 0pJ
+layer33's buffer latency is: 0ns
+layer33's buffer readDynamicEnergy is: 0pJ
+layer33's ic latency is: 0ns
+layer33's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 34 ----------------------
+layer34's readLatency is: 0ns
+layer34's readDynamicEnergy is: 0pJ
+layer34's leakagePower is: 232558uW
+layer34's leakageEnergy is: 0pJ
+layer34's buffer latency is: 0ns
+layer34's buffer readDynamicEnergy is: 0pJ
+layer34's ic latency is: 0ns
+layer34's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 35 ----------------------
+layer35's readLatency is: 0ns
+layer35's readDynamicEnergy is: 0pJ
+layer35's leakagePower is: 465111uW
+layer35's leakageEnergy is: 0pJ
+layer35's buffer latency is: 0ns
+layer35's buffer readDynamicEnergy is: 0pJ
+layer35's ic latency is: 0ns
+layer35's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 36 ----------------------
+layer36's readLatency is: 0ns
+layer36's readDynamicEnergy is: 0pJ
+layer36's leakagePower is: 232558uW
+layer36's leakageEnergy is: 0pJ
+layer36's buffer latency is: 0ns
+layer36's buffer readDynamicEnergy is: 0pJ
+layer36's ic latency is: 0ns
+layer36's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 37 ----------------------
+layer37's readLatency is: 1047.54ns
+layer37's readDynamicEnergy is: 3718.62pJ
+layer37's leakagePower is: 6.20076uW
+layer37's leakageEnergy is: 870.405pJ
+layer37's buffer latency is: 886.647ns
+layer37's buffer readDynamicEnergy is: 43.9973pJ
+layer37's ic latency is: 88.5833ns
+layer37's ic readDynamicEnergy is: 1878.99pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 28.9252ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 37.9643ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 980.653ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 1060.98pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 343.365pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 2314.28pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 38 ----------------------
+layer38's readLatency is: 0ns
+layer38's readDynamicEnergy is: 0pJ
+layer38's leakagePower is: 930222uW
+layer38's leakageEnergy is: 0pJ
+layer38's buffer latency is: 0ns
+layer38's buffer readDynamicEnergy is: 0pJ
+layer38's ic latency is: 0ns
+layer38's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 39 ----------------------
+layer39's readLatency is: 0ns
+layer39's readDynamicEnergy is: 0pJ
+layer39's leakagePower is: 930234uW
+layer39's leakageEnergy is: 0pJ
+layer39's buffer latency is: 0ns
+layer39's buffer readDynamicEnergy is: 0pJ
+layer39's ic latency is: 0ns
+layer39's ic readDynamicEnergy is: 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 0ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 0ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 0ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 0pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 0pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 0pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 40 ----------------------
+layer40's readLatency is: 1355.16ns
+layer40's readDynamicEnergy is: 77015.3pJ
+layer40's leakagePower is: 134.771uW
+layer40's leakageEnergy is: 2899.35pJ
+layer40's buffer latency is: 798.75ns
+layer40's buffer readDynamicEnergy is: 1456.18pJ
+layer40's ic latency is: 232.807ns
+layer40's ic readDynamicEnergy is: 24267.8pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 188.014ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1051.44ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 24992.7pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 49859.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 41 ----------------------
+layer41's readLatency is: 1933.66ns
+layer41's readDynamicEnergy is: 83814.9pJ
+layer41's leakagePower is: 134.771uW
+layer41's leakageEnergy is: 4137.06pJ
+layer41's buffer latency is: 1167.55ns
+layer41's buffer readDynamicEnergy is: 1501.46pJ
+layer41's ic latency is: 377.433ns
+layer41's ic readDynamicEnergy is: 31000.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 267.558ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1550.4ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 25030.4pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 56621.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 42 ----------------------
+layer42's readLatency is: 1355.16ns
+layer42's readDynamicEnergy is: 77015.3pJ
+layer42's leakagePower is: 134.771uW
+layer42's leakageEnergy is: 2899.35pJ
+layer42's buffer latency is: 798.75ns
+layer42's buffer readDynamicEnergy is: 1456.18pJ
+layer42's ic latency is: 232.807ns
+layer42's ic readDynamicEnergy is: 24267.8pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 188.014ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1051.44ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 24992.7pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 49859.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 43 ----------------------
+layer43's readLatency is: 1933.66ns
+layer43's readDynamicEnergy is: 83814.9pJ
+layer43's leakagePower is: 134.771uW
+layer43's leakageEnergy is: 4137.06pJ
+layer43's buffer latency is: 1167.55ns
+layer43's buffer readDynamicEnergy is: 1501.46pJ
+layer43's ic latency is: 377.433ns
+layer43's ic readDynamicEnergy is: 31000.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 267.558ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1550.4ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 25030.4pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 56621.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 44 ----------------------
+layer44's readLatency is: 1355.16ns
+layer44's readDynamicEnergy is: 77015.3pJ
+layer44's leakagePower is: 134.771uW
+layer44's leakageEnergy is: 2899.35pJ
+layer44's buffer latency is: 798.75ns
+layer44's buffer readDynamicEnergy is: 1456.18pJ
+layer44's ic latency is: 232.807ns
+layer44's ic readDynamicEnergy is: 24267.8pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 188.014ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1051.44ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 24992.7pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 49859.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 45 ----------------------
+layer45's readLatency is: 1933.66ns
+layer45's readDynamicEnergy is: 83814.9pJ
+layer45's leakagePower is: 134.771uW
+layer45's leakageEnergy is: 4137.06pJ
+layer45's buffer latency is: 1167.55ns
+layer45's buffer readDynamicEnergy is: 1501.46pJ
+layer45's ic latency is: 377.433ns
+layer45's ic readDynamicEnergy is: 31000.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 267.558ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1550.4ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 25030.4pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 56621.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 46 ----------------------
+layer46's readLatency is: 1355.16ns
+layer46's readDynamicEnergy is: 77015.3pJ
+layer46's leakagePower is: 134.771uW
+layer46's leakageEnergy is: 2899.35pJ
+layer46's buffer latency is: 798.75ns
+layer46's buffer readDynamicEnergy is: 1456.18pJ
+layer46's ic latency is: 232.807ns
+layer46's ic readDynamicEnergy is: 24267.8pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 188.014ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1051.44ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 24992.7pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 49859.3pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 47 ----------------------
+layer47's readLatency is: 1933.66ns
+layer47's readDynamicEnergy is: 83814.9pJ
+layer47's leakagePower is: 134.771uW
+layer47's leakageEnergy is: 4137.06pJ
+layer47's buffer latency is: 1167.55ns
+layer47's buffer readDynamicEnergy is: 1501.46pJ
+layer47's ic latency is: 377.433ns
+layer47's ic readDynamicEnergy is: 31000.1pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 115.701ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 267.558ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1550.4ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 2163.25pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 25030.4pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 56621.2pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+-------------------- Estimation of Layer 48 ----------------------
+layer48's readLatency is: 1221.13ns
+layer48's readDynamicEnergy is: 1272.95pJ
+layer48's leakagePower is: 3.41821uW
+layer48's leakageEnergy is: 1122.83pJ
+layer48's buffer latency is: 1132.04ns
+layer48's buffer readDynamicEnergy is: 17.7651pJ
+layer48's ic latency is: 52.9353ns
+layer48's ic readDynamicEnergy is: 918.692pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 14.4626ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 19.8861ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 1186.78ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 142.599pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 100.254pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 1030.09pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+------------------------------ Summary --------------------------------
+
+ChipArea : 1.12292e+08um^2
+Chip total CIM array : 911616um^2
+Total IC Area on chip (Global and Tile/PE local): 1.47829e+07um^2
+Total ADC (or S/As and precharger for SRAM) Area on chip : 3.45671e+07um^2
+Total Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) on chip : 1.33996e+07um^2
+Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, pooling and activation units) : 4.86311e+07um^2
+
+Chip clock period is: 1.80782ns
+Chip layer-by-layer readLatency (per image) is: 1.035e+06ns
+Chip total readDynamicEnergy is: 3.26177e+06pJ
+Chip total leakage Energy is: 1.88404e+06pJ
+Chip total leakage Power is: 4.65265e+06uW
+Chip buffer readLatency is: 909624ns
+Chip buffer readDynamicEnergy is: 64020.3pJ
+Chip ic readLatency is: 46403ns
+Chip ic readDynamicEnergy is: 1.65784e+06pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+----------- ADC (or S/As and precharger for SRAM) readLatency is : 25273.4ns
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readLatency is : 52043.6ns
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readLatency is : 957685ns
+----------- ADC (or S/As and precharger for SRAM) readDynamicEnergy is : 168285pJ
+----------- Accumulation Circuits (subarray level: adders, shiftAdds; PE/Tile/Global level: accumulation units) readDynamicEnergy is : 696632pJ
+----------- Other Peripheries (e.g. decoders, mux, switchmatrix, buffers, IC, pooling and activation units) readDynamicEnergy is : 2.39685e+06pJ
+
+************************ Breakdown of Latency and Dynamic Energy *************************
+
+
+----------------------------- Performance -------------------------------
+Energy Efficiency TOPS/W (Layer-by-Layer Process): 12.9006
+Throughput TOPS (Layer-by-Layer Process): 0.0782498
+Throughput FPS (Layer-by-Layer Process): 966.182
+Compute efficiency TOPS/mm^2 (Layer-by-Layer Process): 0.00069684
+-------------------------------------- Hardware Performance Done --------------------------------------
+
+------------------------------ Simulation Performance --------------------------------
+Total Run-time of NeuroSim: 20 seconds
+------------------------------ Simulation Performance --------------------------------
+[1m[7m%[27m[1m[0m                                                                                                                                                [0m[27m[24m[J[0m[49m[39m[0m[49m[38;5;37m ofa[0m[38;5;37m[49m[38;5;37m[0m[38;5;37m[49m [0m[38;5;37m[49m[38;5;76m>[0m[38;5;76m[49m[38;5;76m[0m[38;5;76m[49m [0m[38;5;76m[49m[38;5;31m]8;;file:///home/rick/nas_rram/ofa/[1m[38;5;31m[38;5;39mhome[0m[38;5;39m[49m[38;5;31m/[38;5;103mr[0m[38;5;103m[49m[38;5;31m/[38;5;103mn[0m[38;5;103m[49m[38;5;31m/[1m[38;5;31m[38;5;39mofa[0m[38;5;39m[49m[38;5;31m]8;;[0m[38;5;31m[49m[38;5;31m[0m[38;5;31m[49m[30m[0m[30m[49m[39m [0m[49m[39m[K[102C[0m[49m[38;5;70mdone[0m[38;5;70m[49m[38;5;70m[0m[38;5;70m[49m[38;5;70m[0m[38;5;70m[49m[38;5;101m 32.8s[0m[38;5;101m[49m[38;5;101m[0m[38;5;101m[49m[38;5;101m[0m[38;5;101m[49m[38;5;66m 16:57:45[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[39m[121D[?1h=[?2004h[1m[31me[0m[39m[90mxit[39m[0m[32me[32mx[39m[1m[31me[1m[31mx[1m[31mi[0m[39m[0m[32me[0m[32mx[0m[32mi[32mt[39m[?1l>[?2004l
+
+Script done on 2022-04-25 16:57:52+0800
